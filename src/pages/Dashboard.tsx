@@ -83,7 +83,8 @@ const Dashboard = () => {
 
   if (!user) return null;
 
-  const totalBalance = kids?.reduce((sum, kid) => sum + kid.saldo, 0) || 0;
+  const kidsBalance = kids?.reduce((sum, kid) => sum + kid.saldo, 0) || 0;
+  const familyBalance = parentBalance + kidsBalance;
 
   return (
     <div className="min-h-screen bg-background">
@@ -144,7 +145,7 @@ const Dashboard = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 mb-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -162,17 +163,29 @@ const Dashboard = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
             whileHover={{ scale: 1.03, y: -2 }}
-            className="bg-gradient-to-br from-kids-green to-kids-green/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-primary-foreground cursor-default"
+            className="bg-gradient-to-br from-kids-blue to-kids-blue/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-primary-foreground cursor-default"
           >
-            <p className="font-body text-xs sm:text-sm opacity-80">Saldo total dos filhos</p>
+            <p className="font-body text-xs sm:text-sm opacity-80">Saldo total da família</p>
             <p className="font-display text-2xl sm:text-3xl font-extrabold mt-1">
-              R$ {totalBalance.toFixed(2)}
+              R$ {familyBalance.toFixed(2)}
             </p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
+            whileHover={{ scale: 1.03, y: -2 }}
+            className="bg-gradient-to-br from-kids-green to-kids-green/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-primary-foreground cursor-default"
+          >
+            <p className="font-body text-xs sm:text-sm opacity-80">Saldo total dos filhos</p>
+            <p className="font-display text-2xl sm:text-3xl font-extrabold mt-1">
+              R$ {kidsBalance.toFixed(2)}
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
             whileHover={{ scale: 1.03, y: -2 }}
             className="bg-gradient-to-br from-kids-yellow to-kids-yellow/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-secondary-foreground cursor-default"
           >

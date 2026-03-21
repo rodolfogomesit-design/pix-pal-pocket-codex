@@ -57,6 +57,22 @@ npm run build
 - `src/integrations/supabase/`: cliente e tipos do Supabase
 - `supabase/`: migrations e edge functions
 
+## Supabase
+
+Se o projeto Supabase estiver vazio ou sem migrations aplicadas, use o bootstrap em [supabase/bootstrap/minimal-bootstrap.sql](/C:/Users/rodol/Downloads/pix-pal-pocket-main/pix-pal-pocket-main/supabase/bootstrap/minimal-bootstrap.sql).
+
+Esse arquivo cria a base mínima para:
+
+- perfis de responsáveis
+- papéis de admin
+- trigger de criação de perfil no signup
+- busca de email por CPF
+- preenchimento de perfis já criados no `auth.users`
+
+Para habilitar o painel administrativo com a estrutura mínima, use também [supabase/bootstrap/admin-bootstrap.sql](/C:/Users/rodol/Downloads/pix-pal-pocket-main/pix-pal-pocket-main/supabase/bootstrap/admin-bootstrap.sql).
+
+Se quiser uma base única mais completa, incluindo dashboard do responsável e bootstrap do admin, use [supabase/bootstrap/full-bootstrap.sql](/C:/Users/rodol/Downloads/pix-pal-pocket-main/pix-pal-pocket-main/supabase/bootstrap/full-bootstrap.sql).
+
 ## Deploy
 
 O frontend é um app estático Vite e pode ser publicado em plataformas como Vercel, Netlify, Cloudflare Pages ou qualquer hospedagem que sirva o conteúdo de `dist/`.
