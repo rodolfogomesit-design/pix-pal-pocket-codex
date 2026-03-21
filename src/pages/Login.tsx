@@ -21,6 +21,20 @@ const formatCPF = (value: string) => {
   return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`;
 };
 
+const getFriendlyAuthError = (message?: string) => {
+  const normalized = (message || "").toLowerCase();
+
+  if (normalized.includes("email not confirmed")) {
+    return "Seu email ainda nao foi confirmado. Confirme o email ou desative a confirmacao de email no Supabase.";
+  }
+
+  if (normalized.includes("invalid login credentials")) {
+    return "CPF ou senha incorretos.";
+  }
+
+  return message || "Nao foi possivel entrar agora.";
+};
+
 const loginSchema = z.object({
   cpf: z.string().min(14, "CPF inválido").max(14, "CPF inválido"),
   password: z.string().min(1, "Senha é obrigatória"),
@@ -75,7 +89,7 @@ const Login = () => {
 
     const { error } = await signIn(lookup.email, form.password);
     if (error) {
-      toast.error("CPF ou senha incorretos.");
+      toast.error(getFriendlyAuthError(error.message));
     } else {
       toast.success("Login realizado com sucesso!");
       navigate("/dashboard");
