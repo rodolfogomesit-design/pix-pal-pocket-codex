@@ -1,0 +1,1 @@
+ALTER TABLE public.kids_profiles ALTER COLUMN is_mini_gerente SET DEFAULT true;

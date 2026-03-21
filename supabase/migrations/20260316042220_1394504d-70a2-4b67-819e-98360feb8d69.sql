@@ -1,0 +1,1 @@
+ALTER TABLE public.kids_profiles ADD COLUMN IF NOT EXISTS saldo_poupanca numeric NOT NULL DEFAULT 0.00;

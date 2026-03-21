@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800;900&family=Baloo+2:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 33% 98%;
+    --foreground: 220 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 15%;
+
+    --primary: 213 60% 57%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 51 100% 50%;
+    --secondary-foreground: 220 25% 15%;
+
+    --muted: 210 25% 93%;
+    --muted-foreground: 220 10% 45%;
+
+    --accent: 122 39% 49%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 213 30% 88%;
+    --input: 213 30% 88%;
+    --ring: 213 60% 57%;
+
+    --radius: 1rem;
+
+    --kids-blue: 213 60% 57%;
+    --kids-blue-light: 213 70% 92%;
+    --kids-yellow: 51 100% 50%;
+    --kids-yellow-light: 51 100% 90%;
+    --kids-green: 122 39% 49%;
+    --kids-green-light: 122 45% 90%;
+    --kids-pink: 340 80% 85%;
+    --kids-orange: 28 100% 55%;
+    --kids-purple: 270 60% 60%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 220 25% 10%;
+    --foreground: 210 33% 98%;
+
+    --card: 220 25% 13%;
+    --card-foreground: 210 33% 98%;
+
+    --popover: 220 25% 13%;
+    --popover-foreground: 210 33% 98%;
+
+    --primary: 213 65% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 51 90% 45%;
+    --secondary-foreground: 220 25% 10%;
+
+    --muted: 220 20% 18%;
+    --muted-foreground: 215 15% 60%;
+
+    --accent: 122 45% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 20% 20%;
+    --input: 220 20% 20%;
+    --ring: 213 65% 60%;
+
+    --kids-blue: 213 65% 60%;
+    --kids-blue-light: 213 40% 20%;
+    --kids-yellow: 51 90% 45%;
+    --kids-yellow-light: 51 50% 18%;
+    --kids-green: 122 45% 45%;
+    --kids-green-light: 122 30% 18%;
+    --kids-pink: 340 50% 45%;
+    --kids-orange: 28 90% 50%;
+    --kids-purple: 270 55% 55%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    font-weight: 500;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Animated Pig - Light mode */
+.pig-face { fill: #F8B4C8; }
+.pig-ear { fill: #E8899E; }
+.pig-eye { fill: #3D2C2C; }
+.pig-eye-shine { fill: white; }
+.pig-nostril { fill: #C96B7E; }
+.pig-smile { stroke: #C96B7E; }
+.pig-cheek { fill: #F5A0B5; }
+
+/* Animated Pig - Dark mode */
+.dark .pig-face { fill: #D48BA0; }
+.dark .pig-ear { fill: #B86E82; }
+.dark .pig-eye { fill: #F0E8E8; }
+.dark .pig-eye-shine { fill: #FFD6E0; }
+.dark .pig-nostril { fill: #A0506A; }
+.dark .pig-smile { stroke: #C88A9A; }
+.dark .pig-cheek { fill: #C07088; }
