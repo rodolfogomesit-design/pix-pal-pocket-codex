@@ -67,7 +67,7 @@ test.describe("adult finance flows", () => {
         return;
       }
 
-      if (pathname.endsWith("/functions/v1/woovi-pix")) {
+      if (pathname.endsWith("/functions/v1/asaas-pix")) {
         await route.fulfill({
           status: 200,
           contentType: "application/json",

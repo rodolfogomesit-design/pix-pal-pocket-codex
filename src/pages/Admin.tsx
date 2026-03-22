@@ -93,11 +93,11 @@ const Admin = () => {
   const [savingFees, setSavingFees] = useState(false);
   const [exporting, setExporting] = useState(false);
 
-  // Woovi balance state
+  // Asaas balance state
   const { data: gatewayData, isLoading: gatewayLoading } = useQuery({
-    queryKey: ["woovi-balance"],
+    queryKey: ["asaas-balance"],
     queryFn: async () => {
-      const { data, error } = await supabase.functions.invoke("woovi-balance");
+      const { data, error } = await supabase.functions.invoke("asaas-balance");
       if (error) throw error;
       return data as { ok: boolean; balance?: number; error?: string };
     },
@@ -370,7 +370,7 @@ const Admin = () => {
                     <DollarSign size={22} className="text-kids-green" />
                   </div>
                   <div>
-                    <p className="font-display text-sm font-bold text-foreground">Saldo Woovi (API)</p>
+                    <p className="font-display text-sm font-bold text-foreground">Saldo Asaas (API)</p>
                     <p className="font-body text-xs text-muted-foreground">Conta do gateway de pagamento</p>
                   </div>
                 </div>

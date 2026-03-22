@@ -1,7 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const AS_API_KEY = Deno.env.get("ASAAS_API_KEY");
-const AS_API_URL = Deno.env.get("ASAAS_API_URL") || "https://www.asaas.com/api/v3";
+const AS_API_URL = Deno.env.get("ASAAS_API_URL") || "https://api.asaas.com/v3";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",

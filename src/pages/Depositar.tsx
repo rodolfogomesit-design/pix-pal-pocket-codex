@@ -126,7 +126,7 @@ export default function Depositar() {
 
     setGenerating(true);
     try {
-      const { data, error } = await supabase.functions.invoke("woovi-pix", {
+      const { data, error } = await supabase.functions.invoke("asaas-pix", {
         body: { valor: totalComTaxas },
       });
 
