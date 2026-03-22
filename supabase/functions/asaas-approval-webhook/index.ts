@@ -7,7 +7,7 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
     const transfer = body?.transfer;
     if (!transfer?.id) {
-      return new Response(JSON.stringify({ approved: false, reason: "Transferência inválida" }), {
+      return new Response(JSON.stringify({ status: "REFUSED", refuseReason: "Transferência inválida" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
@@ -26,7 +26,7 @@ Deno.serve(async (req: Request) => {
 
     if (error) {
       console.error("Approval lookup error:", error);
-      return new Response(JSON.stringify({ approved: false, reason: "Erro interno" }), {
+      return new Response(JSON.stringify({ status: "REFUSED", refuseReason: "Erro interno" }), {
         status: 500,
         headers: { "Content-Type": "application/json" },
       });
@@ -34,8 +34,8 @@ Deno.serve(async (req: Request) => {
 
     return new Response(
       JSON.stringify({
-        approved: !!withdrawal,
-        reason: withdrawal ? null : "Saque não encontrado para autorização",
+        status: withdrawal ? "APPROVED" : "REFUSED",
+        ...(withdrawal ? {} : { refuseReason: "Saque não encontrado para autorização" }),
       }),
       {
         status: 200,
@@ -44,7 +44,7 @@ Deno.serve(async (req: Request) => {
     );
   } catch (err) {
     console.error("Approval webhook crash:", err);
-    return new Response(JSON.stringify({ approved: false, reason: "Erro interno" }), {
+    return new Response(JSON.stringify({ status: "REFUSED", refuseReason: "Erro interno" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
