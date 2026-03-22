@@ -17,10 +17,10 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-border/70 bg-white/85 backdrop-blur-xl">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/30 bg-white/75 backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
       <div className="container mx-auto flex items-center justify-between px-4 py-4">
         <Link to="/" className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-sm font-black text-primary-foreground shadow-lg shadow-primary/20">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#f43f5e,#f59e0b,#22c55e,#38bdf8,#8b5cf6)] text-sm font-black text-white shadow-lg shadow-fuchsia-300/40 dark:shadow-fuchsia-900/30">
             PK
           </div>
           <div>
@@ -28,7 +28,7 @@ const Navbar = () => {
               Pix Kids
             </p>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              carteira digital familiar
+              colorido para criancas, seguro para familias
             </p>
           </div>
         </Link>
@@ -51,20 +51,23 @@ const Navbar = () => {
             trigger={
               <Button
                 variant="outline"
-                className="rounded-full border-primary/15 bg-white px-6 font-bold text-foreground hover:bg-slate-50"
+                className="rounded-full border-white/40 bg-white/70 px-6 font-bold text-foreground hover:bg-white dark:border-white/15 dark:bg-slate-900/80 dark:hover:bg-slate-900"
               >
                 Entrar
               </Button>
             }
           />
-          <Button asChild className="rounded-full px-6 font-bold shadow-lg shadow-primary/15">
+          <Button
+            asChild
+            className="rounded-full border-0 bg-[linear-gradient(135deg,#fb7185,#f59e0b,#22c55e,#38bdf8,#8b5cf6)] px-6 font-bold text-white shadow-lg shadow-fuchsia-300/30 hover:opacity-95 dark:shadow-fuchsia-950/30"
+          >
             <Link to="/cadastro">Criar conta</Link>
           </Button>
         </div>
 
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-white text-foreground md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/40 bg-white/70 text-foreground dark:border-white/15 dark:bg-slate-900/80 md:hidden"
           onClick={() => setIsOpen((value) => !value)}
           aria-label="Abrir menu"
         >
@@ -73,13 +76,13 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <div className="border-t border-border/70 bg-white px-4 pb-5 pt-4 md:hidden">
+        <div className="border-t border-white/30 bg-white/90 px-4 pb-5 pt-4 dark:border-white/10 dark:bg-slate-950/95 md:hidden">
           <div className="space-y-1">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="block rounded-2xl px-3 py-3 text-sm font-semibold text-muted-foreground transition-colors hover:bg-slate-50 hover:text-foreground"
+                className="block rounded-2xl px-3 py-3 text-sm font-semibold text-muted-foreground transition-colors hover:bg-black/5 hover:text-foreground dark:hover:bg-white/5"
                 onClick={() => setIsOpen(false)}
               >
                 {item.label}
@@ -92,13 +95,16 @@ const Navbar = () => {
               trigger={
                 <Button
                   variant="outline"
-                  className="w-full rounded-full border-primary/15 bg-white font-bold"
+                  className="w-full rounded-full border-white/40 bg-white/70 font-bold dark:border-white/15 dark:bg-slate-900/80"
                 >
                   Entrar
                 </Button>
               }
             />
-            <Button asChild className="w-full rounded-full font-bold">
+            <Button
+              asChild
+              className="w-full rounded-full border-0 bg-[linear-gradient(135deg,#fb7185,#f59e0b,#22c55e,#38bdf8,#8b5cf6)] font-bold text-white"
+            >
               <Link to="/cadastro">Criar conta</Link>
             </Button>
           </div>
