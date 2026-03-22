@@ -25,61 +25,60 @@ const FeaturesSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="mb-16 text-center"
         >
-          <h2 className="font-display text-3xl md:text-5xl font-extrabold mb-4">
-            Feito para toda a família 👨‍👩‍👧‍👦
+          <h2 className="font-display text-3xl font-extrabold mb-4 md:text-5xl">
+            Feito para toda a família
           </h2>
-          <p className="font-body text-lg text-muted-foreground max-w-xl mx-auto">
-            Interface divertida para crianças e controle total para os pais.
+          <p className="mx-auto max-w-xl font-body text-lg text-muted-foreground">
+            Uma experiência divertida para crianças e um painel completo para quem
+            cuida da conta.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {/* Kids card */}
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-kids-blue-light to-card rounded-3xl p-8 md:p-10 border border-border shadow-lg"
+            className="rounded-3xl border border-border bg-gradient-to-br from-kids-blue-light to-card p-8 shadow-lg md:p-10"
           >
-            <div className="flex items-center gap-3 mb-6">
+            <div className="mb-6 flex items-center gap-3">
               <span className="text-4xl">🧒</span>
               <h3 className="font-display text-2xl font-bold">Para a criança</h3>
             </div>
             <div className="space-y-4">
               {kidFeatures.map((feature) => (
-                <div key={feature.text} className="flex items-center gap-3 bg-card/60 rounded-2xl p-4">
+                <div key={feature.text} className="flex items-center gap-3 rounded-2xl bg-card/60 p-4">
                   <span className="text-2xl">{feature.emoji}</span>
                   <span className="font-body font-semibold">{feature.text}</span>
                 </div>
               ))}
             </div>
-            <p className="font-body text-sm text-muted-foreground mt-5">
+            <p className="mt-5 font-body text-sm text-muted-foreground">
               Tudo com controle e limites definidos pelos pais.
             </p>
           </motion.div>
 
-          {/* Parents card */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-kids-green-light to-card rounded-3xl p-8 md:p-10 border border-border shadow-lg"
+            className="rounded-3xl border border-border bg-gradient-to-br from-kids-green-light to-card p-8 shadow-lg md:p-10"
           >
-            <div className="flex items-center gap-3 mb-6">
+            <div className="mb-6 flex items-center gap-3">
               <span className="text-4xl">👨‍👩‍👧</span>
               <h3 className="font-display text-2xl font-bold">Para os pais</h3>
             </div>
             <div className="space-y-4">
               {parentControls.map((control) => (
-                <div key={control.text} className="flex items-center gap-3 bg-card/60 rounded-2xl p-4">
+                <div key={control.text} className="flex items-center gap-3 rounded-2xl bg-card/60 p-4">
                   <span className="text-2xl">{control.emoji}</span>
                   <span className="font-body font-semibold">{control.text}</span>
                 </div>
               ))}
             </div>
-            <p className="font-body text-sm text-muted-foreground mt-5">
+            <p className="mt-5 font-body text-sm text-muted-foreground">
               Liberdade para a criança, supervisão total para os pais.
             </p>
           </motion.div>
