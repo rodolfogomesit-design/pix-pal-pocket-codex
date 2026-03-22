@@ -55,7 +55,7 @@ const HeroSection = () => {
             size="lg" 
             className="font-display font-bold text-lg rounded-full px-10 py-6 bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl shadow-primary/25 transition-all hover:scale-105"
           >
-            <Link to="/cadastro">🚀 Criar conta gratuita</Link>
+            <Link to="/cadastro">🚀 CRIAR CONTA GRATUITA</Link>
           </Button>
         </motion.div>
 
