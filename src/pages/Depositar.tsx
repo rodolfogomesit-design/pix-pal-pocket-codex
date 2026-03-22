@@ -19,6 +19,27 @@ interface PixData {
   transaction_id: string;
 }
 
+const extractFunctionErrorMessage = async (error: any) => {
+  const response = error?.context;
+  if (!response || typeof response.text !== "function") {
+    return error?.message || "Erro ao gerar Pix";
+  }
+
+  try {
+    const bodyText = await response.text();
+    if (!bodyText) return error?.message || "Erro ao gerar Pix";
+
+    try {
+      const parsed = JSON.parse(bodyText);
+      return parsed?.error || parsed?.message || error?.message || "Erro ao gerar Pix";
+    } catch {
+      return bodyText;
+    }
+  } catch {
+    return error?.message || "Erro ao gerar Pix";
+  }
+};
+
 const usePlatformFees = (userId?: string) =>
   useQuery({
     queryKey: ["platform-fees", userId],
@@ -131,7 +152,8 @@ export default function Depositar() {
       });
 
       if (error || !data?.ok) {
-        toast.error(data?.error || error?.message || "Erro ao gerar Pix");
+        const detailedMessage = error ? await extractFunctionErrorMessage(error) : null;
+        toast.error(data?.error || detailedMessage || error?.message || "Erro ao gerar Pix");
         return;
       }
 
@@ -143,7 +165,8 @@ export default function Depositar() {
       });
       setStep("qrcode");
     } catch (error: any) {
-      toast.error(error?.message || "Erro inesperado");
+      const detailedMessage = await extractFunctionErrorMessage(error);
+      toast.error(detailedMessage || error?.message || "Erro inesperado");
     } finally {
       setGenerating(false);
     }

@@ -22,6 +22,7 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
+    if (!AS_API_KEY) return jsonError(500, "ASAAS_API_KEY não configurada.");
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) return jsonError(401, "Sessão expirada. Faça login novamente.");
 
@@ -42,7 +43,7 @@ Deno.serve(async (req: Request) => {
     // Get user profile
     const { data: profile } = await supabase
       .from("profiles")
-      .select("id, nome, email, cpf")
+      .select("id, nome, email, cpf, telefone")
       .eq("user_id", user.id)
       .single();
 
@@ -79,6 +80,7 @@ Deno.serve(async (req: Request) => {
           name: profile.nome,
           cpfCnpj: cpfClean,
           email: profile.email,
+          mobilePhone: profile.telefone?.replace(/\D/g, "") || undefined,
           externalReference: user.id,
         }),
       });
