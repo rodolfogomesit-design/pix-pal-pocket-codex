@@ -41,7 +41,12 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section id="faq" className="py-20 md:py-28">
+    <section
+      id="faq"
+      className="relative overflow-hidden py-20 md:py-28"
+    >
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(255,251,235,0.68),rgba(240,249,255,0.76),rgba(250,245,255,0.82))] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.98),rgba(17,24,39,0.98),rgba(24,24,27,0.98))]" />
+
       <div className="container mx-auto max-w-4xl px-4">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -49,15 +54,15 @@ const FAQSection = () => {
           viewport={{ once: true }}
           className="mb-12 text-center"
         >
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary/75">
+          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary/75 dark:text-sky-200/75">
             Perguntas frequentes
           </p>
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
+          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-foreground md:text-5xl dark:text-white">
             As principais dúvidas respondidas de forma objetiva.
           </h2>
-          <p className="mt-5 text-lg leading-8 text-muted-foreground">
-            Uma landing mais profissional também precisa responder objeções com
-            clareza, sem excesso de promessas e sem texto confuso.
+          <p className="mt-5 text-lg leading-8 text-muted-foreground dark:text-slate-300/85">
+            Esta seção agora segue o mesmo clima visual da landing: fundo suave,
+            leitura confortável e destaques coloridos sem comprometer o texto.
           </p>
         </motion.div>
 
@@ -71,12 +76,12 @@ const FAQSection = () => {
               <AccordionItem
                 key={faq.question}
                 value={`faq-${index}`}
-                className="overflow-hidden rounded-[24px] border border-border/70 bg-white px-6 shadow-sm"
+                className="overflow-hidden rounded-[24px] border border-white/50 bg-white/75 px-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-slate-950/55"
               >
-                <AccordionTrigger className="py-5 text-left font-display text-lg font-bold tracking-tight hover:no-underline">
+                <AccordionTrigger className="py-5 text-left font-display text-lg font-bold tracking-tight text-foreground hover:no-underline dark:text-white">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="pb-5 text-sm leading-7 text-muted-foreground">
+                <AccordionContent className="pb-5 text-sm leading-7 text-muted-foreground dark:text-slate-300/80">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
