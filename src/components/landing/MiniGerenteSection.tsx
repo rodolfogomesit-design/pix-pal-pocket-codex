@@ -58,7 +58,7 @@ const MiniGerenteSection = () => {
           className="mx-auto max-w-3xl text-center"
         >
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-emerald-200/80">
-            Mini gerente
+            Mini Gerente
           </p>
           <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight md:text-5xl">
             Um recurso que transforma indicação em aprendizado sobre iniciativa e responsabilidade.
