@@ -13,6 +13,16 @@ import WhatsAppButton from "@/components/shared/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+function extractFunctionErrorMessage(error: unknown) {
+  if (!error || typeof error !== "object") return null;
+  const maybeError = error as { message?: string; context?: { json?: unknown } };
+  if (maybeError.context?.json && typeof maybeError.context.json === "object") {
+    const payload = maybeError.context.json as { error?: string; message?: string };
+    return payload.error || payload.message || null;
+  }
+  return maybeError.message || null;
+}
+
 export default function Sacar() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
@@ -58,18 +68,18 @@ export default function Sacar() {
 
     setProcessing(true);
     try {
-      const { data, error } = await supabase.rpc("request_withdrawal", {
-        _valor: valorNum,
+      const { data, error } = await supabase.functions.invoke("asaas-pixout", {
+        body: { valor: valorNum },
       });
 
       if (error) {
-        toast.error(error.message || "Erro ao solicitar saque");
+        toast.error(extractFunctionErrorMessage(error) || error.message || "Erro ao solicitar saque");
         return;
       }
 
-      const result = data as { success: boolean; error?: string };
-      if (!result.success) {
-        toast.error(result.error || "Erro ao solicitar saque");
+      const result = data as { ok: boolean; error?: string };
+      if (!result?.ok) {
+        toast.error(result?.error || "Erro ao solicitar saque");
         return;
       }
 
