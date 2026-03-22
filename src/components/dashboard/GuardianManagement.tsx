@@ -63,6 +63,9 @@ const PARENTESCO_OPTIONS = [
 const parentescoLabel = (val: string) =>
   PARENTESCO_OPTIONS.find((o) => o.value === val)?.label || val;
 
+const formatFullName = (value: string) =>
+  value.toLowerCase().replace(/(^|\s)\S/g, (letter) => letter.toUpperCase());
+
 const useGuardians = () => {
   const { user } = useAuth();
   return useQuery({
@@ -190,7 +193,7 @@ const GuardianManagement = () => {
                   <Label className="font-body font-semibold">Nome completo *</Label>
                   <Input
                     value={form.nome}
-                    onChange={(e) => setForm({ ...form, nome: e.target.value })}
+                    onChange={(e) => setForm({ ...form, nome: formatFullName(e.target.value) })}
                     placeholder="Nome do responsável"
                     className="rounded-xl mt-1"
                     required
