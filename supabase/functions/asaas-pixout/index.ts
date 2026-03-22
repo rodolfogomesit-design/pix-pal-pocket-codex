@@ -18,7 +18,8 @@ function jsonResponse(status: number, payload: Record<string, unknown>) {
 }
 
 function jsonError(status: number, message: string) {
-  return jsonResponse(status, { ok: false, error: message });
+  const responseStatus = status >= 500 ? 200 : status;
+  return jsonResponse(responseStatus, { ok: false, error: message, status });
 }
 
 function normalizePixKey(rawKey: string) {
