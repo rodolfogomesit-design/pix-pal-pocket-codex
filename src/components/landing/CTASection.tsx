@@ -19,22 +19,22 @@ const CTASection = () => {
         >
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/12 px-4 py-2 text-sm font-semibold text-white/90">
             <BadgeCheck className="h-4 w-4" />
-            Um convite colorido para criar, brincar e aprender
+            Comece a usar o Pix Kids com foco em Pix, mesada e educacao financeira
           </div>
 
           <h2 className="mx-auto max-w-3xl font-display text-3xl font-extrabold leading-tight tracking-tight text-white md:text-5xl">
-            Uma landing em clima de arco-iris para deixar a experiencia mais inesquecivel.
+            Crie a conta e leve Pix, metas e controle financeiro para a rotina da crianca.
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/82">
-            No modo claro ela fica vibrante e divertida. No modo escuro, continua
-            magica, com contrastes fortes e profundidade visual.
+            O responsavel acompanha tudo em um painel simples e a crianca aprende
+            a receber, guardar e usar dinheiro com mais responsabilidade.
           </p>
 
           <div className="mt-6 flex justify-center text-white/85">
             <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium">
               <Sparkles className="h-4 w-4" />
-              Mesada, metas e educacao financeira com energia colorida o dia todo
+              Pix, mesada e metas financeiras em um unico app
             </div>
           </div>
 

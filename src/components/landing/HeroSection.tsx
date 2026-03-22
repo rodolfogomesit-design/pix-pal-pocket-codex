@@ -37,7 +37,7 @@ const HeroSection = () => {
         >
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/75 px-4 py-2 text-sm font-semibold text-primary shadow-sm backdrop-blur dark:border-white/10 dark:bg-slate-900/70 dark:text-sky-200">
             <ShieldCheck className="h-4 w-4" />
-            Arco-iris, brincadeira e controle no mesmo app
+            Pix infantil com mesada, metas e supervisao dos pais
           </div>
 
           <div className="mb-6 flex items-center gap-3">
@@ -49,19 +49,19 @@ const HeroSection = () => {
                 Pix Kids
               </p>
               <p className="text-sm text-muted-foreground dark:text-slate-300/80">
-                Um universo financeiro colorido para criancas e familias
+                Pix para criancas com uma experiencia simples para toda a familia
               </p>
             </div>
           </div>
 
           <h1 className="font-display text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-6xl dark:text-white">
-            Um app infantil com energia de arco-iris e controle total para o responsavel.
+            O Pix Kids ajuda a crianca a aprender sobre dinheiro usando Pix, metas e mesada digital.
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-8 text-muted-foreground md:text-xl dark:text-slate-300/85">
-            Mesada, metas, recompensas e descobertas financeiras ganham um visual
-            alegre e magico, enquanto o responsavel continua acompanhando tudo de
-            forma clara e segura.
+            O responsavel acompanha saldo, limites e transferencias em um unico
+            painel, enquanto a crianca usa o app para receber, guardar e entender
+            melhor como cuidar do proprio dinheiro.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 text-sm text-foreground/85 dark:text-slate-200/90">
@@ -130,7 +130,7 @@ const HeroSection = () => {
                     Painel da familia
                   </p>
                   <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                    Um arco-iris de metas, missoes e pequenas conquistas
+                    Pix, metas e acompanhamento financeiro no mesmo lugar
                   </h2>
                 </div>
                 <div className="rounded-2xl bg-primary/10 p-3 text-primary dark:bg-white/10 dark:text-sky-200">
@@ -142,8 +142,8 @@ const HeroSection = () => {
             <div className="grid gap-4 p-6">
               <div className="grid gap-4 md:grid-cols-[1.15fr_0.85fr]">
                 <div className="rounded-3xl bg-[linear-gradient(135deg,#0f172a,#1d4ed8,#7c3aed)] p-6 text-white shadow-lg shadow-violet-500/15">
-                  <p className="text-sm text-white/75">Missao da semana</p>
-                  <p className="mt-3 text-4xl font-black tracking-tight">Juntar R$ 80,00</p>
+                  <p className="text-sm text-white/75">Meta da semana</p>
+                  <p className="mt-3 text-4xl font-black tracking-tight">Guardar R$ 80,00</p>
                   <div className="mt-4 h-3 overflow-hidden rounded-full bg-white/12">
                     <div className="h-full w-[68%] rounded-full bg-[linear-gradient(90deg,#fb7185,#f59e0b,#22c55e,#38bdf8,#8b5cf6)]" />
                   </div>
@@ -165,7 +165,7 @@ const HeroSection = () => {
 
                 <div className="rounded-3xl border border-white/40 bg-[linear-gradient(180deg,rgba(254,240,138,0.45),rgba(125,211,252,0.35),rgba(217,70,239,0.18))] p-5 dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(250,204,21,0.08),rgba(14,165,233,0.12),rgba(168,85,247,0.1))]">
                   <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
-                    Aventuras do dia
+                    Acoes do dia
                   </p>
                   <div className="mt-4 space-y-3">
                     {[

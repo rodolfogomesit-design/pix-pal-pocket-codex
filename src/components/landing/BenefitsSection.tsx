@@ -60,14 +60,14 @@ const BenefitsSection = () => {
           className="mx-auto mb-16 max-w-3xl text-center"
         >
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary/75 dark:text-sky-200/75">
-            Cores, cuidado e aprendizado
+            Pix para aprender
           </p>
           <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-foreground md:text-5xl dark:text-white">
-            Um arco-iris de beneficios para a crianca se encantar e a familia confiar.
+            Beneficios de um Pix infantil pensado para a crianca e aprovado pelos pais.
           </h2>
           <p className="mt-5 text-lg leading-8 text-muted-foreground dark:text-slate-300/85">
-            O Pix Kids ganha um visual mais vivo no claro e mais profundo no escuro,
-            sem perder leitura, contraste nem a sensacao de brincadeira.
+            O foco da plataforma e transformar Pix, mesada e metas em educacao
+            financeira pratica com uma experiencia segura e facil de acompanhar.
           </p>
         </motion.div>
 

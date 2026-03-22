@@ -51,14 +51,14 @@ const HowItWorksSection = () => {
           className="mx-auto mb-16 max-w-3xl text-center"
         >
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary/75 dark:text-sky-200/75">
-            Como a aventura comeca
+            Como funciona
           </p>
           <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-foreground md:text-5xl dark:text-white">
-            Quatro passos coloridos para transformar mesada em aprendizado de verdade.
+            Quatro passos para usar Pix, organizar a mesada e ensinar a crianca na pratica.
           </h2>
           <p className="mt-5 text-lg leading-8 text-muted-foreground dark:text-slate-300/85">
-            A jornada fica vibrante no claro e continua legivel no escuro, com
-            destaque para etapas, metas e a sensacao de evolucao.
+            O fluxo foi desenhado para deixar claro como o responsavel cria a conta,
+            como a crianca recebe o perfil e como o dinheiro passa a fazer parte da rotina.
           </p>
         </motion.div>
 
