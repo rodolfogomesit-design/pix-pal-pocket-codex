@@ -28,7 +28,7 @@ const CTASection = () => {
             size="lg"
             className="font-display font-bold text-lg rounded-full px-12 py-7 bg-kids-yellow text-secondary-foreground hover:bg-kids-yellow/90 shadow-2xl transition-all hover:scale-105"
           >
-            <Link to="/cadastro">🚀 CRIAR CONTA GRATUITA</Link>
+            <Link to="/cadastro">🚀 Criar conta gratuita</Link>
           </Button>
         </motion.div>
       </div>
