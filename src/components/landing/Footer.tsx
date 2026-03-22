@@ -1,30 +1,39 @@
-
-
 const Footer = () => {
   return (
-    <footer className="bg-card border-t border-border py-12">
+    <footer className="border-t border-border/70 bg-slate-950 py-12 text-white">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🐷</span>
-            <span className="font-display text-2xl font-bold text-primary">Pix Kids</span>
+        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-md">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-sm font-black text-slate-950">
+                PK
+              </div>
+              <div>
+                <p className="font-display text-2xl font-extrabold tracking-tight">
+                  Pix Kids
+                </p>
+                <p className="text-xs font-medium uppercase tracking-[0.18em] text-white/55">
+                  educacao financeira para familias
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-5 text-sm leading-7 text-white/62">
+              Uma plataforma para organizar mesadas, limites, metas e
+              acompanhamentos com uma experiencia mais segura, clara e profissional.
+            </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm font-body text-muted-foreground">
-            <span>💰 Educação financeira</span>
-            <span>👨‍👩‍👧 Controle dos pais</span>
-            <span>📱 Tecnologia</span>
-            <span>🔒 Segurança</span>
+          <div className="grid gap-2 text-sm text-white/62 md:text-right">
+            <span>Controle parental e acompanhamento em tempo real</span>
+            <span>Fluxos simples para responsavel e crianca</span>
+            <span>Ambiente pensado para rotina financeira familiar</span>
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-border text-center space-y-3">
-          <p className="font-body text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Pix Kids. Aprender a cuidar do dinheiro nunca foi tão simples.
-          </p>
-          <p className="font-body text-sm text-muted-foreground">
-            CNPJ 65.637.227/0001-98 — Ps Intermediadora de Pagamento LTDA.
-          </p>
+        <div className="mt-8 border-t border-white/10 pt-6 text-sm text-white/45">
+          <p>&copy; {new Date().getFullYear()} Pix Kids. Todos os direitos reservados.</p>
+          <p className="mt-2">CNPJ 65.637.227/0001-98 - Ps Intermediadora de Pagamento LTDA.</p>
         </div>
       </div>
     </footer>

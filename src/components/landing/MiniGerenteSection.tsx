@@ -1,244 +1,181 @@
 import { motion } from "framer-motion";
+import { BadgeDollarSign, Eye, Gift, Users } from "lucide-react";
 
 const steps = [
   {
-    number: "1️⃣",
-    title: "A criança ativa o modo Mini Gerente",
-    desc: "Dentro da conta do Pix Kids, a criança pode ativar a função Mini Gerente Pix Kids. Ela recebe um código ou link exclusivo de indicação.",
+    title: "A crianca ativa o modo Mini Gerente",
+    description:
+      "Ao ativar o recurso, ela recebe um codigo de indicacao que pode ser compartilhado com amigos e familiares.",
   },
   {
-    number: "2️⃣",
-    title: "A criança convida amigos",
-    desc: "A criança pode compartilhar seu código com amigos, colegas ou familiares. Quando alguém cria uma conta através desse código, a indicação fica registrada no sistema.",
+    title: "O convite gera uma nova entrada na plataforma",
+    description:
+      "Quando um novo responsavel usa esse codigo, a indicacao fica registrada com rastreabilidade.",
   },
   {
-    number: "3️⃣",
-    title: "O indicado começa a usar o Pix Kids",
-    desc: "Quando o responsável da nova conta realiza um depósito na plataforma, o sistema identifica quem fez a indicação.",
+    title: "A movimentacao valida a recomendacao",
+    description:
+      "Assim que a conta indicada comeca a usar a plataforma, o sistema identifica quem originou a relacao.",
   },
   {
-    number: "4️⃣",
-    title: "A criança recebe comissão",
-    desc: "Uma pequena comissão é automaticamente gerada para quem fez a indicação. Essa comissão se chama Pix Kids e fica disponível no saldo da criança.",
+    title: "A comissao entra como incentivo educativo",
+    description:
+      "A recompensa vai para a carteira da crianca de forma controlada, com supervisao do responsavel.",
   },
 ];
 
-const kidTracking = [
-  "quantas pessoas ela indicou",
-  "nomes e identificadores dos indicados",
-  "saldo total acumulado em Pix Kids",
-  "histórico de ganhos",
-  "valor disponível para saque",
-];
-
-const parentControls = [
-  "ver quem o filho indicou",
-  "acompanhar os valores recebidos",
-  "acompanhar depósitos que geraram comissão",
-  "monitorar histórico de ganhos",
-  "acompanhar solicitações de saque",
-];
-
-const benefits = [
-  "Incentiva empreendedorismo desde cedo",
-  "Ensina educação financeira de forma prática",
-  "Recompensa a iniciativa da criança",
-  "Funciona com total supervisão dos pais",
-  "Tudo dentro de um ambiente seguro",
-];
-
-const learnings = [
-  { emoji: "💰", text: "administrar dinheiro" },
-  { emoji: "📊", text: "acompanhar ganhos" },
-  { emoji: "📈", text: "desenvolver responsabilidade financeira" },
-  { emoji: "🚀", text: "aprender a empreender" },
+const controlBlocks = [
+  {
+    icon: Users,
+    title: "Visao para a crianca",
+    items: [
+      "quantidade de indicacoes",
+      "historico de ganhos",
+      "saldo acumulado com comissao",
+      "valor disponivel para saque",
+    ],
+  },
+  {
+    icon: Eye,
+    title: "Visao para o responsavel",
+    items: [
+      "quem foi indicado",
+      "quais movimentos geraram comissao",
+      "quanto entrou em cada periodo",
+      "pedidos de saque e acompanhamento",
+    ],
+  },
 ];
 
 const MiniGerenteSection = () => {
   return (
-    <section id="mini-gerente" className="py-20 md:py-28">
-      <div className="container mx-auto px-4 max-w-4xl">
-        {/* Header */}
+    <section id="mini-gerente" className="bg-slate-950 py-20 text-white md:py-28">
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="mx-auto max-w-3xl text-center"
         >
-          <h2 className="font-display text-3xl md:text-5xl font-extrabold mb-4">
-            Torne seu filho um Mini Gerente Pix Kids 🧑‍💼
+          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-emerald-200/80">
+            Mini gerente
+          </p>
+          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight md:text-5xl">
+            Um recurso que transforma indicacao em aprendizado sobre iniciativa e responsabilidade.
           </h2>
-          <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
-            Uma forma divertida de ensinar seu filho a ganhar dinheiro
+          <p className="mt-5 text-lg leading-8 text-white/72">
+            O Mini Gerente foi pensado para apresentar nocao de recompensa,
+            acompanhamento de desempenho e autonomia supervisionada em um formato
+            mais seguro para familias.
           </p>
         </motion.div>
 
-        {/* Intro */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-card rounded-3xl p-8 border border-border shadow-md mb-8 space-y-4 font-body text-muted-foreground leading-relaxed"
-        >
-          <p>
-            Com o Mini Gerente Pix Kids, seu filho pode aprender desde cedo sobre{" "}
-            <strong className="text-foreground">empreendedorismo</strong>,{" "}
-            <strong className="text-foreground">responsabilidade financeira</strong> e{" "}
-            <strong className="text-foreground">recompensas por indicação</strong>.
-          </p>
-          <p>
-            A funcionalidade permite que a criança convide novos usuários para a plataforma Pix Kids e receba uma pequena comissão sempre que uma conta indicada começar a usar o aplicativo.
-          </p>
-          <p>
-            Essa comissão é chamada de <strong className="text-foreground">Pix Kids</strong> e fica disponível diretamente na carteira digital da criança.
-          </p>
-          <p className="font-semibold text-foreground">
-            🔒 Tudo isso acontece com total supervisão dos pais.
-          </p>
-        </motion.div>
-
-        {/* O que é */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-8"
-        >
-          <h3 className="font-display text-2xl font-bold mb-4">O que é o Mini Gerente Pix Kids</h3>
-          <div className="bg-card rounded-3xl p-8 border border-border shadow-md space-y-4 font-body text-muted-foreground leading-relaxed">
-            <p>
-              O Mini Gerente Pix Kids é um recurso educativo dentro da plataforma que transforma as crianças em pequenos promotores do aplicativo.
+        <div className="mt-14 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="rounded-[32px] border border-white/10 bg-white/6 p-8 backdrop-blur"
+          >
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-300/12 text-emerald-200">
+              <BadgeDollarSign className="h-7 w-7" />
+            </div>
+            <h3 className="mt-6 font-display text-2xl font-bold">
+              Um programa de indicacao com leitura educativa
+            </h3>
+            <p className="mt-4 leading-8 text-white/72">
+              Em vez de parecer uma promessa exagerada, o recurso apresenta uma
+              experiencia controlada: a crianca convida, acompanha resultados e
+              entende que ganhos dependem de contexto, uso real e supervisao.
             </p>
-            <p>Cada criança participante recebe um código ou link de indicação exclusivo.</p>
-            <p>
-              Quando um novo usuário se cadastra utilizando essa indicação e começa a utilizar o aplicativo, a criança que indicou pode ganhar uma{" "}
-              <strong className="text-foreground">comissão automática</strong> sobre depósitos realizados na conta do indicado.
-            </p>
-            <p>Esse valor vai direto para a carteira digital da criança dentro do Pix Kids.</p>
-          </div>
-        </motion.div>
+            <div className="mt-8 space-y-3">
+              {[
+                "recompensa vinculada ao uso da plataforma",
+                "supervisao integral do responsavel",
+                "historico claro de cada ganho",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-sm font-medium text-white/82"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </motion.div>
 
-        {/* Como funciona na prática */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-8"
-        >
-          <h3 className="font-display text-2xl font-bold mb-6">Como funciona na prática</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {steps.map((step, i) => (
+          <div className="grid gap-4">
+            {steps.map((step, index) => (
               <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
+                key={step.title}
+                initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-card rounded-3xl p-6 border border-border shadow-md"
+                transition={{ delay: index * 0.06 }}
+                className="rounded-[28px] border border-white/10 bg-white/6 p-6 backdrop-blur"
               >
-                <div className="text-2xl mb-2">{step.number}</div>
-                <h4 className="font-display font-bold text-lg mb-2">{step.title}</h4>
-                <p className="font-body text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-emerald-200/75">
+                  Etapa {index + 1}
+                </p>
+                <h3 className="mt-3 font-display text-xl font-bold">{step.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-white/72">
+                  {step.description}
+                </p>
               </motion.div>
             ))}
           </div>
-        </motion.div>
-
-        {/* Two columns: kid tracking + parent controls */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-br from-kids-blue-light to-card rounded-3xl p-8 border border-border shadow-md"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">🧒</span>
-              <h3 className="font-display text-xl font-bold">O que a criança pode acompanhar</h3>
-            </div>
-            <p className="font-body text-sm text-muted-foreground mb-4">
-              Dentro do aplicativo, a criança pode ver:
-            </p>
-            <ul className="space-y-3">
-              {kidTracking.map((item) => (
-                <li key={item} className="flex items-center gap-3 bg-card/60 rounded-2xl p-3 font-body text-sm font-semibold">
-                  <span className="text-primary">•</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p className="font-body text-xs text-muted-foreground mt-4">
-              Tudo isso de forma simples, visual e educativa.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-br from-kids-green-light to-card rounded-3xl p-8 border border-border shadow-md"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">👨‍👩‍👧</span>
-              <h3 className="font-display text-xl font-bold">Total controle para os pais</h3>
-            </div>
-            <p className="font-body text-sm text-muted-foreground mb-4">
-              No painel dos pais é possível:
-            </p>
-            <ul className="space-y-3">
-              {parentControls.map((item) => (
-                <li key={item} className="flex items-center gap-3 bg-card/60 rounded-2xl p-3 font-body text-sm font-semibold">
-                  <span className="text-accent">•</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p className="font-body text-xs text-muted-foreground mt-4">
-              Assim os pais participam da educação financeira da criança com segurança.
-            </p>
-          </motion.div>
         </div>
 
-        {/* Benefícios */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-card rounded-3xl p-8 border border-border shadow-md mb-8"
-        >
-          <h3 className="font-display text-2xl font-bold mb-5">Benefícios do Mini Gerente Pix Kids ⭐</h3>
-          <div className="space-y-3">
-            {benefits.map((b) => (
-              <div key={b} className="flex items-center gap-3 font-body font-semibold text-sm">
-                <span className="text-accent text-lg">✔</span>
-                {b}
-              </div>
-            ))}
-          </div>
-        </motion.div>
+        <div className="mt-10 grid gap-6 lg:grid-cols-2">
+          {controlBlocks.map((block) => {
+            const Icon = block.icon;
 
-        {/* Educação financeira */}
+            return (
+              <motion.div
+                key={block.title}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="rounded-[30px] border border-white/10 bg-white/6 p-8 backdrop-blur"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-emerald-200">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="font-display text-xl font-bold">{block.title}</h3>
+                </div>
+
+                <div className="mt-6 grid gap-3">
+                  {block.items.map((item) => (
+                    <div
+                      key={item}
+                      className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3 text-sm text-white/78"
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-br from-kids-yellow-light to-card rounded-3xl p-8 border border-border shadow-md text-center"
+          className="mt-10 rounded-[32px] border border-white/10 bg-gradient-to-r from-white/8 to-emerald-300/10 p-8 text-center backdrop-blur"
         >
-          <h3 className="font-display text-2xl font-bold mb-3">Educação financeira que começa cedo</h3>
-          <p className="font-body text-muted-foreground mb-6">
-            O Pix Kids não é apenas uma carteira digital. É uma forma de ensinar crianças e adolescentes a:
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            {learnings.map((l) => (
-              <div key={l.text} className="bg-card/60 rounded-2xl p-4 text-center">
-                <span className="text-3xl block mb-2">{l.emoji}</span>
-                <span className="font-body font-semibold text-sm">{l.text}</span>
-              </div>
-            ))}
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-amber-200">
+            <Gift className="h-6 w-6" />
           </div>
-          <p className="font-display font-extrabold text-xl text-primary">Pix Kids</p>
-          <p className="font-body text-sm text-muted-foreground">
-            A primeira experiência financeira digital do seu filho.
+          <h3 className="mt-5 font-display text-2xl font-bold">
+            Empreendedorismo infantil sem perder contexto nem seguranca
+          </h3>
+          <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-white/72">
+            O resultado esperado nao e apenas gerar indicacoes, mas estimular
+            iniciativa, leitura de resultado e responsabilidade financeira dentro
+            de um ambiente acompanhado.
           </p>
         </motion.div>
       </div>
