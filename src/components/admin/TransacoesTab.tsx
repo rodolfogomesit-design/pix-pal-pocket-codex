@@ -46,6 +46,8 @@ const recentTypeMeta: Record<string, { label: string; icon: React.ReactNode }> =
   pagamento: { label: "Pix", icon: <CreditCard size={14} className="text-primary" /> },
 };
 
+const normalizeTxType = (tipo: string | null | undefined) => (tipo || "").trim().toLowerCase();
+
 const Section = ({
   icon,
   title,
@@ -551,17 +553,18 @@ const TransacoesTab = ({ tipoLabel, statusStyle, recentTransactions }: Props) =>
               </thead>
               <tbody className="divide-y divide-border">
                 {recentTransactions?.map((tx) => {
+                  const normalizedType = normalizeTxType(tx.tipo);
                   const from = tx.from_user_nome || tx.from_kid_nome || "—";
                   const to =
-                    tx.tipo === "deposito" || tx.tipo === "saque" ? "—" : tx.to_kid_nome || "—";
-                  const meta = recentTypeMeta[tx.tipo];
+                    normalizedType === "deposito" || normalizedType === "saque" ? "—" : tx.to_kid_nome || "—";
+                  const meta = recentTypeMeta[normalizedType];
 
                   return (
                     <tr key={tx.id} className="hover:bg-muted/50 transition-colors">
                       <td className="px-3 sm:px-6 py-2 sm:py-3 font-body text-xs sm:text-sm">
                         <div className="flex items-center gap-2">
                           {meta?.icon}
-                          <span>{meta?.label || tipoLabel[tx.tipo] || tx.tipo}</span>
+                          <span>{meta?.label || tipoLabel[normalizedType] || tx.tipo}</span>
                         </div>
                       </td>
                       <td className="px-3 sm:px-6 py-2 sm:py-3 font-body text-xs sm:text-sm text-muted-foreground">
