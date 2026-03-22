@@ -5,30 +5,30 @@ const steps = [
   {
     step: "01",
     icon: UserRoundPlus,
-    title: "O responsavel cria a base da conta",
+    title: "O responsavel cria a aventura",
     description:
-      "Cadastro rapido com acesso ao painel principal, configuracoes iniciais e visao consolidada da familia.",
+      "Tudo comeca com um cadastro rapido e um painel pronto para organizar a vida financeira da familia.",
   },
   {
     step: "02",
     icon: CreditCard,
-    title: "Cada crianca recebe seu proprio perfil",
+    title: "A crianca ganha seu proprio perfil",
     description:
-      "A familia separa usuarios, limites e PINs sem perder a administracao centralizada do responsavel.",
+      "Cada filho pode ter seu espaco, seu PIN e suas metas sem perder a supervisao central.",
   },
   {
     step: "03",
     icon: HandCoins,
-    title: "Mesadas, metas e repasses entram na rotina",
+    title: "Mesada, metas e desafios entram no jogo",
     description:
-      "Depositos, ajustes e acompanhamentos passam a fazer parte do dia a dia com menos atrito.",
+      "Depositos, ajustes e combinados ficam mais claros e viram parte da rotina de aprendizado.",
   },
   {
     step: "04",
     icon: ChartSpline,
-    title: "O aprendizado aparece no comportamento",
+    title: "Cada movimento vira conquista",
     description:
-      "Historico, objetivos e aprovacoes ajudam a transformar cada movimentacao em decisao educativa.",
+      "O historico mostra progresso, ajuda a conversar sobre escolhas e reforca bons habitos.",
   },
 ];
 
@@ -43,14 +43,14 @@ const HowItWorksSection = () => {
           className="mx-auto mb-16 max-w-3xl text-center"
         >
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary/75">
-            Como funciona
+            Como a aventura comeca
           </p>
           <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
-            Um fluxo simples para entrar rapido e continuar usando com consistencia.
+            Quatro passos para transformar mesada em aprendizado de verdade.
           </h2>
           <p className="mt-5 text-lg leading-8 text-muted-foreground">
-            A plataforma foi desenhada para reduzir friccao e deixar claro o que
-            cada membro da familia pode fazer em cada etapa.
+            Tudo foi desenhado para a crianca entender rapido e o responsavel
+            sentir que continua no comando.
           </p>
         </motion.div>
 
@@ -67,12 +67,12 @@ const HowItWorksSection = () => {
                 transition={{ delay: index * 0.08 }}
                 className="relative"
               >
-                <div className="h-full rounded-[30px] border border-border/70 bg-white p-7 shadow-[0_18px_60px_-35px_rgba(15,23,42,0.32)]">
+                <div className="h-full rounded-[30px] border border-border/70 bg-white p-7 shadow-[0_18px_60px_-35px_rgba(15,23,42,0.22)]">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-black tracking-[0.24em] text-primary/60">
+                    <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-black tracking-[0.24em] text-amber-700">
                       {step.step}
                     </span>
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-primary">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-100 to-yellow-100 text-primary">
                       <Icon className="h-5 w-5" />
                     </div>
                   </div>
