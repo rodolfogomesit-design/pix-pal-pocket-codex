@@ -29,6 +29,15 @@ VITE_SUPABASE_PUBLISHABLE_KEY=
 VITE_SUPABASE_PROJECT_ID=
 ```
 
+Segredos adicionais para a integração Woovi nas Edge Functions:
+
+```env
+WOOVI_APP_ID=
+WOOVI_API_URL=https://api.woovi.com
+WOOVI_WEBHOOK_AUTHORIZATION=
+WOOVI_WEBHOOK_HMAC_SECRET=
+```
+
 4. Inicie o servidor de desenvolvimento:
 
 ```sh
@@ -72,6 +81,21 @@ Esse arquivo cria a base mínima para:
 Para habilitar o painel administrativo com a estrutura mínima, use também [supabase/bootstrap/admin-bootstrap.sql](/C:/Users/rodol/Downloads/pix-pal-pocket-main/pix-pal-pocket-main/supabase/bootstrap/admin-bootstrap.sql).
 
 Se quiser uma base única mais completa, incluindo dashboard do responsável e bootstrap do admin, use [supabase/bootstrap/full-bootstrap.sql](/C:/Users/rodol/Downloads/pix-pal-pocket-main/pix-pal-pocket-main/supabase/bootstrap/full-bootstrap.sql).
+
+### Woovi
+
+A integração inicial com a Woovi foi preparada nestas Edge Functions:
+
+- `woovi-pix`
+- `woovi-webhook`
+- `woovi-balance`
+
+Fluxo esperado:
+
+1. `woovi-pix` gera a cobrança Pix do depósito.
+2. A Woovi chama `woovi-webhook` quando o pagamento for concluído.
+3. O webhook confirma o depósito no Supabase.
+4. O painel admin pode consultar o saldo da conta via `woovi-balance`.
 
 ## Deploy
 

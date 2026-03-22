@@ -1,6 +1,7 @@
 import { expect, test } from "../../playwright-fixture";
 
 const SUPABASE_AUTH_STORAGE_KEY = "sb-yuiavjcixnjrywlwjjgx-auth-token";
+const SUPABASE_URL_PATTERN = "https://*.supabase.co/**";
 
 const parentSession = {
   access_token: "test-access-token",
@@ -31,7 +32,7 @@ test.describe("adult finance flows", () => {
       window.localStorage.setItem(storageKey, JSON.stringify(session));
     }, [SUPABASE_AUTH_STORAGE_KEY, parentSession] as const);
 
-    await page.route("https://yuiavjcixnjrywlwjjgx.supabase.co/**", async (route) => {
+    await page.route(SUPABASE_URL_PATTERN, async (route) => {
       const url = new URL(route.request().url());
       const pathname = url.pathname;
 
@@ -66,7 +67,7 @@ test.describe("adult finance flows", () => {
         return;
       }
 
-      if (pathname.endsWith("/functions/v1/asaas-pix")) {
+      if (pathname.endsWith("/functions/v1/woovi-pix")) {
         await route.fulfill({
           status: 200,
           contentType: "application/json",
@@ -109,7 +110,7 @@ test.describe("adult finance flows", () => {
       window.localStorage.setItem(storageKey, JSON.stringify(session));
     }, [SUPABASE_AUTH_STORAGE_KEY, parentSession] as const);
 
-    await page.route("https://yuiavjcixnjrywlwjjgx.supabase.co/**", async (route) => {
+    await page.route(SUPABASE_URL_PATTERN, async (route) => {
       const url = new URL(route.request().url());
       const pathname = url.pathname;
 

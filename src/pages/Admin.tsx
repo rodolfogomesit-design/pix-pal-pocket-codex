@@ -93,18 +93,18 @@ const Admin = () => {
   const [savingFees, setSavingFees] = useState(false);
   const [exporting, setExporting] = useState(false);
 
-  // Asaas balance state
-  const { data: asaasData, isLoading: asaasLoading } = useQuery({
-    queryKey: ["asaas-balance"],
+  // Woovi balance state
+  const { data: gatewayData, isLoading: gatewayLoading } = useQuery({
+    queryKey: ["woovi-balance"],
     queryFn: async () => {
-      const { data, error } = await supabase.functions.invoke("asaas-balance");
+      const { data, error } = await supabase.functions.invoke("woovi-balance");
       if (error) throw error;
       return data as { ok: boolean; balance?: number; error?: string };
     },
     enabled: !!isAdmin,
   });
-  const asaasBalance = asaasData?.ok ? (asaasData.balance ?? null) : null;
-  const asaasError = asaasData?.ok === false ? asaasData.error : null;
+  const gatewayBalance = gatewayData?.ok ? (gatewayData.balance ?? null) : null;
+  const gatewayError = gatewayData?.ok === false ? gatewayData.error : null;
 
   // Deposit metrics
   const { data: depositMetrics } = useQuery({
@@ -370,19 +370,19 @@ const Admin = () => {
                     <DollarSign size={22} className="text-kids-green" />
                   </div>
                   <div>
-                    <p className="font-display text-sm font-bold text-foreground">Saldo Asaas (API)</p>
+                    <p className="font-display text-sm font-bold text-foreground">Saldo Woovi (API)</p>
                     <p className="font-body text-xs text-muted-foreground">Conta do gateway de pagamento</p>
                   </div>
                 </div>
-                {asaasLoading ? (
+                {gatewayLoading ? (
                   <p className="font-display text-3xl font-extrabold text-muted-foreground">Carregando...</p>
-                ) : asaasBalance !== null ? (
+                ) : gatewayBalance !== null ? (
                   <p className="font-display text-3xl font-extrabold text-kids-green">
-                    R$ {asaasBalance.toFixed(2)}
+                    R$ {gatewayBalance.toFixed(2)}
                   </p>
                 ) : (
                   <p className="font-body text-sm text-muted-foreground">
-                    {asaasError || "Não disponível"}
+                    {gatewayError || "Não disponível"}
                   </p>
                 )}
               </div>

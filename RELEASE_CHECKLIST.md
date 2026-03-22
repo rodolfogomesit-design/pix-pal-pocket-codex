@@ -12,9 +12,9 @@
 - Revisar migrations em `supabase/migrations/`
 - Se o projeto estiver vazio, rodar [supabase/bootstrap/minimal-bootstrap.sql](/C:/Users/rodol/Downloads/pix-pal-pocket-main/pix-pal-pocket-main/supabase/bootstrap/minimal-bootstrap.sql)
 - Publicar Edge Functions usadas em produção:
-- `asaas-balance`
-- `asaas-pix`
-- `asaas-webhook`
+- `woovi-balance`
+- `woovi-pix`
+- `woovi-webhook`
 - Confirmar segredos e integrações externas no Supabase
 
 ## Validação técnica
