@@ -90,7 +90,8 @@ Deno.serve(async (req: Request) => {
 
       if (!asaasCustomerId) {
         console.error("Asaas Customer Error:", customerJson);
-        return jsonError(500, "Erro ao criar cliente no gateway de pagamento. Verifique seu CPF.");
+        const firstError = customerJson.errors?.[0]?.description || JSON.stringify(customerJson);
+        return jsonError(500, `Erro Asaas: ${firstError}`);
       }
     }
 
