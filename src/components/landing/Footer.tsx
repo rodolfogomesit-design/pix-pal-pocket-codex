@@ -13,21 +13,21 @@ const Footer = () => {
                   Pix Kids
                 </p>
                 <p className="text-xs font-medium uppercase tracking-[0.18em] text-white/55">
-                  educacao financeira para familias
+                  educação financeira para famílias
                 </p>
               </div>
             </div>
 
             <p className="mt-5 text-sm leading-7 text-white/62">
               Uma plataforma para organizar mesadas, limites, metas e
-              acompanhamentos com uma experiencia mais segura, clara e profissional.
+              acompanhamentos com uma experiência mais segura, clara e profissional.
             </p>
           </div>
 
           <div className="grid gap-2 text-sm text-white/62 md:text-right">
             <span>Controle parental e acompanhamento em tempo real</span>
-            <span>Fluxos simples para responsavel e crianca</span>
-            <span>Ambiente pensado para rotina financeira familiar</span>
+            <span>Fluxos simples para responsável e criança</span>
+            <span>Ambiente pensado para a rotina financeira familiar</span>
           </div>
         </div>
 

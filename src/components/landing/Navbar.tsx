@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 const navItems = [
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#mini-gerente", label: "Mini gerente" },
-  { href: "#beneficios", label: "Beneficios" },
+  { href: "#beneficios", label: "Benefícios" },
   { href: "#faq", label: "FAQ" },
 ];
 
@@ -28,7 +28,7 @@ const Navbar = () => {
               Pix Kids
             </p>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              pix infantil com controle para familias
+              pix infantil com controle para famílias
             </p>
           </div>
         </Link>

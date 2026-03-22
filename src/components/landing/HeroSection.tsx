@@ -5,15 +5,15 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const highlights = [
-  "Mesada, metas e saldo em um espaco divertido para a crianca",
-  "Responsavel acompanha tudo em tempo real com seguranca",
-  "Aprendizado financeiro na pratica com cor, leveza e autonomia",
+  "Mesada, metas e saldo em um espaço divertido para a criança.",
+  "Responsável acompanha tudo em tempo real com segurança.",
+  "Aprendizado financeiro na prática com cor, leveza e autonomia.",
 ];
 
 const metrics = [
   { label: "Conta gratuita", value: "R$ 0", tone: "from-rose-100 to-orange-100 dark:from-rose-950/50 dark:to-orange-950/40" },
   { label: "Controle dos pais", value: "100%", tone: "from-sky-100 to-cyan-100 dark:from-sky-950/50 dark:to-cyan-950/40" },
-  { label: "Conquistas diarias", value: "24/7", tone: "from-emerald-100 to-lime-100 dark:from-emerald-950/50 dark:to-lime-950/40" },
+  { label: "Conquistas diárias", value: "24/7", tone: "from-emerald-100 to-lime-100 dark:from-emerald-950/50 dark:to-lime-950/40" },
 ];
 
 const HeroSection = () => {
@@ -37,7 +37,7 @@ const HeroSection = () => {
         >
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/75 px-4 py-2 text-sm font-semibold text-primary shadow-sm backdrop-blur dark:border-white/10 dark:bg-slate-900/70 dark:text-sky-200">
             <ShieldCheck className="h-4 w-4" />
-            Pix infantil com mesada, metas e supervisao dos pais
+            Pix infantil com mesada, metas e supervisão dos pais
           </div>
 
           <div className="mb-6 flex items-center gap-3">
@@ -49,19 +49,19 @@ const HeroSection = () => {
                 Pix Kids
               </p>
               <p className="text-sm text-muted-foreground dark:text-slate-300/80">
-                Pix para criancas com uma experiencia simples para toda a familia
+                Pix para crianças com uma experiência simples para toda a família
               </p>
             </div>
           </div>
 
           <h1 className="font-display text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-6xl dark:text-white">
-            O Pix Kids ajuda a crianca a aprender sobre dinheiro usando Pix, metas e mesada digital.
+            O Pix Kids ajuda a criança a aprender sobre dinheiro usando Pix, metas e mesada digital.
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-8 text-muted-foreground md:text-xl dark:text-slate-300/85">
-            O responsavel acompanha saldo, limites e transferencias em um unico
-            painel, enquanto a crianca usa o app para receber, guardar e entender
-            melhor como cuidar do proprio dinheiro.
+            O responsável acompanha saldo, limites e transferências em um único
+            painel, enquanto a criança usa o app para receber, guardar e entender
+            melhor como cuidar do próprio dinheiro.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 text-sm text-foreground/85 dark:text-slate-200/90">
@@ -127,7 +127,7 @@ const HeroSection = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary/70 dark:text-sky-200/80">
-                    Painel da familia
+                    Painel da família
                   </p>
                   <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                     Pix, metas e acompanhamento financeiro no mesmo lugar
@@ -170,8 +170,8 @@ const HeroSection = () => {
                   <div className="mt-4 space-y-3">
                     {[
                       "Guardar parte da mesada",
-                      "Concluir uma pequena meta",
-                      "Acompanhar o historico com os pais",
+                      "Concluir uma pequena meta.",
+                      "Acompanhar o histórico com os pais.",
                     ].map((action, index) => (
                       <div
                         key={action}
@@ -192,9 +192,9 @@ const HeroSection = () => {
 
               <div className="grid gap-4 md:grid-cols-3">
                 {[
-                  { name: "Sophia", status: "Guardando para um patins novo", amount: "R$ 480,00", tone: "from-rose-50 to-orange-50 dark:from-rose-950/25 dark:to-orange-950/20" },
-                  { name: "Miguel", status: "Missao da semana quase completa", amount: "R$ 320,00", tone: "from-sky-50 to-cyan-50 dark:from-sky-950/25 dark:to-cyan-950/20" },
-                  { name: "Laura", status: "Mesada recebida e meta atualizada", amount: "R$ 420,00", tone: "from-violet-50 to-fuchsia-50 dark:from-violet-950/25 dark:to-fuchsia-950/20" },
+                  { name: "Sophia", status: "Guardando para um patins novo.", amount: "R$ 480,00", tone: "from-rose-50 to-orange-50 dark:from-rose-950/25 dark:to-orange-950/20" },
+                  { name: "Miguel", status: "Missão da semana quase completa.", amount: "R$ 320,00", tone: "from-sky-50 to-cyan-50 dark:from-sky-950/25 dark:to-cyan-950/20" },
+                  { name: "Laura", status: "Mesada recebida e meta atualizada.", amount: "R$ 420,00", tone: "from-violet-50 to-fuchsia-50 dark:from-violet-950/25 dark:to-fuchsia-950/20" },
                 ].map((kid) => (
                   <div
                     key={kid.name}

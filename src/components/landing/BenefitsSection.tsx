@@ -6,42 +6,42 @@ const benefits = [
     icon: Shield,
     title: "Pais no controle com leveza",
     description:
-      "Acompanhe saldo, limites, transferencias e aprovacoes sem tirar a magia da experiencia infantil.",
+      "Acompanhe saldo, limites, transferências e aprovações sem tirar a magia da experiência infantil.",
     tone: "from-rose-50 to-orange-50 dark:from-rose-950/20 dark:to-orange-950/15",
   },
   {
     icon: PiggyBank,
     title: "Aprendizado brincando com a rotina",
     description:
-      "A crianca aprende a guardar, gastar e cumprir metas usando situacoes reais do dia a dia.",
+      "A criança aprende a guardar, gastar e cumprir metas usando situações reais do dia a dia.",
     tone: "from-amber-50 to-lime-50 dark:from-amber-950/20 dark:to-lime-950/15",
   },
   {
     icon: Smile,
     title: "Visual acolhedor para o publico kids",
     description:
-      "A experiencia conversa com a infancia com mais cor, simpatia e linguagem simples.",
+      "A experiência conversa com a infância com mais cor, simpatia e linguagem simples.",
     tone: "from-sky-50 to-cyan-50 dark:from-sky-950/20 dark:to-cyan-950/15",
   },
   {
     icon: LockKeyhole,
     title: "Autonomia com rede de seguranca",
     description:
-      "Configure PIN, limites diarios e autorizacoes para deixar a liberdade mais segura.",
+      "Configure PIN, limites diários e autorizações para deixar a liberdade mais segura.",
     tone: "from-emerald-50 to-teal-50 dark:from-emerald-950/20 dark:to-teal-950/15",
   },
   {
     icon: BellRing,
     title: "Acompanhamento em tempo real",
     description:
-      "Receba contexto das movimentacoes e ajude a orientar cada decisao no momento certo.",
+      "Receba contexto das movimentações e ajude a orientar cada decisão no momento certo.",
     tone: "from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/15",
   },
   {
     icon: Sparkles,
     title: "Metas que viram pequenas conquistas",
     description:
-      "Historicos e objetivos ajudam a familia a enxergar progresso de um jeito mais motivador.",
+      "Históricos e objetivos ajudam a família a enxergar progresso de um jeito mais motivador.",
     tone: "from-violet-50 to-fuchsia-50 dark:from-violet-950/20 dark:to-fuchsia-950/15",
   },
 ];
@@ -63,11 +63,11 @@ const BenefitsSection = () => {
             Pix para aprender
           </p>
           <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-foreground md:text-5xl dark:text-white">
-            Beneficios de um Pix infantil pensado para a crianca e aprovado pelos pais.
+            Benefícios de um Pix infantil pensado para a criança e aprovado pelos pais.
           </h2>
           <p className="mt-5 text-lg leading-8 text-muted-foreground dark:text-slate-300/85">
-            O foco da plataforma e transformar Pix, mesada e metas em educacao
-            financeira pratica com uma experiencia segura e facil de acompanhar.
+            O foco da plataforma é transformar Pix, mesada e metas em educação
+            financeira prática, com uma experiência segura e fácil de acompanhar.
           </p>
         </motion.div>
 

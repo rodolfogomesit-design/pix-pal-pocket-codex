@@ -10,32 +10,32 @@ const faqs = [
   {
     question: "O Pix Kids foi pensado para uso familiar real?",
     answer:
-      "Sim. A proposta combina cadastro do responsavel, perfis infantis, limites, acompanhamento e historico em uma estrutura de uso continuo, nao apenas demonstrativa.",
+      "Sim. A proposta combina cadastro do responsável, perfis infantis, limites, acompanhamento e histórico em uma estrutura de uso contínuo, não apenas demonstrativa.",
   },
   {
-    question: "A crianca movimenta dinheiro sem supervisao?",
+    question: "A criança movimenta dinheiro sem supervisão?",
     answer:
-      "Nao necessariamente. O responsavel pode configurar limites, acompanhar movimentos e decidir quais fluxos exigem mais controle.",
+      "Não necessariamente. O responsável pode configurar limites, acompanhar movimentos e decidir quais fluxos exigem mais controle.",
   },
   {
-    question: "O responsavel consegue acompanhar tudo em um unico lugar?",
+    question: "O responsável consegue acompanhar tudo em um único lugar?",
     answer:
-      "Sim. O painel centraliza saldo, historico, criancas vinculadas e configuracoes importantes para a rotina da familia.",
+      "Sim. O painel centraliza saldo, histórico, crianças vinculadas e configurações importantes para a rotina da família.",
   },
   {
-    question: "Existe uma logica educativa ou e apenas uma conta digital?",
+    question: "Existe uma lógica educativa ou é apenas uma conta digital?",
     answer:
-      "A proposta do produto e justamente unir rotina financeira e educacao pratica, com metas, historico, controle e incentivos supervisionados.",
+      "A proposta do produto é justamente unir rotina financeira e educação prática, com metas, histórico, controle e incentivos supervisionados.",
   },
   {
-    question: "O recurso Mini Gerente e opcional?",
+    question: "O recurso Mini Gerente é opcional?",
     answer:
-      "Sim. Ele funciona como uma camada complementar para familias que querem estimular iniciativa, indicacao e acompanhamento de recompensas.",
+      "Sim. Ele funciona como uma camada complementar para famílias que querem estimular iniciativa, indicação e acompanhamento de recompensas.",
   },
   {
-    question: "A criacao de conta e gratuita?",
+    question: "A criação de conta é gratuita?",
     answer:
-      "Sim. A conta pode ser criada sem custo para a familia comecar a organizar a rotina financeira dentro da plataforma.",
+      "Sim. A conta pode ser criada sem custo para a família começar a organizar a rotina financeira dentro da plataforma.",
   },
 ];
 
@@ -53,10 +53,10 @@ const FAQSection = () => {
             Perguntas frequentes
           </p>
           <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
-            As principais duvidas respondidas de forma objetiva.
+            As principais dúvidas respondidas de forma objetiva.
           </h2>
           <p className="mt-5 text-lg leading-8 text-muted-foreground">
-            Uma landing mais profissional tambem precisa responder objecoes com
+            Uma landing mais profissional também precisa responder objeções com
             clareza, sem excesso de promessas e sem texto confuso.
           </p>
         </motion.div>

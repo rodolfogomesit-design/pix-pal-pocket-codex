@@ -3,45 +3,45 @@ import { BadgeDollarSign, Eye, Gift, Users } from "lucide-react";
 
 const steps = [
   {
-    title: "A crianca ativa o modo Mini Gerente",
+    title: "A criança ativa o modo Mini Gerente",
     description:
-      "Ao ativar o recurso, ela recebe um codigo de indicacao que pode ser compartilhado com amigos e familiares.",
+      "Ao ativar o recurso, ela recebe um código de indicação que pode ser compartilhado com amigos e familiares.",
   },
   {
     title: "O convite gera uma nova entrada na plataforma",
     description:
-      "Quando um novo responsavel usa esse codigo, a indicacao fica registrada com rastreabilidade.",
+      "Quando um novo responsável usa esse código, a indicação fica registrada com rastreabilidade.",
   },
   {
-    title: "A movimentacao valida a recomendacao",
+    title: "A movimentação valida a recomendação",
     description:
-      "Assim que a conta indicada comeca a usar a plataforma, o sistema identifica quem originou a relacao.",
+      "Assim que a conta indicada começa a usar a plataforma, o sistema identifica quem originou a relação.",
   },
   {
-    title: "A comissao entra como incentivo educativo",
+    title: "A comissão entra como incentivo educativo",
     description:
-      "A recompensa vai para a carteira da crianca de forma controlada, com supervisao do responsavel.",
+      "A recompensa vai para a carteira da criança de forma controlada, com supervisão do responsável.",
   },
 ];
 
 const controlBlocks = [
   {
     icon: Users,
-    title: "Visao para a crianca",
+    title: "Visão para a criança",
     items: [
-      "quantidade de indicacoes",
-      "historico de ganhos",
-      "saldo acumulado com comissao",
-      "valor disponivel para saque",
+      "quantidade de indicações",
+      "histórico de ganhos",
+      "saldo acumulado com comissão",
+      "valor disponível para saque",
     ],
   },
   {
     icon: Eye,
-    title: "Visao para o responsavel",
+    title: "Visão para o responsável",
     items: [
       "quem foi indicado",
-      "quais movimentos geraram comissao",
-      "quanto entrou em cada periodo",
+      "quais movimentos geraram comissão",
+      "quanto entrou em cada período",
       "pedidos de saque e acompanhamento",
     ],
   },
@@ -61,12 +61,12 @@ const MiniGerenteSection = () => {
             Mini gerente
           </p>
           <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight md:text-5xl">
-            Um recurso que transforma indicacao em aprendizado sobre iniciativa e responsabilidade.
+            Um recurso que transforma indicação em aprendizado sobre iniciativa e responsabilidade.
           </h2>
           <p className="mt-5 text-lg leading-8 text-white/72">
-            O Mini Gerente foi pensado para apresentar nocao de recompensa,
+            O Mini Gerente foi pensado para apresentar noção de recompensa,
             acompanhamento de desempenho e autonomia supervisionada em um formato
-            mais seguro para familias.
+            mais seguro para famílias.
           </p>
         </motion.div>
 
@@ -81,18 +81,18 @@ const MiniGerenteSection = () => {
               <BadgeDollarSign className="h-7 w-7" />
             </div>
             <h3 className="mt-6 font-display text-2xl font-bold">
-              Um programa de indicacao com leitura educativa
+              Um programa de indicação com leitura educativa
             </h3>
             <p className="mt-4 leading-8 text-white/72">
               Em vez de parecer uma promessa exagerada, o recurso apresenta uma
-              experiencia controlada: a crianca convida, acompanha resultados e
-              entende que ganhos dependem de contexto, uso real e supervisao.
+              experiência controlada: a criança convida, acompanha resultados e
+              entende que ganhos dependem de contexto, uso real e supervisão.
             </p>
             <div className="mt-8 space-y-3">
               {[
                 "recompensa vinculada ao uso da plataforma",
-                "supervisao integral do responsavel",
-                "historico claro de cada ganho",
+                "supervisão integral do responsável",
+                "histórico claro de cada ganho",
               ].map((item) => (
                 <div
                   key={item}
@@ -170,10 +170,10 @@ const MiniGerenteSection = () => {
             <Gift className="h-6 w-6" />
           </div>
           <h3 className="mt-5 font-display text-2xl font-bold">
-            Empreendedorismo infantil sem perder contexto nem seguranca
+            Empreendedorismo infantil sem perder contexto nem segurança
           </h3>
           <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-white/72">
-            O resultado esperado nao e apenas gerar indicacoes, mas estimular
+            O resultado esperado não é apenas gerar indicações, mas estimular
             iniciativa, leitura de resultado e responsabilidade financeira dentro
             de um ambiente acompanhado.
           </p>

@@ -5,18 +5,18 @@ const steps = [
   {
     step: "01",
     icon: UserRoundPlus,
-    title: "O responsavel cria a aventura",
+    title: "O responsável cria a conta",
     description:
-      "Tudo comeca com um cadastro rapido e um painel pronto para organizar a vida financeira da familia.",
+      "Tudo começa com um cadastro rápido e um painel pronto para organizar a vida financeira da família.",
     chip: "bg-rose-100 text-rose-700 dark:bg-rose-500/15 dark:text-rose-200",
     iconBg: "from-rose-100 to-orange-100 dark:from-rose-500/15 dark:to-orange-500/10",
   },
   {
     step: "02",
     icon: CreditCard,
-    title: "A crianca ganha seu proprio perfil",
+    title: "A criança ganha seu próprio perfil",
     description:
-      "Cada filho pode ter seu espaco, seu PIN e suas metas sem perder a supervisao central.",
+      "Cada filho pode ter seu espaço, seu PIN e suas metas sem perder a supervisão central.",
     chip: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-200",
     iconBg: "from-amber-100 to-lime-100 dark:from-amber-500/15 dark:to-lime-500/10",
   },
@@ -25,7 +25,7 @@ const steps = [
     icon: HandCoins,
     title: "Mesada, metas e desafios entram no jogo",
     description:
-      "Depositos, ajustes e combinados ficam mais claros e viram parte da rotina de aprendizado.",
+      "Depósitos, ajustes e combinados ficam mais claros e viram parte da rotina de aprendizado.",
     chip: "bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-200",
     iconBg: "from-sky-100 to-cyan-100 dark:from-sky-500/15 dark:to-cyan-500/10",
   },
@@ -34,7 +34,7 @@ const steps = [
     icon: ChartSpline,
     title: "Cada movimento vira conquista",
     description:
-      "O historico mostra progresso, ajuda a conversar sobre escolhas e reforca bons habitos.",
+      "O histórico mostra progresso, ajuda a conversar sobre escolhas e reforça bons hábitos.",
     chip: "bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-200",
     iconBg: "from-violet-100 to-fuchsia-100 dark:from-violet-500/15 dark:to-fuchsia-500/10",
   },
@@ -54,11 +54,11 @@ const HowItWorksSection = () => {
             Como funciona
           </p>
           <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-foreground md:text-5xl dark:text-white">
-            Quatro passos para usar Pix, organizar a mesada e ensinar a crianca na pratica.
+            Quatro passos para usar Pix, organizar a mesada e ensinar a criança na prática.
           </h2>
           <p className="mt-5 text-lg leading-8 text-muted-foreground dark:text-slate-300/85">
-            O fluxo foi desenhado para deixar claro como o responsavel cria a conta,
-            como a crianca recebe o perfil e como o dinheiro passa a fazer parte da rotina.
+            O fluxo foi desenhado para deixar claro como o responsável cria a conta,
+            como a criança recebe o perfil e como o dinheiro passa a fazer parte da rotina.
           </p>
         </motion.div>
 
