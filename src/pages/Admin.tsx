@@ -69,6 +69,18 @@ const usePlatformSettings = () => {
   });
 };
 
+function readMetric(source: Record<string, unknown> | undefined, ...keys: string[]) {
+  if (!source) return 0;
+  for (const key of keys) {
+    const value = source[key];
+    if (value !== undefined && value !== null && value !== "") {
+      const numericValue = Number(value);
+      if (!Number.isNaN(numericValue)) return numericValue;
+    }
+  }
+  return 0;
+}
+
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
@@ -436,7 +448,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Depósitos Hoje</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {depositMetrics ? Number(depositMetrics.hoje_valor).toFixed(2) : "—"}
+                  R$ {readMetric(depositMetrics, "hoje_valor", "deposits_today").toFixed(2)}
                 </p>
               </div>
 
@@ -448,7 +460,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Depósitos Mês</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {depositMetrics ? Number(depositMetrics.mes_valor).toFixed(2) : "—"}
+                  R$ {readMetric(depositMetrics, "mes_valor", "deposits_month").toFixed(2)}
                 </p>
               </div>
 
@@ -460,7 +472,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Depósitos Total</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {depositMetrics ? Number(depositMetrics.total_valor).toFixed(2) : "—"}
+                  R$ {readMetric(depositMetrics, "total_valor", "deposits_total").toFixed(2)}
                 </p>
               </div>
             </div>
@@ -475,7 +487,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Saques Hoje</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {financialMetrics ? Number(financialMetrics.saques_hoje).toFixed(2) : "—"}
+                  R$ {readMetric(financialMetrics, "saques_hoje", "withdrawals_today").toFixed(2)}
                 </p>
               </div>
               <div className="bg-card rounded-2xl border border-border p-5">
@@ -486,7 +498,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Saques Mês</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {financialMetrics ? Number(financialMetrics.saques_mes).toFixed(2) : "—"}
+                  R$ {readMetric(financialMetrics, "saques_mes", "withdrawals_month").toFixed(2)}
                 </p>
               </div>
               <div className="bg-card rounded-2xl border border-border p-5">
@@ -497,7 +509,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Saques Total</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {financialMetrics ? Number(financialMetrics.saques_total).toFixed(2) : "—"}
+                  R$ {readMetric(financialMetrics, "saques_total", "withdrawals_total").toFixed(2)}
                 </p>
               </div>
             </div>
@@ -512,7 +524,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Transferências Hoje</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {financialMetrics ? Number(financialMetrics.transf_hoje).toFixed(2) : "—"}
+                  R$ {readMetric(financialMetrics, "transf_hoje", "transactions_today").toFixed(2)}
                 </p>
               </div>
               <div className="bg-card rounded-2xl border border-border p-5">
@@ -523,7 +535,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Transferências Mês</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {financialMetrics ? Number(financialMetrics.transf_mes).toFixed(2) : "—"}
+                  R$ {readMetric(financialMetrics, "transf_mes", "transactions_month").toFixed(2)}
                 </p>
               </div>
               <div className="bg-card rounded-2xl border border-border p-5">
@@ -534,7 +546,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Transferências Total</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {financialMetrics ? Number(financialMetrics.transf_total).toFixed(2) : "—"}
+                  R$ {readMetric(financialMetrics, "transf_total", "transactions_total").toFixed(2)}
                 </p>
               </div>
             </div>
@@ -549,7 +561,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Pix Hoje</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {financialMetrics ? Number(financialMetrics.pix_hoje).toFixed(2) : "—"}
+                  R$ {readMetric(financialMetrics, "pix_hoje").toFixed(2)}
                 </p>
               </div>
               <div className="bg-card rounded-2xl border border-border p-5">
@@ -560,7 +572,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Pix Mês</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {financialMetrics ? Number(financialMetrics.pix_mes).toFixed(2) : "—"}
+                  R$ {readMetric(financialMetrics, "pix_mes").toFixed(2)}
                 </p>
               </div>
               <div className="bg-card rounded-2xl border border-border p-5">
@@ -571,7 +583,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Pix Total</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {financialMetrics ? Number(financialMetrics.pix_total).toFixed(2) : "—"}
+                  R$ {readMetric(financialMetrics, "pix_total").toFixed(2)}
                 </p>
               </div>
             </div>
@@ -586,7 +598,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Comissões Hoje</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {financialMetrics ? Number(financialMetrics.comissao_hoje).toFixed(2) : "—"}
+                  R$ {readMetric(financialMetrics, "comissao_hoje").toFixed(2)}
                 </p>
               </div>
               <div className="bg-card rounded-2xl border border-border p-5">
@@ -597,7 +609,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Comissões Mês</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {financialMetrics ? Number(financialMetrics.comissao_mes).toFixed(2) : "—"}
+                  R$ {readMetric(financialMetrics, "comissao_mes").toFixed(2)}
                 </p>
               </div>
               <div className="bg-card rounded-2xl border border-border p-5">
@@ -608,7 +620,7 @@ const Admin = () => {
                   <p className="font-display text-sm font-bold text-foreground">Comissões Total</p>
                 </div>
                 <p className="font-display text-2xl font-extrabold text-foreground">
-                  R$ {financialMetrics ? Number(financialMetrics.comissao_total).toFixed(2) : "—"}
+                  R$ {readMetric(financialMetrics, "comissao_total").toFixed(2)}
                 </p>
               </div>
             </div>
