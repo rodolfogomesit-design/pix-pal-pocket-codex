@@ -15,9 +15,13 @@ import { Input } from "@/components/ui/input";
 
 function extractFunctionErrorMessage(error: unknown) {
   if (!error || typeof error !== "object") return null;
-  const maybeError = error as { message?: string; context?: { json?: unknown } };
+  const maybeError = error as { message?: string; context?: { json?: unknown; body?: unknown } };
   if (maybeError.context?.json && typeof maybeError.context.json === "object") {
     const payload = maybeError.context.json as { error?: string; message?: string };
+    return payload.error || payload.message || null;
+  }
+  if (maybeError.context?.body && typeof maybeError.context.body === "object") {
+    const payload = maybeError.context.body as { error?: string; message?: string };
     return payload.error || payload.message || null;
   }
   return maybeError.message || null;

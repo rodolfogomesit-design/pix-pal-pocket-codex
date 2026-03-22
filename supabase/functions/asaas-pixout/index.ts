@@ -105,25 +105,27 @@ Deno.serve(async (req: Request) => {
 
     const externalId = `wd_${Date.now()}_${user.id.slice(0, 8)}`;
 
+    const transferPayload = {
+      value: valor,
+      pixAddressKey: pixKey.key,
+      pixAddressKeyType: pixKey.type,
+      scheduleDate: null,
+      description: `Saque Pix Kids - ${profile.nome}`,
+      externalReference: externalId,
+    };
+
     const transferRes = await fetch(`${AS_API_URL}/transfers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         access_token: AS_API_KEY,
       },
-      body: JSON.stringify({
-        value: valor,
-        operationType: "PIX",
-        pixAddressKey: pixKey.key,
-        pixAddressKeyType: pixKey.type,
-        description: `Saque Pix Kids - ${profile.nome}`,
-        externalReference: externalId,
-      }),
+      body: JSON.stringify(transferPayload),
     });
 
     const transferJson = await transferRes.json();
     if (!transferRes.ok || !transferJson?.id) {
-      console.error("Asaas Transfer Error:", transferJson);
+      console.error("Asaas Transfer Error:", transferJson, transferPayload);
       const firstError =
         transferJson?.errors?.[0]?.description || transferJson?.message || JSON.stringify(transferJson);
       return jsonError(500, `Erro Asaas: ${firstError}`);
