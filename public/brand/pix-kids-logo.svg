@@ -1,8 +1,37 @@
 <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
   <rect x="40" y="40" width="432" height="432" rx="124" fill="url(#g)"/>
   <circle cx="256" cy="256" r="166" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)" stroke-width="10"/>
-  <text x="256" y="300" text-anchor="middle" font-size="200">🐷</text>
-  <text x="256" y="376" text-anchor="middle" font-size="30" font-family="Arial, sans-serif" font-weight="800" fill="#fff">PIX KIDS</text>
+
+  <g transform="translate(256 236)">
+    <path
+      d="M-100 -86C-88 -124 -56 -142 -25 -124L-3 -111C6 -106 16 -106 25 -111L47 -124C78 -142 110 -124 122 -86L105 -52C96 -34 78 -24 58 -24H-36C-56 -24 -74 -34 -83 -52Z"
+      fill="#ffb4c7"
+    />
+    <path
+      d="M0 -72C64 -72 118 -26 118 40C118 104 62 152 0 152C-62 152 -118 104 -118 40C-118 -26 -64 -72 0 -72Z"
+      fill="#ffd3df"
+    />
+    <path
+      d="M-72 -74L-42 -102L-18 -58L-44 -38Z"
+      fill="#ff96b2"
+    />
+    <path
+      d="M72 -74L42 -102L18 -58L44 -38Z"
+      fill="#ff96b2"
+    />
+    <ellipse cx="-42" cy="-2" rx="16" ry="22" fill="#241d24"/>
+    <ellipse cx="42" cy="-2" rx="16" ry="22" fill="#241d24"/>
+    <ellipse cx="-47" cy="-10" rx="4.5" ry="6.5" fill="#fff" opacity=".92"/>
+    <ellipse cx="37" cy="-10" rx="4.5" ry="6.5" fill="#fff" opacity=".92"/>
+    <ellipse cx="0" cy="44" rx="52" ry="36" fill="#f7a1b8" stroke="#e48aa2" stroke-width="4"/>
+    <ellipse cx="-18" cy="44" rx="7.5" ry="10.5" fill="#b45c78"/>
+    <ellipse cx="18" cy="44" rx="7.5" ry="10.5" fill="#b45c78"/>
+    <path d="M-18 84C-8 92 8 92 18 84" fill="none" stroke="#b45c78" stroke-width="6" stroke-linecap="round"/>
+    <path d="M-52 106C-26 126 26 126 52 106" fill="none" stroke="#cf6f8d" stroke-width="6" stroke-linecap="round" opacity=".7"/>
+  </g>
+
+  <text x="256" y="378" text-anchor="middle" font-size="30" font-family="Arial, sans-serif" font-weight="800" fill="#fff" letter-spacing="1.2">PIX KIDS</text>
+
   <defs>
     <radialGradient id="g" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(108 104) rotate(39) scale(480)">
       <stop stop-color="#ff6b6b"/>
