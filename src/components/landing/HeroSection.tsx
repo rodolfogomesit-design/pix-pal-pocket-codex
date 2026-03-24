@@ -37,7 +37,7 @@ const HeroSection = () => {
         >
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/75 px-4 py-2 text-sm font-semibold text-primary shadow-sm backdrop-blur dark:border-white/10 dark:bg-slate-900/70 dark:text-sky-200">
             <ShieldCheck className="h-4 w-4" />
-            Pix infantil com mesada, metas e supervisão dos pais
+            Pix infantil com controle para toda a família
           </div>
 
           <div className="mb-6 flex items-center gap-3">
@@ -49,7 +49,7 @@ const HeroSection = () => {
                 Pix Kids
               </p>
               <p className="text-sm text-muted-foreground dark:text-slate-300/80">
-                Pix para crianças com uma experiência simples para toda a família
+                Pix infantil com controle para toda a família
               </p>
             </div>
           </div>
