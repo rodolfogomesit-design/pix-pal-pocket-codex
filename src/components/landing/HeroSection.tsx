@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck, Sparkles, Star, WalletCards } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import EmojiBrand from "@/components/branding/EmojiBrand";
 import { Button } from "@/components/ui/button";
 
 const highlights = [
@@ -41,9 +42,10 @@ const HeroSection = () => {
           </div>
 
           <div className="mb-6 flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#fb7185,#f59e0b,#22c55e,#38bdf8,#8b5cf6)] text-lg font-black text-white shadow-lg shadow-fuchsia-300/40 dark:shadow-fuchsia-950/30">
-              PK
-            </div>
+              <EmojiBrand
+                size={56}
+                className="dark:bg-slate-900/80 dark:shadow-fuchsia-950/25"
+              />
             <div>
               <p className="font-display text-2xl font-extrabold tracking-tight text-foreground">
                 Pix Kids

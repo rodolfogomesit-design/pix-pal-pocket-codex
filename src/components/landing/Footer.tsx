@@ -1,3 +1,5 @@
+import EmojiBrand from "@/components/branding/EmojiBrand";
+
 const Footer = () => {
   return (
     <footer className="border-t border-border/70 bg-slate-950 py-12 text-white">
@@ -5,9 +7,7 @@ const Footer = () => {
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div className="max-w-md">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-sm font-black text-slate-950">
-                PK
-              </div>
+              <EmojiBrand size={48} className="bg-white" />
               <div>
                 <p className="font-display text-2xl font-extrabold tracking-tight">
                   Pix Kids

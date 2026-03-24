@@ -26,6 +26,7 @@ import ThemeToggle from "@/components/theme/ThemeToggle";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import AdminUserActions from "@/components/admin/AdminUserActions";
+import EmojiBrand from "@/components/branding/EmojiBrand";
 import {
   LogOut,
   Search,
@@ -298,9 +299,11 @@ const Admin = () => {
             <Link to="/" className="text-muted-foreground hover:text-primary transition-colors">
               <ArrowLeft size={18} />
             </Link>
-            <Shield size={20} className="text-primary sm:hidden" />
-            <Shield size={24} className="text-primary hidden sm:block" />
-            <span className="font-display text-xl sm:text-3xl font-extrabold text-primary">Painel Admin</span>
+            <EmojiBrand size={42} className="shrink-0 rounded-xl shadow-none" />
+            <div>
+              <p className="font-display text-lg sm:text-2xl font-extrabold text-primary">Pix Kids</p>
+              <p className="font-display text-sm sm:text-base font-bold text-foreground">Painel Admin</p>
+            </div>
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
             <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard")} className="font-body text-xs sm:text-sm px-2 sm:px-3">

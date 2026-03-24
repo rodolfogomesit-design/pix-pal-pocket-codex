@@ -1,11 +1,11 @@
 import { useState } from "react";
-
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useKidAuth } from "@/contexts/KidAuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import EmojiBrand from "@/components/branding/EmojiBrand";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import ThemeToggle from "@/components/theme/ThemeToggle";
@@ -22,11 +22,11 @@ const KidLogin = () => {
     e.preventDefault();
 
     if (codigo.trim().length === 0) {
-      toast.error("Digite seu código ou nome!");
+      toast.error("Digite seu codigo ou nome!");
       return;
     }
     if (pin.length < 4) {
-      toast.error("PIN deve ter pelo menos 4 números!");
+      toast.error("PIN deve ter pelo menos 4 numeros!");
       return;
     }
 
@@ -43,7 +43,7 @@ const KidLogin = () => {
       return;
     }
     if (!data || data.length === 0) {
-      toast.error("Código ou PIN incorretos! 😢");
+      toast.error("Codigo ou PIN incorretos!");
       setLoading(false);
       return;
     }
@@ -65,57 +65,62 @@ const KidLogin = () => {
       referral_code: kidData.referral_code || null,
       saldo_comissao: Number(kidData.saldo_comissao || 0),
     } as any);
-    toast.success(`Olá, ${kidData.apelido || kidData.nome}! 🎉`);
+    toast.success(`Ola, ${kidData.apelido || kidData.nome}!`);
     navigate("/crianca/dashboard");
     setLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-kids-blue-light via-background to-kids-yellow-light flex items-center justify-center px-4 relative">
-      <div className="absolute top-4 left-4">
-        <Link to="/" className="flex items-center gap-1 font-body text-sm text-muted-foreground hover:text-primary transition-colors">
+    <div className="relative flex min-h-screen items-center justify-center bg-gradient-to-b from-kids-blue-light via-background to-kids-yellow-light px-4">
+      <div className="absolute left-4 top-4">
+        <Link to="/" className="flex items-center gap-1 font-body text-sm text-muted-foreground transition-colors hover:text-primary">
           <ArrowLeft size={16} /> Voltar
         </Link>
       </div>
-      <div className="absolute top-4 right-4"><ThemeToggle /></div>
+      <div className="absolute right-4 top-4">
+        <ThemeToggle />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-sm"
       >
-        <div className="text-center mb-8">
-          <span className="text-5xl">🐷</span>
-          <h1 className="font-display text-3xl font-extrabold text-primary mt-4">
+        <div className="mb-8 text-center">
+          <div className="flex justify-center">
+            <EmojiBrand size={72} />
+          </div>
+          <h1 className="mt-4 font-display text-3xl font-extrabold text-primary">
             Pix Kids
           </h1>
-          <p className="font-body text-muted-foreground mt-1">Área da criança 🧒</p>
+          <p className="mt-1 font-body text-muted-foreground">Area da crianca</p>
         </div>
 
-        <div className="bg-card rounded-[2rem] shadow-2xl border border-border p-8">
-          <h2 className="font-display text-xl font-bold text-center mb-6">
-            Entrar na minha conta ✨
+        <div className="rounded-[2rem] border border-border bg-card p-8 shadow-2xl">
+          <h2 className="mb-6 text-center font-display text-xl font-bold">
+            Entrar na minha conta
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <Label className="font-display font-bold text-sm">Meu código ou nome completo 🔢</Label>
+              <Label className="font-display text-sm font-bold">Meu codigo ou nome completo</Label>
               <Input
                 value={codigo}
                 onChange={(e) => setCodigo(e.target.value)}
                 placeholder="12345 ou nome completo"
-                className="rounded-2xl mt-2 text-center text-xl font-display font-bold h-14 bg-kids-blue-light border-2 border-primary/20 focus:border-primary"
+                className="mt-2 h-14 rounded-2xl border-2 border-primary/20 bg-kids-blue-light text-center font-display text-xl font-bold focus:border-primary"
               />
             </div>
 
             <div>
-              <Label className="font-display font-bold text-sm">Meu PIN 🔑</Label>
+              <Label className="font-display text-sm font-bold">Meu PIN</Label>
               <Input
                 type="password"
                 value={pin}
                 onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="••••"
-                className="rounded-2xl mt-2 text-center text-2xl font-display font-bold tracking-[0.5em] h-14 bg-kids-yellow-light border-2 border-kids-yellow/30 focus:border-kids-yellow"
+                className="mt-2 h-14 rounded-2xl border-2 border-kids-yellow/30 bg-kids-yellow-light text-center font-display text-2xl font-bold tracking-[0.5em] focus:border-kids-yellow"
                 maxLength={6}
               />
             </div>
@@ -123,26 +128,26 @@ const KidLogin = () => {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full font-display font-bold text-xl rounded-2xl py-7 bg-kids-green text-accent-foreground hover:bg-kids-green/90 shadow-lg transition-all hover:scale-[1.02]"
+              className="w-full rounded-2xl bg-kids-green py-7 font-display text-xl font-bold text-accent-foreground shadow-lg transition-all hover:scale-[1.02] hover:bg-kids-green/90"
             >
-              {loading ? "Entrando... 🐷" : "🚀 Entrar!"}
+              {loading ? "Entrando..." : "Entrar"}
             </Button>
           </form>
         </div>
 
-        <div className="flex flex-col items-center gap-3 mt-6">
+        <div className="mt-6 flex flex-col items-center gap-3">
           <div className="flex items-center gap-3">
             <Link to="/" className="font-body text-sm text-muted-foreground hover:text-primary">
-              ← Voltar para o início
+              ← Voltar para o inicio
             </Link>
             <span className="text-muted-foreground">|</span>
             <Link to="/login" className="font-body text-sm text-muted-foreground hover:text-primary">
-              Sou responsável →
+              Sou responsavel →
             </Link>
           </div>
           <Link to="/">
-            <Button variant="outline" type="button" className="rounded-xl gap-2">
-              <Home size={16} /> Início
+            <Button variant="outline" type="button" className="gap-2 rounded-xl">
+              <Home size={16} /> Inicio
             </Button>
           </Link>
         </div>

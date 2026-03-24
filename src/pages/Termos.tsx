@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
+import EmojiBrand from "@/components/branding/EmojiBrand";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -46,8 +47,8 @@ const Termos = () => {
 
       <div className="mx-auto max-w-2xl pt-12">
         <div className="mb-8 text-center">
-          <Link to="/" className="inline-flex items-center gap-2">
-            <span className="text-3xl">🐷</span>
+          <Link to="/" className="inline-flex items-center gap-3">
+            <EmojiBrand size={56} />
             <span className="font-display text-3xl font-bold text-primary">Pix Kids</span>
           </Link>
         </div>
@@ -67,3 +68,4 @@ const Termos = () => {
 };
 
 export default Termos;
+

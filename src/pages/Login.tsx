@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import EmojiBrand from "@/components/branding/EmojiBrand";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -133,8 +134,8 @@ const Login = () => {
 
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <Link to="/" className="inline-flex items-center gap-2">
-            <span className="text-3xl">🐷</span>
+          <Link to="/" className="inline-flex items-center gap-3">
+            <EmojiBrand size={56} />
             <span className="font-display text-3xl font-bold text-primary">Pix Kids</span>
           </Link>
         </div>
@@ -256,3 +257,4 @@ const Login = () => {
 };
 
 export default Login;
+

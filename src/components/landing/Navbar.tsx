@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
+import EmojiBrand from "@/components/branding/EmojiBrand";
 import LoginChoiceDialog from "@/components/landing/LoginChoiceDialog";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import { Button } from "@/components/ui/button";
@@ -19,15 +20,16 @@ const Navbar = () => {
   return (
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/30 bg-white/75 backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
       <div className="container mx-auto flex items-center justify-between px-4 py-4">
-        <Link to="/" className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#f43f5e,#f59e0b,#22c55e,#38bdf8,#8b5cf6)] text-sm font-black text-white shadow-lg shadow-fuchsia-300/40 dark:shadow-fuchsia-900/30">
-            PK
-          </div>
+        <Link to="/" className="flex items-center gap-3 sm:gap-4">
+          <EmojiBrand
+            size={48}
+            className="dark:bg-slate-900/80 dark:shadow-fuchsia-900/25"
+          />
           <div>
-            <p className="font-display text-xl font-extrabold tracking-tight text-foreground">
+            <p className="font-display text-[1.35rem] font-extrabold tracking-tight text-foreground sm:text-xl">
               Pix Kids
             </p>
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+            <p className="hidden text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground sm:block">
               Pix infantil com controle para toda a família
             </p>
           </div>
