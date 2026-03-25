@@ -9,7 +9,6 @@ import { useGuardianRole } from "@/hooks/useGuardianRole";
 import AddKidDialog from "@/components/dashboard/AddKidDialog";
 import KidCard from "@/components/dashboard/KidCard";
 import GuardianManagement from "@/components/dashboard/GuardianManagement";
-import EmojiBrand from "@/components/branding/EmojiBrand";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import {
   LogOut,
@@ -95,7 +94,7 @@ const Dashboard = () => {
             <Link to="/" className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
               <ArrowLeft size={18} />
             </Link>
-            <EmojiBrand size={40} className="shrink-0 rounded-xl shadow-none" />
+            <span className="text-2xl">🐷</span>
             <span className="font-display text-lg sm:text-2xl font-bold text-primary">Pix Kids</span>
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
@@ -272,4 +271,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

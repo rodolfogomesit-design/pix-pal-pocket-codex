@@ -5,7 +5,6 @@ import { ArrowLeft, CheckCircle2, Eye, EyeOff, Gift, Home, XCircle } from "lucid
 import { toast } from "sonner";
 
 import { useAuth } from "@/contexts/AuthContext";
-import EmojiBrand from "@/components/branding/EmojiBrand";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import TermsDialog from "@/components/legal/TermsDialog";
 import { Button } from "@/components/ui/button";
@@ -172,8 +171,8 @@ const Cadastro = () => {
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-md items-center">
         <div className="w-full">
           <div className="mb-8 text-center">
-            <Link to="/" className="inline-flex items-center gap-3">
-              <EmojiBrand size={56} />
+            <Link to="/" className="inline-flex items-center gap-2">
+              <span className="text-3xl">🐷</span>
               <span className="font-display text-3xl font-bold text-primary">Pix Kids</span>
             </Link>
           </div>
@@ -396,4 +395,3 @@ const Cadastro = () => {
 };
 
 export default Cadastro;
-

@@ -6,7 +6,6 @@ import { toast } from "sonner";
 
 import { useKidAuth } from "@/contexts/KidAuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import EmojiBrand from "@/components/branding/EmojiBrand";
 import KidActions from "@/components/kid-dashboard/KidActions";
 import KidBalance from "@/components/kid-dashboard/KidBalance";
 import KidHistory from "@/components/kid-dashboard/KidHistory";
@@ -97,7 +96,6 @@ const KidDashboard = () => {
             <button onClick={() => setTab("home")} className="text-primary-foreground/80 transition-colors hover:text-primary-foreground">
               <ArrowLeft size={18} />
             </button>
-            <EmojiBrand size={38} className="shrink-0 rounded-xl shadow-none" />
             <div>
               <p className="font-display text-lg font-bold">Olá, {kid.apelido || kid.nome}! 👋</p>
               <button onClick={copyCode} className="flex items-center gap-1 font-body text-xs opacity-80 transition-colors hover:opacity-100">
@@ -159,4 +157,3 @@ const KidDashboard = () => {
 };
 
 export default KidDashboard;
-
