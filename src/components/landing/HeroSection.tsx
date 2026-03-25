@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck, Sparkles, Star, WalletCards } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import KidDashboardPreview from "@/components/landing/KidDashboardPreview";
 import { Button } from "@/components/ui/button";
 
 const highlights = [
@@ -46,9 +47,7 @@ const HeroSection = () => {
               PK
             </div>
             <div>
-              <p className="font-display text-2xl font-extrabold tracking-tight text-foreground">
-                Pix Kids
-              </p>
+              <p className="font-display text-2xl font-extrabold tracking-tight text-foreground">Pix Kids</p>
               <p className="text-sm text-muted-foreground dark:text-slate-300/80">
                 Pix para crianças com uma experiência simples para toda a família
               </p>
@@ -60,9 +59,8 @@ const HeroSection = () => {
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-8 text-muted-foreground md:text-xl dark:text-slate-300/85">
-            O responsável acompanha saldo, limites e transferências em um único
-            painel, enquanto a criança usa o app para receber, guardar e entender
-            melhor como cuidar do próprio dinheiro.
+            O responsável acompanha saldo, limites e transferências em um único painel, enquanto a criança usa o app
+            para receber, guardar e entender melhor como cuidar do próprio dinheiro.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 text-sm text-foreground/85 dark:text-slate-200/90">
@@ -76,7 +74,9 @@ const HeroSection = () => {
 
               return (
                 <div key={item} className="flex items-start gap-3">
-                  <span className={`mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-r ${tones[index]} text-xs font-black text-white shadow-sm`}>
+                  <span
+                    className={`mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-r ${tones[index]} text-xs font-black text-white shadow-sm`}
+                  >
                     +
                   </span>
                   <span>{item}</span>
@@ -106,9 +106,7 @@ const HeroSection = () => {
                 key={metric.label}
                 className={`rounded-[24px] border border-white/40 bg-gradient-to-br ${metric.tone} p-4 shadow-sm backdrop-blur dark:border-white/10`}
               >
-                <p className="text-2xl font-extrabold tracking-tight text-foreground dark:text-white">
-                  {metric.value}
-                </p>
+                <p className="text-2xl font-extrabold tracking-tight text-foreground dark:text-white">{metric.value}</p>
                 <p className="mt-1 text-sm text-muted-foreground dark:text-slate-300/80">{metric.label}</p>
               </div>
             ))}
@@ -141,75 +139,8 @@ const HeroSection = () => {
               </div>
             </div>
 
-            <div className="grid gap-4 p-6">
-              <div className="grid gap-4 md:grid-cols-[1.15fr_0.85fr]">
-                <div className="rounded-3xl bg-[linear-gradient(135deg,#0f172a,#1d4ed8,#7c3aed)] p-6 text-white shadow-lg shadow-violet-500/15">
-                  <p className="text-sm text-white/75">Meta da semana</p>
-                  <p className="mt-3 text-4xl font-black tracking-tight">Guardar R$ 80,00</p>
-                  <div className="mt-4 h-3 overflow-hidden rounded-full bg-white/12">
-                    <div className="h-full w-[68%] rounded-full bg-[linear-gradient(90deg,#fb7185,#f59e0b,#22c55e,#38bdf8,#8b5cf6)]" />
-                  </div>
-                  <div className="mt-6 grid grid-cols-2 gap-3">
-                    <div className="rounded-2xl bg-white/10 p-4">
-                      <p className="text-xs uppercase tracking-[0.14em] text-white/60">
-                        Saldo da familia
-                      </p>
-                      <p className="mt-2 text-xl font-bold">R$ 1.840,00</p>
-                    </div>
-                    <div className="rounded-2xl bg-white/10 p-4">
-                      <p className="text-xs uppercase tracking-[0.14em] text-white/60">
-                        Meta infantil
-                      </p>
-                      <p className="mt-2 text-xl font-bold">68%</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-3xl border border-white/40 bg-[linear-gradient(180deg,rgba(254,240,138,0.45),rgba(125,211,252,0.35),rgba(217,70,239,0.18))] p-5 dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(250,204,21,0.08),rgba(14,165,233,0.12),rgba(168,85,247,0.1))]">
-                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
-                    Acoes do dia
-                  </p>
-                  <div className="mt-4 space-y-3">
-                    {[
-                      "Guardar parte da mesada",
-                      "Concluir uma pequena meta.",
-                      "Acompanhar o histórico com os pais.",
-                    ].map((action, index) => (
-                      <div
-                        key={action}
-                        className={`rounded-2xl border border-white/70 px-4 py-3 text-sm font-medium text-slate-700 dark:border-white/10 dark:text-slate-200 ${
-                          index === 0
-                            ? "bg-rose-50/85 dark:bg-rose-950/25"
-                            : index === 1
-                              ? "bg-sky-50/85 dark:bg-sky-950/25"
-                              : "bg-emerald-50/85 dark:bg-emerald-950/25"
-                        }`}
-                      >
-                        {action}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-3">
-                {[
-                  { name: "Sophia", status: "Guardando para um patins novo.", amount: "R$ 480,00", tone: "from-rose-50 to-orange-50 dark:from-rose-950/25 dark:to-orange-950/20" },
-                  { name: "Miguel", status: "Missão da semana quase completa.", amount: "R$ 320,00", tone: "from-sky-50 to-cyan-50 dark:from-sky-950/25 dark:to-cyan-950/20" },
-                  { name: "Laura", status: "Mesada recebida e meta atualizada.", amount: "R$ 420,00", tone: "from-violet-50 to-fuchsia-50 dark:from-violet-950/25 dark:to-fuchsia-950/20" },
-                ].map((kid) => (
-                  <div
-                    key={kid.name}
-                    className={`rounded-3xl border border-white/40 bg-gradient-to-br ${kid.tone} p-5 shadow-sm dark:border-white/10`}
-                  >
-                    <p className="text-sm font-semibold text-muted-foreground dark:text-slate-300/80">{kid.name}</p>
-                    <p className="mt-2 text-2xl font-extrabold tracking-tight text-foreground dark:text-white">
-                      {kid.amount}
-                    </p>
-                    <p className="mt-3 text-sm text-muted-foreground dark:text-slate-300/80">{kid.status}</p>
-                  </div>
-                ))}
-              </div>
+            <div className="p-4 sm:p-6">
+              <KidDashboardPreview />
             </div>
           </div>
         </motion.div>

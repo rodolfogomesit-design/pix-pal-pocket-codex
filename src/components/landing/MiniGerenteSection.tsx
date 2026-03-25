@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { BadgeDollarSign, Eye, Gift, Users } from "lucide-react";
 
+import KidMiniGerenteShowcase from "@/components/landing/KidMiniGerenteShowcase";
+
 const steps = [
   {
     title: "A criança ativa o modo Mini Gerente",
@@ -57,10 +59,7 @@ const controlBlocks = [
 
 const MiniGerenteSection = () => {
   return (
-    <section
-      id="mini-gerente"
-      className="relative overflow-hidden py-20 md:py-28"
-    >
+    <section id="mini-gerente" className="relative overflow-hidden py-20 md:py-28">
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(255,251,235,0.72),rgba(240,249,255,0.78),rgba(250,245,255,0.82))] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.98),rgba(17,24,39,0.98),rgba(24,24,27,0.98))]" />
 
       <div className="container mx-auto px-4">
@@ -77,10 +76,19 @@ const MiniGerenteSection = () => {
             Um recurso que transforma indicação em aprendizado sobre iniciativa e responsabilidade.
           </h2>
           <p className="mt-5 text-lg leading-8 text-muted-foreground dark:text-slate-300/85">
-            O Mini Gerente foi pensado para apresentar noção de recompensa,
-            acompanhamento de desempenho e autonomia supervisionada em um formato
-            mais seguro para famílias.
+            O Mini Gerente foi pensado para apresentar noção de recompensa, acompanhamento de desempenho e autonomia
+            supervisionada em um formato mais seguro para famílias.
           </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.06 }}
+          className="mx-auto mt-12 max-w-md"
+        >
+          <KidMiniGerenteShowcase />
         </motion.div>
 
         <div className="mt-14 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
@@ -97,9 +105,8 @@ const MiniGerenteSection = () => {
               Um programa de indicação com leitura educativa
             </h3>
             <p className="mt-4 leading-8 text-muted-foreground dark:text-slate-300/82">
-              Em vez de parecer uma promessa exagerada, o recurso apresenta uma
-              experiência controlada: a criança convida, acompanha resultados e
-              entende que ganhos dependem de contexto, uso real e supervisão.
+              Em vez de parecer uma promessa exagerada, o recurso apresenta uma experiência controlada: a criança
+              convida, acompanha resultados e entende que ganhos dependem de contexto, uso real e supervisão.
             </p>
             <div className="mt-8 space-y-3">
               {[
@@ -194,9 +201,8 @@ const MiniGerenteSection = () => {
             Empreendedorismo infantil sem perder contexto nem segurança
           </h3>
           <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-muted-foreground dark:text-slate-300/80">
-            O resultado esperado não é apenas gerar indicações, mas estimular
-            iniciativa, leitura de resultado e responsabilidade financeira dentro
-            de um ambiente acompanhado.
+            O resultado esperado não é apenas gerar indicações, mas estimular iniciativa, leitura de resultado e
+            responsabilidade financeira dentro de um ambiente acompanhado.
           </p>
         </motion.div>
       </div>

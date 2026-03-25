@@ -26,8 +26,8 @@ const CTASection = () => {
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-muted-foreground dark:text-slate-300/82">
-            O responsável acompanha tudo em um painel simples, e a criança aprende
-            a receber, guardar e usar dinheiro com mais responsabilidade.
+            O responsável acompanha tudo em um painel simples, e a criança aprende a receber, guardar e usar dinheiro
+            com mais responsabilidade.
           </p>
 
           <div className="mt-6 flex justify-center">

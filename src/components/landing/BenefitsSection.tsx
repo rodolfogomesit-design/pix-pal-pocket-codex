@@ -18,14 +18,14 @@ const benefits = [
   },
   {
     icon: Smile,
-    title: "Visual acolhedor para o publico kids",
+    title: "Visual acolhedor para o público kids",
     description:
       "A experiência conversa com a infância com mais cor, simpatia e linguagem simples.",
     tone: "from-sky-50 to-cyan-50 dark:from-sky-950/20 dark:to-cyan-950/15",
   },
   {
     icon: LockKeyhole,
-    title: "Autonomia com rede de seguranca",
+    title: "Autonomia com rede de segurança",
     description:
       "Configure PIN, limites diários e autorizações para deixar a liberdade mais segura.",
     tone: "from-emerald-50 to-teal-50 dark:from-emerald-950/20 dark:to-teal-950/15",
@@ -66,8 +66,8 @@ const BenefitsSection = () => {
             Benefícios de um Pix infantil pensado para a criança e aprovado pelos pais.
           </h2>
           <p className="mt-5 text-lg leading-8 text-muted-foreground dark:text-slate-300/85">
-            O foco da plataforma é transformar Pix, mesada e metas em educação
-            financeira prática, com uma experiência segura e fácil de acompanhar.
+            O foco da plataforma é transformar Pix, mesada e metas em educação financeira prática, com uma experiência
+            segura e fácil de acompanhar.
           </p>
         </motion.div>
 
