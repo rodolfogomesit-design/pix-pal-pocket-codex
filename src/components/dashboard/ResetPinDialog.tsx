@@ -31,7 +31,7 @@ const ResetPinDialog = ({ kid }: Props) => {
 
     try {
       await updateKid.mutateAsync({ id: kid.id, pin: newPin });
-      toast.success("PIN redefinido com sucesso! ");
+      toast.success("PIN redefinido com sucesso! 🔑");
       setNewPin("");
       setConfirmPin("");
       setOpen(false);
@@ -50,7 +50,7 @@ const ResetPinDialog = ({ kid }: Props) => {
       <DialogContent className="rounded-3xl max-w-md">
         <DialogHeader>
           <DialogTitle className="font-display text-xl">
-            Redefinir senha de {kid.apelido || kid.nome} 
+            Redefinir senha de {kid.apelido || kid.nome} 🔑
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
@@ -81,7 +81,7 @@ const ResetPinDialog = ({ kid }: Props) => {
             disabled={updateKid.isPending}
             className="w-full font-display font-bold rounded-xl py-5 bg-primary text-primary-foreground hover:bg-primary/90"
           >
-            {updateKid.isPending ? "Salvando..." : " Redefinir PIN"}
+            {updateKid.isPending ? "Salvando..." : "🔑 Redefinir PIN"}
           </Button>
         </form>
       </DialogContent>

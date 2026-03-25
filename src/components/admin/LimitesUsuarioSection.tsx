@@ -100,7 +100,7 @@ const LimitesUsuarioSection = ({ globalLimits }: Props) => {
       if (!result?.success) throw new Error(result?.error);
     },
     onSuccess: () => {
-      toast.success("Limites do responsável atualizados ");
+      toast.success("Limites do responsável atualizados ✅");
       queryClient.invalidateQueries({ queryKey: ["admin-limits-profile", selectedUserId] });
       queryClient.invalidateQueries({ queryKey: ["admin-users-custom-limits"] });
     },
@@ -120,7 +120,7 @@ const LimitesUsuarioSection = ({ globalLimits }: Props) => {
       if (!result?.success) throw new Error(result?.error);
     },
     onSuccess: () => {
-      toast.success("Limites do filho atualizados ");
+      toast.success("Limites do filho atualizados ✅");
       queryClient.invalidateQueries({ queryKey: ["admin-limits-kids", selectedUserId] });
       queryClient.invalidateQueries({ queryKey: ["admin-users-custom-limits"] });
     },
@@ -187,7 +187,7 @@ const LimitesUsuarioSection = ({ globalLimits }: Props) => {
             </div>
 
             <div className="bg-muted/20 border border-dashed border-border rounded-xl p-3">
-              <p className="font-body text-xs text-muted-foreground font-semibold mb-2"> Limites globais (referência)</p>
+              <p className="font-body text-xs text-muted-foreground font-semibold mb-2">📋 Limites globais (referência)</p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-muted-foreground">
                 <span>Diário: R$ {globalLimits.limite_diario_padrao}</span>
                 <span>Transferência: R$ {globalLimits.limite_transferencia}</span>

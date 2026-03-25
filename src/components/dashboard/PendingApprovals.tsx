@@ -42,7 +42,7 @@ const PendingApprovals = () => {
       return result;
     },
     onSuccess: (_, variables) => {
-      toast.success(variables.approved ? "Transferência aprovada! " : "Transferência recusada ");
+      toast.success(variables.approved ? "Transferência aprovada! ✅" : "Transferência recusada ❌");
       queryClient.invalidateQueries({ queryKey: ["pending-approvals"] });
       queryClient.invalidateQueries({ queryKey: ["kids"] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });

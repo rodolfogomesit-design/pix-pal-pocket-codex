@@ -173,7 +173,7 @@ const KidPagar = () => {
             >
               <ArrowLeft size={22} />
             </button>
-            <span className="text-2xl"></span>
+            <span className="text-2xl">💸</span>
             <span className="font-display text-xl font-bold text-primary">Pagar</span>
           </div>
           <button
@@ -226,7 +226,7 @@ const KidPagar = () => {
                   </div>
                 ) : contacts.length === 0 ? (
                   <div className="rounded-2xl border border-border bg-card p-6 text-center">
-                    <span className="mb-2 block text-3xl"></span>
+                    <span className="mb-2 block text-3xl">📇</span>
                     <p className="font-body text-sm text-muted-foreground">
                       Nenhum contato salvo ainda. Depois do primeiro pagamento, o contato é salvo automaticamente.
                     </p>
@@ -240,7 +240,7 @@ const KidPagar = () => {
                       >
                         <button onClick={() => handleSelectContact(contact)} className="flex flex-1 items-center gap-3 text-left">
                           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-kids-yellow-light text-lg">
-                            {contact.contact_type === "kid" ? "" : ""}
+                            {contact.contact_type === "kid" ? "👧" : "👨‍👩‍👧"}
                           </div>
                           <div>
                             <p className="font-display text-sm font-bold">{contact.contact_nome}</p>
@@ -326,7 +326,7 @@ const KidPagar = () => {
               className="space-y-6"
             >
               <div className="rounded-3xl bg-kids-green-light p-8 text-center">
-                <span className="mb-4 block text-6xl">{successInfo.needsApproval ? "" : ""}</span>
+                <span className="mb-4 block text-6xl">{successInfo.needsApproval ? "⏳" : "✅"}</span>
                 <p className="font-display text-2xl font-bold">
                   {successInfo.needsApproval ? "Enviado para aprovação!" : "Pagamento realizado!"}
                 </p>

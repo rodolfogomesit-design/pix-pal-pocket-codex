@@ -71,7 +71,7 @@ const RescueAllowanceDialog = ({ kid }: Props) => {
           <>
             <DialogHeader>
               <DialogTitle className="font-display text-xl">
-                Resgatar mesada de {kid.apelido || kid.nome} 
+                Resgatar mesada de {kid.apelido || kid.nome} 💸
               </DialogTitle>
             </DialogHeader>
             <div className="bg-kids-blue-light rounded-2xl p-4 text-center mb-2">
@@ -99,14 +99,14 @@ const RescueAllowanceDialog = ({ kid }: Props) => {
                 disabled={loading}
                 className="w-full font-display font-bold rounded-xl py-5 bg-primary text-primary-foreground hover:bg-primary/90"
               >
-                {loading ? "Resgatando..." : " Confirmar resgate"}
+                {loading ? "Resgatando..." : "💰 Confirmar resgate"}
               </Button>
             </form>
           </>
         ) : (
           <div className="space-y-4 py-2">
             <div className="text-center">
-              <span className="text-5xl block mb-3"></span>
+              <span className="text-5xl block mb-3">✅</span>
               <p className="font-display text-xl font-bold">Resgate realizado!</p>
               <p className="font-display text-2xl font-extrabold text-primary mt-2">
                 R$ {successAmount.toFixed(2)}
@@ -134,7 +134,7 @@ const RescueAllowanceDialog = ({ kid }: Props) => {
                 onClick={() => { setOpen(false); reset(); }}
                 className="flex-1 rounded-xl font-display font-bold py-5 bg-primary text-primary-foreground"
               >
-                Fechar 
+                Fechar ✅
               </Button>
             </div>
           </div>

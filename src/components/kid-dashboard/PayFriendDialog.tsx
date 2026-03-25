@@ -74,7 +74,7 @@ const PayFriendDialog = ({ kid, onSuccess }: Props) => {
       return;
     }
     if (amount > kid.saldo) {
-      toast.error("Saldo insuficiente! ");
+      toast.error("Saldo insuficiente! 😢");
       return;
     }
     setStep("pin");
@@ -109,9 +109,9 @@ const PayFriendDialog = ({ kid, onSuccess }: Props) => {
     }
 
     if (result.needs_approval) {
-      toast.success(`Pagamento para ${result.to_name} enviado para aprovação! `);
+      toast.success(`Pagamento para ${result.to_name} enviado para aprovação! ⏳`);
     } else {
-      toast.success(`R$ ${parseFloat(valor).toFixed(2)} pago para ${result.to_name}! `);
+      toast.success(`R$ ${parseFloat(valor).toFixed(2)} pago para ${result.to_name}! 🎉`);
     }
 
     reset();
@@ -123,23 +123,23 @@ const PayFriendDialog = ({ kid, onSuccess }: Props) => {
     <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) reset(); }}>
       <DialogTrigger asChild>
         <button className="bg-kids-yellow-light rounded-2xl p-5 text-center transition-all hover:scale-[1.03] active:scale-95">
-          <span className="text-3xl block mb-2"></span>
+          <span className="text-3xl block mb-2">📱</span>
           <span className="font-display font-bold text-sm">Pagar</span>
         </button>
       </DialogTrigger>
       <DialogContent className="rounded-3xl border-2 border-primary/20 max-w-sm">
         <DialogHeader>
           <DialogTitle className="font-display text-xl text-center">
-            {step === "codigo" && "Pagar um amigo "}
-            {step === "confirmar" && "Confirmar pagamento "}
-            {step === "pin" && "Digite seu PIN "}
+            {step === "codigo" && "Pagar um amigo 💸"}
+            {step === "confirmar" && "Confirmar pagamento 📋"}
+            {step === "pin" && "Digite seu PIN 🔑"}
           </DialogTitle>
         </DialogHeader>
 
         {step === "codigo" && (
           <div className="space-y-4">
             <div>
-              <Label className="font-display font-bold text-sm">Código do amigo </Label>
+              <Label className="font-display font-bold text-sm">Código do amigo 🔢</Label>
               <Input
                 value={codigo}
                 onChange={(e) => setCodigo(e.target.value.replace(/\D/g, "").slice(0, 5))}
@@ -153,7 +153,7 @@ const PayFriendDialog = ({ kid, onSuccess }: Props) => {
               disabled={loading || codigo.length !== 5}
               className="w-full font-display font-bold text-lg rounded-2xl py-6 bg-primary text-primary-foreground shadow-lg"
             >
-              {loading ? "Buscando..." : " Buscar"}
+              {loading ? "Buscando..." : "🔍 Buscar"}
             </Button>
           </div>
         )}
@@ -164,12 +164,12 @@ const PayFriendDialog = ({ kid, onSuccess }: Props) => {
               <p className="font-body text-xs text-muted-foreground">Enviar para</p>
               <p className="font-display text-xl font-bold mt-1">{recipientName}</p>
               <p className="font-body text-xs text-muted-foreground mt-1">
-                {recipientType === "kid" ? " Criança" : " Responsável"} • ID: {codigo}
+                {recipientType === "kid" ? "👧 Criança" : "👨‍👩‍👧 Responsável"} • ID: {codigo}
               </p>
             </div>
 
             <div>
-              <Label className="font-display font-bold text-sm">Quanto? </Label>
+              <Label className="font-display font-bold text-sm">Quanto? 💰</Label>
               <Input
                 type="number"
                 step="0.01"
@@ -185,7 +185,7 @@ const PayFriendDialog = ({ kid, onSuccess }: Props) => {
             </div>
 
             <div>
-              <Label className="font-display font-bold text-sm">Mensagem (opcional) </Label>
+              <Label className="font-display font-bold text-sm">Mensagem (opcional) 💬</Label>
               <Input
                 value={descricao}
                 onChange={(e) => setDescricao(e.target.value.slice(0, 50))}
@@ -197,7 +197,7 @@ const PayFriendDialog = ({ kid, onSuccess }: Props) => {
 
             {kid.aprovacao_transferencias && (
               <p className="bg-kids-yellow-light rounded-xl px-3 py-2 font-body text-xs text-center">
-                 Seus pais precisam aprovar este pagamento
+                ⚠️ Seus pais precisam aprovar este pagamento
               </p>
             )}
 
@@ -213,7 +213,7 @@ const PayFriendDialog = ({ kid, onSuccess }: Props) => {
                 onClick={handleConfirm}
                 className="flex-1 font-display font-bold rounded-2xl py-5 bg-primary text-primary-foreground shadow-lg"
               >
-                Confirmar 
+                Confirmar ✅
               </Button>
             </div>
           </div>
@@ -227,7 +227,7 @@ const PayFriendDialog = ({ kid, onSuccess }: Props) => {
             </div>
 
             <div>
-              <Label className="font-display font-bold text-sm text-center block">Digite seu PIN para confirmar </Label>
+              <Label className="font-display font-bold text-sm text-center block">Digite seu PIN para confirmar 🔐</Label>
               <Input
                 type="password"
                 value={pin}
@@ -251,7 +251,7 @@ const PayFriendDialog = ({ kid, onSuccess }: Props) => {
                 disabled={loading || pin.length !== 4}
                 className="flex-1 font-display font-bold rounded-2xl py-5 bg-kids-green text-accent-foreground shadow-lg"
               >
-                {loading ? "Pagando..." : " Pagar!"}
+                {loading ? "Pagando..." : "🚀 Pagar!"}
               </Button>
             </div>
           </div>

@@ -1,20 +1,20 @@
 import { motion } from "framer-motion";
 
 const kidFeatures = [
-  { emoji: "", text: "Ver seu saldo" },
-  { emoji: "", text: "Acompanhar movimentações" },
-  { emoji: "", text: "Enviar para amigos autorizados" },
-  { emoji: "", text: "Pagar com Pix ou QR Code" },
-  { emoji: "", text: "Guardar dinheiro para objetivos" },
+  { emoji: "💰", text: "Ver seu saldo" },
+  { emoji: "📊", text: "Acompanhar movimentações" },
+  { emoji: "👫", text: "Enviar para amigos autorizados" },
+  { emoji: "📱", text: "Pagar com Pix ou QR Code" },
+  { emoji: "🏦", text: "Guardar dinheiro para objetivos" },
 ];
 
 const parentControls = [
-  { emoji: "", text: "Visualizar todas as transações" },
-  { emoji: "", text: "Definir limite de gastos" },
-  { emoji: "", text: "Aprovar transferências" },
-  { emoji: "", text: "Bloquear funções" },
-  { emoji: "", text: "Congelar a conta" },
-  { emoji: "", text: "Histórico completo" },
+  { emoji: "✅", text: "Visualizar todas as transações" },
+  { emoji: "📏", text: "Definir limite de gastos" },
+  { emoji: "👍", text: "Aprovar transferências" },
+  { emoji: "🚫", text: "Bloquear funções" },
+  { emoji: "❄️", text: "Congelar a conta" },
+  { emoji: "📜", text: "Histórico completo" },
 ];
 
 const FeaturesSection = () => {
@@ -44,7 +44,7 @@ const FeaturesSection = () => {
             className="rounded-3xl border border-border bg-gradient-to-br from-kids-blue-light to-card p-8 shadow-lg md:p-10"
           >
             <div className="mb-6 flex items-center gap-3">
-              <span className="text-4xl"></span>
+              <span className="text-4xl">🧒</span>
               <h3 className="font-display text-2xl font-bold">Para a criança</h3>
             </div>
             <div className="space-y-4">
@@ -67,7 +67,7 @@ const FeaturesSection = () => {
             className="rounded-3xl border border-border bg-gradient-to-br from-kids-green-light to-card p-8 shadow-lg md:p-10"
           >
             <div className="mb-6 flex items-center gap-3">
-              <span className="text-4xl"></span>
+              <span className="text-4xl">👨‍👩‍👧</span>
               <h3 className="font-display text-2xl font-bold">Para os pais</h3>
             </div>
             <div className="space-y-4">

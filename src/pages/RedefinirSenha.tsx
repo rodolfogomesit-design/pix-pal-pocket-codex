@@ -67,7 +67,7 @@ const RedefinirSenha = () => {
       <div className="flex min-h-screen items-center justify-center bg-background px-4">
         <Card className="w-full max-w-md rounded-3xl border-border shadow-xl">
           <CardHeader className="text-center">
-            <CardTitle className="font-display text-2xl">Redefinir senha </CardTitle>
+            <CardTitle className="font-display text-2xl">Redefinir senha 🔒</CardTitle>
             <CardDescription className="font-body">
               Carregando... Se nada acontecer, o link pode ter expirado.
             </CardDescription>
@@ -103,7 +103,7 @@ const RedefinirSenha = () => {
 
         <Card className="rounded-3xl border-border shadow-xl">
           <CardHeader className="text-center">
-            <CardTitle className="font-display text-2xl">Nova senha </CardTitle>
+            <CardTitle className="font-display text-2xl">Nova senha 🔑</CardTitle>
             <CardDescription className="font-body">Crie sua nova senha de acesso</CardDescription>
           </CardHeader>
           <CardContent>

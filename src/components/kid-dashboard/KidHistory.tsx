@@ -43,7 +43,7 @@ const KidHistory = ({ kidId }: Props) => {
   if (isLoading) {
     return (
       <div className="bg-card rounded-[2rem] p-8 text-center border border-border">
-        <p className="font-body text-muted-foreground">Carregando... </p>
+        <p className="font-body text-muted-foreground">Carregando... 📊</p>
       </div>
     );
   }
@@ -51,7 +51,7 @@ const KidHistory = ({ kidId }: Props) => {
   if (!transactions || transactions.length === 0) {
     return (
       <div className="bg-card rounded-[2rem] p-8 text-center border border-border">
-        <span className="text-5xl mb-3 inline-block"></span>
+        <span className="text-5xl mb-3 inline-block">📋</span>
         <p className="font-display text-lg font-bold">Nenhuma movimentação</p>
         <p className="font-body text-sm text-muted-foreground">
           Quando você receber ou enviar dinheiro, vai aparecer aqui!
@@ -62,11 +62,11 @@ const KidHistory = ({ kidId }: Props) => {
 
   return (
     <div>
-      <h3 className="font-display text-lg font-bold mb-4">Minhas movimentações </h3>
+      <h3 className="font-display text-lg font-bold mb-4">Minhas movimentações 📊</h3>
       <div className="space-y-3">
         {transactions.map((tx, index) => {
           const isSent = tx.direction === "sent";
-          const emoji = isSent ? "" : "";
+          const emoji = isSent ? "📤" : "📥";
           const statusStyle = statusColors[tx.status] || statusColors.aprovado;
 
           return (

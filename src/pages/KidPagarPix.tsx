@@ -387,7 +387,7 @@ const KidPagarPix = () => {
             <button onClick={goBack} className="text-muted-foreground hover:text-primary">
               <ArrowLeft size={22} />
             </button>
-            <span className="text-2xl"></span>
+            <span className="text-2xl">💠</span>
             <span className="font-display text-xl font-bold text-primary">Pagar com Pix</span>
           </div>
           <button
@@ -447,7 +447,7 @@ const KidPagarPix = () => {
                   </div>
                 ) : contacts.length === 0 ? (
                   <div className="rounded-2xl border border-border bg-card p-6 text-center">
-                    <span className="mb-2 block text-3xl"></span>
+                    <span className="mb-2 block text-3xl">💠</span>
                     <p className="font-body text-sm text-muted-foreground">
                       Nenhum contato salvo. Apenas chaves Pix reutilizáveis são salvas automaticamente.
                     </p>
@@ -462,7 +462,7 @@ const KidPagarPix = () => {
                         {editingContactId === contact.id ? (
                           <div className="flex flex-1 items-center gap-2">
                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-kids-green-light text-lg">
-                              
+                              💠
                             </div>
                             <div className="flex-1">
                               <Input
@@ -493,7 +493,7 @@ const KidPagarPix = () => {
                         ) : (
                           <>
                             <button onClick={() => handleSelectContact(contact)} className="flex flex-1 items-center gap-3 text-left">
-                              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-kids-green-light text-lg"></div>
+                              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-kids-green-light text-lg">💠</div>
                               <div>
                                 <p className="font-display text-sm font-bold">{contact.nome}</p>
                                 <p className="font-body text-xs text-muted-foreground">
@@ -713,7 +713,7 @@ const KidPagarPix = () => {
               className="space-y-6"
             >
               <div className="rounded-3xl bg-kids-green-light p-8 text-center">
-                <span className="mb-4 block text-6xl"></span>
+                <span className="mb-4 block text-6xl">✅</span>
                 <p className="font-display text-2xl font-bold">Pagamento Pix realizado!</p>
                 <p className="mt-3 font-display text-3xl font-extrabold text-primary">R$ {successAmount.toFixed(2)}</p>
                 <p className="mt-2 text-sm font-body text-muted-foreground">
