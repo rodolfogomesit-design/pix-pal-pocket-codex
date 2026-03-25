@@ -3,20 +3,6 @@ type EmojiBrandProps = {
   className?: string;
 };
 
-const EmojiBrand = ({ size = 44, className = "" }: EmojiBrandProps) => {
-  return (
-    <div
-      className={`overflow-hidden rounded-2xl shadow-lg shadow-fuchsia-300/25 ${className}`}
-      style={{ width: `${size}px`, height: `${size}px` }}
-      aria-hidden="true"
-    >
-      <img
-        src="/brand/pix-kids-logo-v2.png"
-        alt=""
-        className="h-full w-full object-cover"
-      />
-    </div>
-  );
-};
+const EmojiBrand = (_props: EmojiBrandProps) => null;
 
 export default EmojiBrand;
