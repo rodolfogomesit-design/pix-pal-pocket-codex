@@ -8,6 +8,7 @@ const highlights = [
   "Mesada, metas e saldo em um espaço divertido para a criança.",
   "Responsável acompanha tudo em tempo real com segurança.",
   "Aprendizado financeiro na prática com cor, leveza e autonomia.",
+  "Mini Gerente Pix Kids: aprender, indicar e ganhar.",
 ];
 
 const metrics = [
@@ -70,6 +71,7 @@ const HeroSection = () => {
                 "from-rose-500 to-orange-400",
                 "from-sky-500 to-cyan-400",
                 "from-violet-500 to-fuchsia-400",
+                "from-emerald-500 to-lime-400",
               ];
 
               return (
