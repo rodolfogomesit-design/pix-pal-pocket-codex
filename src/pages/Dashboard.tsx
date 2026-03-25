@@ -53,7 +53,7 @@ const Dashboard = () => {
       const result = data as any;
 
       if (result?.success) {
-        toast.success("Indicação registrada com sucesso!");
+        toast.success("Indicação registrada com sucesso! 🎉");
       }
     } catch {
       // Silently fail, referral registration is not critical to app usage.
@@ -103,7 +103,7 @@ const Dashboard = () => {
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
             <span className="font-body text-sm text-muted-foreground hidden sm:block">
-              Olá, {firstName}
+              Olá, {firstName} 👋
             </span>
             {isAdmin && (
               <Link to="/admin" className="flex items-center gap-1 font-body text-sm text-primary hover:underline">

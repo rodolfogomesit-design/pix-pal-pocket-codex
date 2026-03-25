@@ -23,7 +23,7 @@ const KidGoals = ({ kidId }: Props) => {
   if (isLoading) {
     return (
       <div className="bg-card rounded-[2rem] p-8 text-center border border-border">
-        <p className="font-body text-muted-foreground">Carregando metas...</p>
+        <p className="font-body text-muted-foreground">Carregando metas... 🎯</p>
       </div>
     );
   }
@@ -43,7 +43,7 @@ const KidGoals = ({ kidId }: Props) => {
           Peça para seus pais criarem uma meta de economia para você!
         </p>
         <p className="font-body text-xs text-muted-foreground mt-2">
-          Exemplo: Comprar um jogo novo - R$ 200,00
+          Exemplo: 🎮 Comprar um jogo novo — R$ 200,00
         </p>
       </div>
     );
@@ -51,7 +51,7 @@ const KidGoals = ({ kidId }: Props) => {
 
   return (
     <div>
-      <h3 className="font-display text-lg font-bold mb-4">Minhas metas</h3>
+      <h3 className="font-display text-lg font-bold mb-4">Minhas metas 🎯</h3>
       <div className="space-y-4">
         {goals.map((goal, index) => {
           const progress = goal.valor_alvo > 0
@@ -74,7 +74,7 @@ const KidGoals = ({ kidId }: Props) => {
                   <div>
                     <p className="font-display font-bold text-sm">
                       {goal.titulo}
-                      {goal.concluido && " - concluída"}
+                      {goal.concluido && " ✅"}
                     </p>
                   </div>
                 </div>
@@ -105,7 +105,7 @@ const KidGoals = ({ kidId }: Props) => {
               {goal.concluido && (
                 <div className="mt-3 bg-kids-green-light rounded-xl p-2 text-center">
                   <p className="font-display font-bold text-sm text-kids-green">
-                    Meta alcançada! Parabéns!
+                    🎉 Meta alcançada! Parabéns!
                   </p>
                 </div>
               )}

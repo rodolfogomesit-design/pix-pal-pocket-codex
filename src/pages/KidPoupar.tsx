@@ -244,7 +244,7 @@ const KidPoupar = () => {
                   onClick={() => navigate("/crianca/dashboard")}
                   className="flex-1 rounded-2xl bg-primary py-5 font-display font-bold text-primary-foreground"
                 >
-                  Voltar ao início
+                  🏠 Voltar ao início
                 </Button>
               </div>
             </motion.div>

@@ -29,7 +29,7 @@ const KidActions = ({ kid, onTransferSuccess }: Props) => {
     }
     try {
       await withdrawCommission.mutateAsync({ kidId: kid.id, valor });
-      toast.success(`R$ ${valor.toFixed(2)} transferido para seu saldo!`);
+      toast.success(`R$ ${valor.toFixed(2)} transferido para seu saldo! 🎉`);
       setShowWithdraw(false);
       setWithdrawAmount("");
       onTransferSuccess();
@@ -42,7 +42,7 @@ const KidActions = ({ kid, onTransferSuccess }: Props) => {
     return (
       <div className="bg-primary/10 rounded-[2rem] p-8 text-center border-2 border-primary/20">
         <Snowflake size={48} className="text-primary mx-auto mb-3" />
-        <p className="font-display text-lg font-bold text-primary">Conta congelada</p>
+        <p className="font-display text-lg font-bold text-primary">Conta congelada ❄️</p>
         <p className="font-body text-sm text-muted-foreground mt-1">
           Peça para seus pais descongelarem sua conta.
         </p>
@@ -52,13 +52,13 @@ const KidActions = ({ kid, onTransferSuccess }: Props) => {
 
   return (
     <div>
-      <h3 className="font-display text-lg font-bold mb-3">O que você quer fazer?</h3>
+      <h3 className="font-display text-lg font-bold mb-3">O que você quer fazer? 🤔</h3>
       <div className="grid grid-cols-2 gap-3">
         <button
           onClick={() => navigate("/crianca/pagar")}
           className="bg-kids-yellow-light rounded-2xl p-5 text-center transition-all hover:scale-[1.03] active:scale-95"
         >
-          <span className="text-2xl font-bold block mb-2">ID</span>
+          <span className="text-3xl block mb-2">📱</span>
           <span className="font-display font-bold text-sm">Pagar um amigo</span>
         </button>
 
@@ -66,7 +66,7 @@ const KidActions = ({ kid, onTransferSuccess }: Props) => {
           onClick={() => navigate("/crianca/pagar-pix")}
           className="bg-kids-green-light rounded-2xl p-5 text-center transition-all hover:scale-[1.03] active:scale-95"
         >
-          <span className="text-2xl font-bold block mb-2">Pix</span>
+          <span className="text-3xl block mb-2">💠</span>
           <span className="font-display font-bold text-sm">Pagar com Pix</span>
         </button>
 
@@ -88,7 +88,7 @@ const KidActions = ({ kid, onTransferSuccess }: Props) => {
           onClick={() => saldoComissao > 0 ? setShowWithdraw(true) : toast.info("Sem comissão disponível")}
           className="bg-gradient-to-br from-kids-yellow-light to-kids-orange/20 rounded-2xl p-5 text-center transition-all hover:scale-[1.03] active:scale-95"
         >
-          <span className="text-2xl font-bold block mb-2">R$</span>
+          <span className="text-3xl block mb-2">💰</span>
           <span className="font-display font-bold text-sm">Sacar Comissão</span>
           <span className="block font-body text-xs text-muted-foreground mt-1">
             R$ {saldoComissao.toFixed(2)} disponível
@@ -99,7 +99,7 @@ const KidActions = ({ kid, onTransferSuccess }: Props) => {
       {/* Withdraw modal inline */}
       {showWithdraw && (
         <div className="mt-4 bg-card rounded-2xl border border-border p-4 space-y-3">
-          <p className="font-display text-sm font-bold">Sacar comissão para meu saldo</p>
+          <p className="font-display text-sm font-bold">💰 Sacar comissão para meu saldo</p>
           <p className="font-body text-xs text-muted-foreground">
             Disponível: R$ {saldoComissao.toFixed(2)}
           </p>
@@ -136,7 +136,7 @@ const KidActions = ({ kid, onTransferSuccess }: Props) => {
       {/* Info badges */}
       <div className="flex flex-wrap gap-2 mt-4">
         <span className="bg-muted rounded-full px-3 py-1 font-body text-xs text-muted-foreground">
-          Limite: R$ {(kid.limite_diario || 0).toFixed(0)}/dia
+          📏 Limite: R$ {(kid.limite_diario || 0).toFixed(0)}/dia
         </span>
       </div>
     </div>

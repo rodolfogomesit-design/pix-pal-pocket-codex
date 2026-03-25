@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { CreditCard, Home, PiggyBank } from "lucide-react";
 
 const navItems = [
-  { path: "/crianca/dashboard", label: "Início", icon: Home },
+  { path: "/crianca/dashboard", label: "InÃ­cio", icon: Home },
   { path: "/crianca/pagar", label: "Pagar", icon: CreditCard },
   { path: "/crianca/poupar", label: "Poupar", icon: PiggyBank },
 ];
