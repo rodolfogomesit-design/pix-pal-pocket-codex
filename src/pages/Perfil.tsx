@@ -212,9 +212,9 @@ const Perfil = () => {
       toast.error("Erro ao salvar perfil.");
     } else {
       if (form.email !== user!.email) {
-        toast.success("Perfil salvo! Confirme a alteração de email no seu novo endereço 📧");
+        toast.success("Perfil salvo! Confirme a alteração de email no seu novo endereço.");
       } else {
-        toast.success("Perfil atualizado com sucesso! ✅");
+        toast.success("Perfil atualizado com sucesso!");
       }
     }
     setSaving(false);
@@ -254,7 +254,7 @@ const Perfil = () => {
       <main className="container mx-auto px-4 py-8 max-w-lg">
         <Card className="rounded-3xl shadow-xl border-border">
           <CardHeader className="text-center">
-            <CardTitle className="font-display text-2xl">Dados pessoais 👤</CardTitle>
+            <CardTitle className="font-display text-2xl">Dados pessoais</CardTitle>
             <CardDescription className="font-body">
               Atualize suas informações
             </CardDescription>
@@ -273,7 +273,7 @@ const Perfil = () => {
                 />
                 {errors.email && <p className="text-sm text-destructive mt-1">{errors.email}</p>}
                 {form.email !== user.email && (
-                  <p className="text-xs text-amber-600 mt-1">⚠️ Você receberá um e-mail de confirmação no novo endereço</p>
+                  <p className="text-xs text-amber-600 mt-1">Você receberá um e-mail de confirmação no novo endereço</p>
                 )}
               </div>
 
@@ -312,7 +312,7 @@ const Perfil = () => {
               </div>
 
               <div>
-                <Label className="font-body font-semibold">Chave Pix 💰</Label>
+                <Label className="font-body font-semibold">Chave Pix</Label>
                 <Input
                   name="chave_pix"
                   value={form.chave_pix}
