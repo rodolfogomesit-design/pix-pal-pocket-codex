@@ -12,6 +12,7 @@ import { z } from "zod";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import { ArrowLeft, Save, User } from "lucide-react";
 import { Key } from "lucide-react";
+import EmojiBrand from "@/components/branding/EmojiBrand";
 
 type PixKeyType = "cpf" | "cnpj" | "email" | "telefone" | "aleatoria" | "outro";
 
@@ -223,7 +224,9 @@ const Perfil = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <span className="text-4xl animate-bounce">🐷</span>
+          <div className="flex justify-center animate-bounce">
+            <EmojiBrand size={56} className="rounded-2xl shadow-none" />
+          </div>
           <p className="font-display text-xl mt-4 text-muted-foreground">Carregando...</p>
         </div>
       </div>

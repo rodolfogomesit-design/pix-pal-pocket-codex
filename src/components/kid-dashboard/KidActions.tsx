@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { KidSession } from "@/contexts/KidAuthContext";
 import { useKidReferralStats, useWithdrawCommission } from "@/hooks/useMiniGerente";
-import { Snowflake, ArrowDownToLine } from "lucide-react";
+import { Snowflake, ArrowDownToLine, PiggyBank } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -74,7 +74,7 @@ const KidActions = ({ kid, onTransferSuccess }: Props) => {
           onClick={() => navigate("/crianca/poupar")}
           className="bg-kids-blue-light rounded-2xl p-5 text-center transition-all hover:scale-[1.03] active:scale-95"
         >
-          <span className="text-3xl block mb-2">🐷</span>
+          <PiggyBank size={32} className="mx-auto mb-2 text-primary" />
           <span className="font-display font-bold text-sm">Poupar</span>
           {kid.saldo_poupanca > 0 && (
             <span className="block font-body text-xs text-muted-foreground mt-1">
