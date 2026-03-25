@@ -21,22 +21,24 @@ const formatCPF = (value: string) => {
   return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`;
 };
 
+const isEmail = (value: string) => /\S+@\S+\.\S+/.test(value.trim());
+
 const getFriendlyAuthError = (message?: string) => {
   const normalized = (message || "").toLowerCase();
 
   if (normalized.includes("email not confirmed")) {
-    return "Seu email ainda nao foi confirmado. Confirme o email ou desative a confirmacao de email no Supabase.";
+    return "Seu e-mail ainda não foi confirmado. Confirme o e-mail ou desative a confirmação de e-mail no Supabase.";
   }
 
   if (normalized.includes("invalid login credentials")) {
-    return "CPF ou senha incorretos.";
+    return "CPF, e-mail ou senha incorretos.";
   }
 
-  return message || "Nao foi possivel entrar agora.";
+  return message || "Não foi possível entrar agora.";
 };
 
 const loginSchema = z.object({
-  cpf: z.string().min(14, "CPF inválido").max(14, "CPF inválido"),
+  identifier: z.string().min(1, "CPF ou e-mail é obrigatório"),
   password: z.string().min(1, "Senha é obrigatória"),
 });
 
@@ -44,7 +46,7 @@ const Login = () => {
   const { signIn } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({ cpf: "", password: "" });
+  const [form, setForm] = useState({ identifier: "", password: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showPassword, setShowPassword] = useState(false);
   const [forgotOpen, setForgotOpen] = useState(false);
@@ -53,10 +55,16 @@ const Login = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setForm((current) => ({
-      ...current,
-      [name]: name === "cpf" ? formatCPF(value) : value,
-    }));
+    setForm((current) => {
+      if (name !== "identifier") {
+        return { ...current, [name]: value };
+      }
+
+      return {
+        ...current,
+        identifier: isEmail(value) || value.includes("@") ? value.trim() : formatCPF(value),
+      };
+    });
     setErrors((current) => ({ ...current, [name]: "" }));
   };
 
@@ -78,16 +86,22 @@ const Login = () => {
 
     setLoading(true);
 
-    const { data: rpcResult, error: rpcError } = await supabase.rpc("get_email_by_cpf", { _cpf: form.cpf });
-    const lookup = rpcResult as { success: boolean; email?: string; error?: string } | null;
+    let emailToUse = form.identifier.trim();
 
-    if (rpcError || !lookup?.success || !lookup?.email) {
-      toast.error("CPF não encontrado.");
-      setLoading(false);
-      return;
+    if (!isEmail(emailToUse)) {
+      const { data: rpcResult, error: rpcError } = await supabase.rpc("get_email_by_cpf", { _cpf: emailToUse });
+      const lookup = rpcResult as { success: boolean; email?: string; error?: string } | null;
+
+      if (rpcError || !lookup?.success || !lookup?.email) {
+        toast.error("CPF não encontrado.");
+        setLoading(false);
+        return;
+      }
+
+      emailToUse = lookup.email;
     }
 
-    const { error } = await signIn(lookup.email, form.password);
+    const { error } = await signIn(emailToUse, form.password);
     if (error) {
       toast.error(getFriendlyAuthError(error.message));
     } else {
@@ -101,7 +115,7 @@ const Login = () => {
   const handleForgotPassword = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!forgotEmail.trim()) {
-      toast.error("Digite seu email.");
+      toast.error("Digite seu e-mail.");
       return;
     }
 
@@ -111,9 +125,9 @@ const Login = () => {
     });
 
     if (error) {
-      toast.error("Erro ao enviar email de redefinição.");
+      toast.error("Erro ao enviar e-mail de redefinição.");
     } else {
-      toast.success("Email de redefinição enviado! Verifique sua caixa de entrada.");
+      toast.success("E-mail de redefinição enviado! Verifique sua caixa de entrada.");
       setForgotOpen(false);
       setForgotEmail("");
     }
@@ -142,26 +156,26 @@ const Login = () => {
         <Card className="rounded-3xl border-border shadow-xl">
           <CardHeader className="text-center">
             <CardTitle className="font-display text-2xl">Entrar na sua conta</CardTitle>
-            <CardDescription className="font-body">Acesse o painel do responsável</CardDescription>
+            <CardDescription className="font-body">Acesse o painel do responsável com CPF ou e-mail</CardDescription>
           </CardHeader>
 
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="cpf" className="font-body font-semibold">
-                  CPF
+                <Label htmlFor="identifier" className="font-body font-semibold">
+                  CPF ou e-mail
                 </Label>
                 <Input
-                  id="cpf"
-                  name="cpf"
+                  id="identifier"
+                  name="identifier"
                   type="text"
-                  inputMode="numeric"
-                  value={form.cpf}
+                  inputMode="email"
+                  value={form.identifier}
                   onChange={handleChange}
-                  placeholder="000.000.000-00"
+                  placeholder="000.000.000-00 ou seu@email.com"
                   className="mt-1 rounded-xl"
                 />
-                {errors.cpf && <p className="mt-1 text-sm text-destructive">{errors.cpf}</p>}
+                {errors.identifier && <p className="mt-1 text-sm text-destructive">{errors.identifier}</p>}
               </div>
 
               <div>
@@ -224,13 +238,13 @@ const Login = () => {
           <DialogHeader>
             <DialogTitle className="font-display">Redefinir senha</DialogTitle>
             <DialogDescription className="font-body">
-              Digite seu email cadastrado para receber o link de redefinição.
+              Digite seu e-mail cadastrado para receber o link de redefinição.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleForgotPassword} className="space-y-4">
             <div>
               <Label htmlFor="forgot-email" className="font-body font-semibold">
-                Email
+                E-mail
               </Label>
               <Input
                 id="forgot-email"

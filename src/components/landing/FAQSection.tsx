@@ -33,6 +33,11 @@ const faqs = [
       "Sim. Ele funciona como uma camada complementar para famílias que querem estimular iniciativa, indicação e acompanhamento de recompensas.",
   },
   {
+    question: "Como funciona a comissão do Mini Gerente Pix Kids e qual o valor?",
+    answer:
+      "A criança participante do Mini Gerente Pix Kids recebe uma comissão de 1% sobre todos os depósitos realizados pelos usuários indicados por ela. Essa comissão é vitalícia, ou seja, sempre que os indicados fizerem novos depósitos, a criança continuará recebendo sua porcentagem automaticamente. Tudo é acompanhado pelo responsável, garantindo transparência, segurança e aprendizado sobre ganhos recorrentes.",
+  },
+  {
     question: "A criação de conta é gratuita?",
     answer:
       "Sim. A conta pode ser criada sem custo para a família começar a organizar a rotina financeira dentro da plataforma.",
@@ -41,10 +46,7 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section
-      id="faq"
-      className="relative overflow-hidden py-20 md:py-28"
-    >
+    <section id="faq" className="relative overflow-hidden py-20 md:py-28">
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(255,251,235,0.68),rgba(240,249,255,0.76),rgba(250,245,255,0.82))] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.98),rgba(17,24,39,0.98),rgba(24,24,27,0.98))]" />
 
       <div className="container mx-auto max-w-4xl px-4">
@@ -61,8 +63,8 @@ const FAQSection = () => {
             As principais dúvidas respondidas de forma objetiva.
           </h2>
           <p className="mt-5 text-lg leading-8 text-muted-foreground dark:text-slate-300/85">
-            Esta seção agora segue o mesmo clima visual da landing: fundo suave,
-            leitura confortável e destaques coloridos sem comprometer o texto.
+            Esta seção agora segue o mesmo clima visual da landing: fundo suave, leitura confortável e destaques
+            coloridos sem comprometer o texto.
           </p>
         </motion.div>
 

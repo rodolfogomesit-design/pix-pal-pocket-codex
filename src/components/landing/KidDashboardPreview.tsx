@@ -7,10 +7,26 @@ type KidPreviewScreen = "inicio" | "historico" | "gerente" | "pagar" | "pix" | "
 const PREVIEW_ORDER: KidPreviewScreen[] = ["inicio", "historico", "gerente", "pagar", "pix", "poupar", "comissao"];
 
 const actionCards = [
-  { id: "pagar" as KidPreviewScreen, label: "Pagar um amigo", tone: "bg-kids-yellow-light" },
-  { id: "pix" as KidPreviewScreen, label: "Pagar com Pix", tone: "bg-kids-green-light" },
-  { id: "poupar" as KidPreviewScreen, label: "Poupar", tone: "bg-kids-blue-light" },
-  { id: "comissao" as KidPreviewScreen, label: "Sacar comissão", tone: "bg-gradient-to-br from-kids-yellow-light to-kids-orange/20" },
+  {
+    id: "pagar" as KidPreviewScreen,
+    label: "Pagar um amigo",
+    tone: "bg-[#FFE082] text-slate-900",
+  },
+  {
+    id: "pix" as KidPreviewScreen,
+    label: "Pagar com Pix",
+    tone: "bg-[#86EFAC] text-slate-900",
+  },
+  {
+    id: "poupar" as KidPreviewScreen,
+    label: "Poupar",
+    tone: "bg-[#BFDBFE] text-slate-900",
+  },
+  {
+    id: "comissao" as KidPreviewScreen,
+    label: "Sacar comissão",
+    tone: "bg-gradient-to-br from-[#FDE68A] to-[#FDBA74] text-slate-900",
+  },
 ];
 
 const tabItems = [
@@ -71,7 +87,7 @@ const KidDashboardPreview = () => {
         </div>
       </div>
 
-      <div className="space-y-5 px-4 py-5">
+      <div className="min-h-[31rem] space-y-5 px-4 py-5 sm:min-h-[32rem]">
         <AnimatePresence mode="wait">
           {activePreview === "inicio" && (
             <motion.div
@@ -99,9 +115,9 @@ const KidDashboardPreview = () => {
                     <button
                       key={action.label}
                       onClick={() => setActivePreview(action.id)}
-                      className={`${action.tone} rounded-2xl p-4 text-center shadow-sm transition-transform hover:scale-[1.02] dark:text-slate-900`}
+                      className={`${action.tone} rounded-2xl border border-white/40 p-4 text-center shadow-sm transition-transform hover:scale-[1.02] dark:border-white/10`}
                     >
-                      <span className="font-display text-sm font-bold text-slate-800">{action.label}</span>
+                      <span className="font-display text-sm font-bold">{action.label}</span>
                     </button>
                   ))}
                 </div>
@@ -155,11 +171,11 @@ const KidDashboardPreview = () => {
                 <p className="font-display text-lg font-bold text-foreground">Mini Gerente Pix Kids</p>
                 <p className="mt-1 text-sm text-muted-foreground dark:text-slate-300">Aprender, indicar e ganhar.</p>
                 <div className="mt-4 grid grid-cols-2 gap-3">
-                  <div className="rounded-2xl bg-kids-yellow-light p-4 text-center">
+                  <div className="rounded-2xl border border-white/40 bg-[#FFE082] p-4 text-center dark:border-white/10">
                     <p className="text-xs text-slate-700">Indicações</p>
                     <p className="mt-1 font-display text-2xl font-bold text-slate-900">12</p>
                   </div>
-                  <div className="rounded-2xl bg-kids-green-light p-4 text-center">
+                  <div className="rounded-2xl border border-white/40 bg-[#86EFAC] p-4 text-center dark:border-white/10">
                     <p className="text-xs text-slate-700">Comissão</p>
                     <p className="mt-1 font-display text-2xl font-bold text-slate-900">R$ 18,00</p>
                   </div>
@@ -182,7 +198,7 @@ const KidDashboardPreview = () => {
                 <div className="mt-4 space-y-3">
                   <div className="rounded-2xl bg-muted p-3 text-sm text-muted-foreground dark:bg-slate-800 dark:text-slate-200">Código do amigo: 00008</div>
                   <div className="rounded-2xl bg-muted p-3 text-sm text-muted-foreground dark:bg-slate-800 dark:text-slate-200">Valor: R$ 8,00</div>
-                  <button className="w-full rounded-2xl bg-kids-yellow-light px-4 py-3 font-display font-bold text-slate-900">
+                  <button className="w-full rounded-2xl border border-white/40 bg-[#FFE082] px-4 py-3 font-display font-bold text-slate-900 dark:border-white/10">
                     Confirmar pagamento
                   </button>
                 </div>
@@ -204,7 +220,7 @@ const KidDashboardPreview = () => {
                 <div className="mt-4 space-y-3">
                   <div className="rounded-2xl bg-muted p-3 text-sm text-muted-foreground dark:bg-slate-800 dark:text-slate-200">Chave Pix: amigo@pixkids.app</div>
                   <div className="rounded-2xl bg-muted p-3 text-sm text-muted-foreground dark:bg-slate-800 dark:text-slate-200">Valor: R$ 12,00</div>
-                  <button className="w-full rounded-2xl bg-kids-green-light px-4 py-3 font-display font-bold text-slate-900">
+                  <button className="w-full rounded-2xl border border-white/40 bg-[#86EFAC] px-4 py-3 font-display font-bold text-slate-900 dark:border-white/10">
                     Enviar Pix
                   </button>
                 </div>
@@ -245,7 +261,7 @@ const KidDashboardPreview = () => {
                 <p className="font-display text-lg font-bold text-foreground dark:text-white">Sacar comissão</p>
                 <p className="mt-1 text-sm text-muted-foreground dark:text-slate-300">Disponível para transferir ao saldo.</p>
                 <div className="mt-4 rounded-2xl bg-muted p-3 text-sm text-muted-foreground dark:bg-slate-800 dark:text-slate-200">Comissão disponível: R$ 18,00</div>
-                <button className="mt-3 w-full rounded-2xl bg-gradient-to-br from-kids-yellow-light to-kids-orange/20 px-4 py-3 font-display font-bold text-slate-900">
+                <button className="mt-3 w-full rounded-2xl border border-white/40 bg-gradient-to-br from-[#FDE68A] to-[#FDBA74] px-4 py-3 font-display font-bold text-slate-900 dark:border-white/10">
                   Transferir para meu saldo
                 </button>
               </div>

@@ -52,10 +52,10 @@ const HowItWorksSection = () => {
           viewport={{ once: true }}
           className="mx-auto mb-16 max-w-3xl text-center"
         >
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary/75 dark:text-sky-200/75">
+          <p className="text-base font-extrabold uppercase tracking-[0.24em] text-primary dark:text-sky-200 md:text-lg">
             Como funciona
           </p>
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-foreground md:text-5xl dark:text-white">
+          <h2 className="mt-4 font-display text-4xl font-extrabold tracking-tight text-foreground md:text-6xl dark:text-white">
             Quatro passos para usar o Pix Kids na prática.
           </h2>
           <p className="mt-5 text-lg leading-8 text-muted-foreground dark:text-slate-300/85">

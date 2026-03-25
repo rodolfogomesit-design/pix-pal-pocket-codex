@@ -51,9 +51,9 @@ const Navbar = () => {
             trigger={
               <Button
                 variant="outline"
-                className="rounded-full border-white/40 bg-white/70 px-6 font-bold text-foreground hover:bg-white dark:border-white/15 dark:bg-slate-900/80 dark:hover:bg-slate-900"
+                className="rounded-full border-slate-300/70 bg-white/90 px-6 font-bold text-slate-900 hover:bg-white dark:border-white/15 dark:bg-slate-900/80 dark:text-white dark:hover:bg-slate-900"
               >
-                Entrar
+                <span className="text-black dark:text-white">Entrar</span>
               </Button>
             }
           />
@@ -95,9 +95,9 @@ const Navbar = () => {
               trigger={
                 <Button
                   variant="outline"
-                  className="w-full rounded-full border-white/40 bg-white/70 font-bold dark:border-white/15 dark:bg-slate-900/80"
+                  className="w-full rounded-full border-slate-300/70 bg-white/90 font-bold text-slate-900 dark:border-white/15 dark:bg-slate-900/80 dark:text-white"
                 >
-                  Entrar
+                  <span className="text-black dark:text-white">Entrar</span>
                 </Button>
               }
             />

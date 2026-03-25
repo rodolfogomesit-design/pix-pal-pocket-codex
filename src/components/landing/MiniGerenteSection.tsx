@@ -69,15 +69,14 @@ const MiniGerenteSection = () => {
           viewport={{ once: true }}
           className="mx-auto max-w-3xl text-center"
         >
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary/75 dark:text-sky-200/75">
+          <p className="text-base font-extrabold uppercase tracking-[0.24em] text-primary dark:text-sky-200 md:text-lg">
             Mini Gerente
           </p>
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-foreground md:text-5xl dark:text-white">
+          <h2 className="mt-4 font-display text-4xl font-extrabold tracking-tight text-foreground md:text-6xl dark:text-white">
             Um recurso que transforma indicação em aprendizado sobre iniciativa e responsabilidade.
           </h2>
           <p className="mt-5 text-lg leading-8 text-muted-foreground dark:text-slate-300/85">
-            O Mini Gerente foi pensado para apresentar noção de recompensa, acompanhamento de desempenho e autonomia
-            supervisionada em um formato mais seguro para famílias.
+            O Mini Gerente ensina, na prática, conceitos de recompensa, desempenho e autonomia com total supervisão dos responsáveis. E mais: a criança ganha 1% de comissão vitalícia sobre todos os depósitos realizados pelos usuários que ela indicar.
           </p>
         </motion.div>
 
@@ -96,13 +95,13 @@ const MiniGerenteSection = () => {
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="rounded-[32px] border border-white/50 bg-[linear-gradient(135deg,rgba(255,255,255,0.86),rgba(254,240,138,0.26),rgba(191,219,254,0.18))] p-8 backdrop-blur dark:border-white/10 dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.82),rgba(88,28,135,0.18),rgba(2,132,199,0.15))]"
+            className="rounded-[32px] border border-white/50 bg-gradient-to-br from-violet-50 to-fuchsia-50 p-8 backdrop-blur dark:border-white/10 dark:from-violet-950/25 dark:to-fuchsia-950/20"
           >
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#fb7185,#f59e0b,#22c55e,#38bdf8,#8b5cf6)] text-white shadow-lg shadow-fuchsia-300/25 dark:shadow-fuchsia-950/25">
               <BadgeDollarSign className="h-7 w-7" />
             </div>
             <h3 className="mt-6 font-display text-2xl font-bold text-foreground dark:text-white">
-              Um programa de indicação com leitura educativa
+              Um programa de indicação com propósito educativo, incentivando o empreendedorismo desde cedo.
             </h3>
             <p className="mt-4 leading-8 text-muted-foreground dark:text-slate-300/82">
               Em vez de parecer uma promessa exagerada, o recurso apresenta uma experiência controlada: a criança

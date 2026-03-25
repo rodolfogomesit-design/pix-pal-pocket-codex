@@ -35,7 +35,7 @@ const LoginChoiceDialog = ({ trigger }: LoginChoiceDialogProps) => {
           >
             <Link to="/login">
               <span className="text-4xl">👨‍👩‍👧</span>
-              <span className="font-display text-lg font-bold">Sou responsável</span>
+              <span className="font-display text-lg font-bold text-black dark:text-white">Sou responsável</span>
               <span className="text-center font-body text-xs text-muted-foreground">
                 Pai, mãe ou responsável
               </span>
@@ -49,7 +49,7 @@ const LoginChoiceDialog = ({ trigger }: LoginChoiceDialogProps) => {
           >
             <Link to="/crianca">
               <span className="text-4xl">🧒</span>
-              <span className="font-display text-lg font-bold">Sou criança</span>
+              <span className="font-display text-lg font-bold text-black dark:text-white">Sou criança</span>
               <span className="text-center font-body text-xs text-muted-foreground">
                 Entrar com código e PIN
               </span>
