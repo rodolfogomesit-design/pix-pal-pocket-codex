@@ -11,7 +11,7 @@ const EmojiBrand = ({ size = 44, className = "" }: EmojiBrandProps) => {
       aria-hidden="true"
     >
       <img
-        src="/logo-recreated-pig-appicon.svg"
+        src="/pix-kids-final-logo.svg"
         alt=""
         className="h-full w-full object-cover"
       />
