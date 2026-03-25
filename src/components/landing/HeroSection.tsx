@@ -55,7 +55,7 @@ const HeroSection = () => {
           </div>
 
           <h1 className="font-display text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-6xl dark:text-white">
-              O jeito mais inteligente de ensinar educação financeira: Pix, metas e mesada digital para crianças — simples, seguro e sem burocracia bancária.
+            O Pix Kids ajuda a criança a aprender sobre dinheiro usando Pix, metas e mesada digital.
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-8 text-muted-foreground md:text-xl dark:text-slate-300/85">
