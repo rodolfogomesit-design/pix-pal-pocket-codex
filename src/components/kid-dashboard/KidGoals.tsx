@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
-import { PiggyBank } from "lucide-react";
 
 interface Props {
   kidId: string;
@@ -31,13 +30,13 @@ const KidGoals = ({ kidId }: Props) => {
   if (!goals || goals.length === 0) {
     return (
       <div className="bg-card rounded-[2rem] p-8 text-center border border-border">
-        <motion.div
-          className="mb-3 inline-flex"
+        <motion.span
+          className="text-6xl mb-3 inline-block"
           animate={{ rotate: [0, -10, 10, -10, 0] }}
           transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
         >
-          <PiggyBank size={56} className="text-primary" />
-        </motion.div>
+          🐷
+        </motion.span>
         <p className="font-display text-lg font-bold">Nenhuma meta ainda</p>
         <p className="font-body text-sm text-muted-foreground">
           Peça para seus pais criarem uma meta de economia para você!

@@ -22,7 +22,6 @@ import {
   History,
   Settings,
   Copy,
-  PiggyBank,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -76,9 +75,7 @@ const Dashboard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <div className="flex justify-center animate-bounce-coin">
-            <EmojiBrand size={56} className="rounded-2xl shadow-none" />
-          </div>
+          <span className="text-4xl animate-bounce-coin">🐷</span>
           <p className="font-display text-xl mt-4 text-muted-foreground">Carregando...</p>
         </div>
       </div>
@@ -250,7 +247,7 @@ const Dashboard = () => {
             </div>
           ) : !kids || kids.length === 0 ? (
             <div className="bg-kids-blue-light rounded-3xl p-10 text-center border border-border">
-              <PiggyBank size={52} className="mx-auto mb-4 text-primary" />
+              <span className="text-5xl mb-4 inline-block">👧</span>
               <h3 className="font-display text-xl font-bold mb-2">Nenhum filho cadastrado</h3>
               <p className="font-body text-muted-foreground mb-4">
                 Cadastre seu primeiro filho para começar a enviar mesadas!

@@ -95,7 +95,7 @@ const KidPoupar = () => {
             <button onClick={goBack} className="text-muted-foreground hover:text-primary">
               <ArrowLeft size={22} />
             </button>
-            <PiggyBank size={24} className="text-primary" />
+            <span className="text-2xl">🐷</span>
             <span className="font-display text-xl font-bold text-primary">Poupar</span>
           </div>
           <button
@@ -166,7 +166,7 @@ const KidPoupar = () => {
             >
               <div className="space-y-4 rounded-3xl border border-border bg-card p-6">
                 <h3 className="text-center font-display text-xl font-bold">
-                  {action === "depositar" ? "Quanto guardar?" : "Quanto resgatar?"}
+                  {action === "depositar" ? "🐷 Quanto guardar?" : "💰 Quanto resgatar?"}
                 </h3>
 
                 <div>
@@ -193,7 +193,7 @@ const KidPoupar = () => {
                   disabled={loading}
                   className="w-full rounded-2xl bg-primary py-6 font-display text-lg font-bold text-primary-foreground shadow-lg"
                 >
-                  {loading ? "Processando..." : action === "depositar" ? "Guardar!" : "Resgatar!"}
+                  {loading ? "Processando..." : action === "depositar" ? "🐷 Guardar!" : "💰 Resgatar!"}
                 </Button>
               </div>
             </motion.div>
@@ -208,13 +208,7 @@ const KidPoupar = () => {
               className="space-y-4"
             >
               <div className="rounded-3xl border-2 border-accent/20 bg-kids-green-light p-8 text-center">
-                <div className="mb-3 flex justify-center">
-                  {action === "depositar" ? (
-                    <PiggyBank size={52} className="text-primary" />
-                  ) : (
-                    <ArrowUpFromLine size={52} className="text-primary" />
-                  )}
-                </div>
+                <span className="mb-3 block text-5xl">{action === "depositar" ? "🐷" : "💰"}</span>
                 <p className="font-display text-xl font-bold text-foreground">
                   {action === "depositar" ? "Guardado na poupança!" : "Resgatado da poupança!"}
                 </p>
