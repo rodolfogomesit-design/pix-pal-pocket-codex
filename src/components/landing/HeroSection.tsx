@@ -1,14 +1,13 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck, Sparkles, Star, WalletCards } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 
 const highlights = [
-  "Mesada, metas e saldo em um espaço divertido para a criança.",
-  "Responsável acompanha tudo em tempo real com segurança.",
-  "Aprendizado financeiro na prática com cor, leveza e autonomia.",
-  "Mini Gerente Pix Kids: aprender, indicar e ganhar.",
+  "Mesada, metas e saldo em um espaÃ§o divertido para a crianÃ§a.",
+  "ResponsÃ¡vel acompanha tudo em tempo real com seguranÃ§a.",
+  "Aprendizado financeiro na prÃ¡tica com cor, leveza e autonomia.",
 ];
 
 const metrics = [
@@ -38,7 +37,7 @@ const HeroSection = () => {
         >
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/75 px-4 py-2 text-sm font-semibold text-primary shadow-sm backdrop-blur dark:border-white/10 dark:bg-slate-900/70 dark:text-sky-200">
             <ShieldCheck className="h-4 w-4" />
-            Pix infantil com mesada, metas e supervisão dos pais
+            Pix infantil com mesada, metas e supervisÃ£o dos pais
           </div>
 
           <div className="mb-6 flex items-center gap-3">
@@ -50,13 +49,13 @@ const HeroSection = () => {
                 Pix Kids
               </p>
               <p className="text-sm text-muted-foreground dark:text-slate-300/80">
-                Pix para crianças com uma experiência simples para toda a família
+                Pix para crianÃ§as com uma experiÃªncia simples para toda a famÃ­lia
               </p>
             </div>
           </div>
 
           <h1 className="font-display text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-6xl dark:text-white">
-            O Pix Kids ajuda a criança a aprender sobre dinheiro usando Pix, metas e mesada digital.
+            O Pix Kids ajuda a crianÃ§a a aprender sobre dinheiro usando Pix, metas e mesada digital.
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-8 text-muted-foreground md:text-xl dark:text-slate-300/85">
@@ -71,7 +70,6 @@ const HeroSection = () => {
                 "from-rose-500 to-orange-400",
                 "from-sky-500 to-cyan-400",
                 "from-violet-500 to-fuchsia-400",
-                "from-emerald-500 to-lime-400",
               ];
 
               return (
@@ -129,7 +127,7 @@ const HeroSection = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary/70 dark:text-sky-200/80">
-                    Painel da família
+                    Painel da famÃ­lia
                   </p>
                   <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                     Pix, metas e acompanhamento financeiro no mesmo lugar
@@ -167,13 +165,13 @@ const HeroSection = () => {
 
                 <div className="rounded-3xl border border-white/40 bg-[linear-gradient(180deg,rgba(254,240,138,0.45),rgba(125,211,252,0.35),rgba(217,70,239,0.18))] p-5 dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(250,204,21,0.08),rgba(14,165,233,0.12),rgba(168,85,247,0.1))]">
                   <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
-                    Ações do dia
+                    Acoes do dia
                   </p>
                   <div className="mt-4 space-y-3">
                     {[
                       "Guardar parte da mesada",
                       "Concluir uma pequena meta.",
-                      "Acompanhar o histórico com os pais.",
+                      "Acompanhar o histÃ³rico com os pais.",
                     ].map((action, index) => (
                       <div
                         key={action}
@@ -195,7 +193,7 @@ const HeroSection = () => {
               <div className="grid gap-4 md:grid-cols-3">
                 {[
                   { name: "Sophia", status: "Guardando para um patins novo.", amount: "R$ 480,00", tone: "from-rose-50 to-orange-50 dark:from-rose-950/25 dark:to-orange-950/20" },
-                  { name: "Miguel", status: "Missão da semana quase completa.", amount: "R$ 320,00", tone: "from-sky-50 to-cyan-50 dark:from-sky-950/25 dark:to-cyan-950/20" },
+                  { name: "Miguel", status: "MissÃ£o da semana quase completa.", amount: "R$ 320,00", tone: "from-sky-50 to-cyan-50 dark:from-sky-950/25 dark:to-cyan-950/20" },
                   { name: "Laura", status: "Mesada recebida e meta atualizada.", amount: "R$ 420,00", tone: "from-violet-50 to-fuchsia-50 dark:from-violet-950/25 dark:to-fuchsia-950/20" },
                 ].map((kid) => (
                   <div
