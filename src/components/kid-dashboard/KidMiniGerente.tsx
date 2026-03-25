@@ -40,7 +40,7 @@ const KidMiniGerente = () => {
     }
     try {
       const result = await withdrawCommission.mutateAsync({ kidId: kid.id, valor });
-      toast.success(`R$ ${valor.toFixed(2)} transferido para seu saldo! 🎉`);
+      toast.success(`R$ ${valor.toFixed(2)} transferido para seu saldo! `);
       if (result?.novo_saldo !== undefined) {
         setKid({ ...kid, saldo: result.novo_saldo });
       }
@@ -54,7 +54,7 @@ const KidMiniGerente = () => {
   if (isLoading) {
     return (
       <div className="text-center py-12">
-        <span className="text-4xl animate-bounce inline-block">👔</span>
+        <span className="text-4xl animate-bounce inline-block"></span>
         <p className="font-body text-muted-foreground mt-2">Carregando...</p>
       </div>
     );
@@ -64,7 +64,7 @@ const KidMiniGerente = () => {
     <div className="space-y-4">
       {/* Header */}
       <div className="bg-gradient-to-r from-kids-yellow to-kids-orange rounded-2xl p-5 text-center">
-        <span className="text-4xl">👔</span>
+        <span className="text-4xl"></span>
         <h2 className="font-display text-xl font-bold mt-2">Mini Gerente Pix Kid</h2>
         <p className="font-body text-sm opacity-80 mt-1">
           Indique amigos e ganhe comissões!
@@ -104,7 +104,7 @@ const KidMiniGerente = () => {
               <p className="font-display font-bold text-sm">{stats.existing_referrer.referrer_name}</p>
               <p className="font-body text-xs text-muted-foreground">Código: {stats.existing_referrer.referrer_codigo}</p>
             </div>
-            <span className="text-2xl">👔</span>
+            <span className="text-2xl"></span>
           </div>
         ) : (
           <>
@@ -144,7 +144,7 @@ const KidMiniGerente = () => {
                     disabled={referralLoading || referralCode.length === 0}
                     className="w-full rounded-xl bg-kids-orange text-accent-foreground hover:bg-kids-orange/90 font-display font-bold"
                   >
-                    {referralLoading ? "Buscando..." : "🔍 Buscar Mini Gerente"}
+                    {referralLoading ? "Buscando..." : " Buscar Mini Gerente"}
                   </Button>
                 </>
               ) : (
@@ -155,7 +155,7 @@ const KidMiniGerente = () => {
                       <p className="font-display font-bold text-sm">{referralName}</p>
                       <p className="font-body text-xs text-muted-foreground">Código: {referralCode}</p>
                     </div>
-                    <span className="text-2xl">👔</span>
+                    <span className="text-2xl"></span>
                   </div>
                   <div className="flex gap-2">
                     <Button
@@ -179,7 +179,7 @@ const KidMiniGerente = () => {
                           if (!result?.success) {
                             toast.error(result?.error || "Erro ao cadastrar.");
                           } else {
-                            toast.success(`Mini Gerente ${result.referrer_name} cadastrado! 🎉`);
+                            toast.success(`Mini Gerente ${result.referrer_name} cadastrado! `);
                             setReferralCode("");
                             setReferralName(null);
                           }
@@ -191,7 +191,7 @@ const KidMiniGerente = () => {
                       disabled={referralLoading}
                       className="flex-1 rounded-xl bg-kids-green text-accent-foreground hover:bg-kids-green/90 font-display font-bold"
                     >
-                      {referralLoading ? "..." : "✅ Confirmar"}
+                      {referralLoading ? "..." : " Confirmar"}
                     </Button>
                   </div>
                 </>
@@ -267,7 +267,7 @@ const KidMiniGerente = () => {
       {/* Referrals list */}
       <div className="bg-card rounded-2xl border border-border overflow-hidden">
         <div className="px-4 py-3 border-b border-border">
-          <h3 className="font-display text-sm font-bold">📋 Meus indicados</h3>
+          <h3 className="font-display text-sm font-bold"> Meus indicados</h3>
         </div>
         {stats?.referrals && stats.referrals.length > 0 ? (
           <div className="divide-y divide-border">
@@ -297,7 +297,7 @@ const KidMiniGerente = () => {
       {stats?.commissions && stats.commissions.length > 0 && (
         <div className="bg-card rounded-2xl border border-border overflow-hidden">
           <div className="px-4 py-3 border-b border-border">
-            <h3 className="font-display text-sm font-bold">💰 Histórico de ganhos</h3>
+            <h3 className="font-display text-sm font-bold"> Histórico de ganhos</h3>
           </div>
           <div className="divide-y divide-border">
             {stats.commissions.map((com) => (

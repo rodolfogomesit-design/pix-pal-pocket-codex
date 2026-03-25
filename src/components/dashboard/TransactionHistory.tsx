@@ -459,7 +459,7 @@ const TransactionHistory = () => {
 
       {filteredEntries.length === 0 ? (
         <div className="p-8 text-center">
-          <span className="text-4xl mb-3 inline-block">📋</span>
+          <span className="text-4xl mb-3 inline-block"></span>
           <p className="font-display text-lg font-bold">Nenhuma movimentação</p>
           <p className="font-body text-sm text-muted-foreground">
             Sem movimentações para este filtro.

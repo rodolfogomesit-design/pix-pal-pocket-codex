@@ -55,7 +55,7 @@ const SendTransferDialog = ({ kid, onSuccess }: Props) => {
     }
 
     if (amount > kid.saldo) {
-      toast.error("Saldo insuficiente! 😢");
+      toast.error("Saldo insuficiente! ");
       return;
     }
 
@@ -95,7 +95,7 @@ const SendTransferDialog = ({ kid, onSuccess }: Props) => {
         <button
           className="bg-kids-blue-light rounded-2xl p-5 text-center transition-all hover:scale-[1.03] active:scale-95"
         >
-          <span className="text-3xl block mb-2">👫</span>
+          <span className="text-3xl block mb-2"></span>
           <span className="font-display font-bold text-sm">Enviar</span>
         </button>
       </DialogTrigger>
@@ -104,13 +104,13 @@ const SendTransferDialog = ({ kid, onSuccess }: Props) => {
           <>
             <DialogHeader>
               <DialogTitle className="font-display text-xl text-center">
-                Enviar para amigo 👫
+                Enviar para amigo 
               </DialogTitle>
             </DialogHeader>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label className="font-display font-bold text-sm">Código do amigo 🔢</Label>
+                <Label className="font-display font-bold text-sm">Código do amigo </Label>
                 <Input
                   value={codigo}
                   onChange={(e) => setCodigo(e.target.value.replace(/\D/g, "").slice(0, 5))}
@@ -121,7 +121,7 @@ const SendTransferDialog = ({ kid, onSuccess }: Props) => {
               </div>
 
               <div>
-                <Label className="font-display font-bold text-sm">Quanto? 💰</Label>
+                <Label className="font-display font-bold text-sm">Quanto? </Label>
                 <Input
                   type="number"
                   step="0.01"
@@ -137,7 +137,7 @@ const SendTransferDialog = ({ kid, onSuccess }: Props) => {
               </div>
 
               <div>
-                <Label className="font-display font-bold text-sm">Mensagem (opcional) 💬</Label>
+                <Label className="font-display font-bold text-sm">Mensagem (opcional) </Label>
                 <Input
                   value={descricao}
                   onChange={(e) => setDescricao(e.target.value.slice(0, 50))}
@@ -149,7 +149,7 @@ const SendTransferDialog = ({ kid, onSuccess }: Props) => {
 
               {kid.aprovacao_transferencias && (
                 <p className="bg-kids-yellow-light rounded-xl px-3 py-2 font-body text-xs text-center">
-                  ⚠️ Seus pais precisam aprovar esta transferência
+                   Seus pais precisam aprovar esta transferência
                 </p>
               )}
 
@@ -158,7 +158,7 @@ const SendTransferDialog = ({ kid, onSuccess }: Props) => {
                 disabled={loading}
                 className="w-full font-display font-bold text-lg rounded-2xl py-6 bg-primary text-primary-foreground shadow-lg"
               >
-                {loading ? "Enviando... ✈️" : "🚀 Enviar!"}
+                {loading ? "Enviando... " : " Enviar!"}
               </Button>
             </form>
           </>
@@ -166,7 +166,7 @@ const SendTransferDialog = ({ kid, onSuccess }: Props) => {
           <div className="space-y-4 py-2">
             <div className="text-center">
               <span className="text-5xl block mb-3">
-                {successInfo.needsApproval ? "⏳" : "✅"}
+                {successInfo.needsApproval ? "" : ""}
               </span>
               <p className="font-display text-xl font-bold">
                 {successInfo.needsApproval ? "Enviado para aprovação!" : "Transferência realizada!"}
@@ -203,7 +203,7 @@ const SendTransferDialog = ({ kid, onSuccess }: Props) => {
                 onClick={() => { setOpen(false); reset(); onSuccess(); }}
                 className="flex-1 rounded-2xl font-display font-bold py-5 bg-primary text-primary-foreground"
               >
-                Fechar ✅
+                Fechar 
               </Button>
             </div>
           </div>

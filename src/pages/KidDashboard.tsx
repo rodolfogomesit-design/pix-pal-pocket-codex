@@ -84,9 +84,9 @@ const KidDashboard = () => {
 
   const isMiniGerente = (kid as any).is_mini_gerente;
   const tabs = [
-    { id: "home" as Tab, label: "🏠 Início", emoji: "🏠" },
-    { id: "historico" as Tab, label: "📊 Histórico", emoji: "📊" },
-    ...(isMiniGerente ? [{ id: "gerente" as Tab, label: "👑 Gerente", emoji: "👑" }] : []),
+    { id: "home" as Tab, label: " Início", emoji: "" },
+    { id: "historico" as Tab, label: " Histórico", emoji: "" },
+    ...(isMiniGerente ? [{ id: "gerente" as Tab, label: " Gerente", emoji: "" }] : []),
   ];
 
   return (
@@ -99,7 +99,7 @@ const KidDashboard = () => {
             </button>
             <EmojiBrand size={38} className="shrink-0 rounded-xl shadow-none" />
             <div>
-              <p className="font-display text-lg font-bold">Olá, {kid.apelido || kid.nome}! 👋</p>
+              <p className="font-display text-lg font-bold">Olá, {kid.apelido || kid.nome}! </p>
               <button onClick={copyCode} className="flex items-center gap-1 font-body text-xs opacity-80 transition-colors hover:opacity-100">
                 Código: {kid.codigo_publico}
                 {codeCopied ? <Check size={12} /> : <Copy size={12} />}

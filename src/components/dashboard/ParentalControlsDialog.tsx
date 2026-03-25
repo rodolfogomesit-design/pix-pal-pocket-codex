@@ -72,7 +72,7 @@ const ParentalControlsDialog = ({ kid }: Props) => {
         limite_diario: parseFloat(controls.limite_diario) || 50,
         is_mini_gerente: controls.is_mini_gerente,
       } as any);
-      toast.success("Controles atualizados! ✅");
+      toast.success("Controles atualizados! ");
       setOpen(false);
     } catch {
       toast.error("Erro ao atualizar controles.");
@@ -118,7 +118,7 @@ const ParentalControlsDialog = ({ kid }: Props) => {
       if (!result?.success) {
         toast.error(result?.error || "Erro ao cadastrar indicação.");
       } else {
-        toast.success("Mini Gerente cadastrado com sucesso! 🎉");
+        toast.success("Mini Gerente cadastrado com sucesso! ");
         setExistingReferrer({ nome: referralName!, codigo: referralCode.trim() });
         setReferralCode("");
         setReferralName(null);
@@ -139,7 +139,7 @@ const ParentalControlsDialog = ({ kid }: Props) => {
       </DialogTrigger>
       <DialogContent className="rounded-3xl max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl">Controles de {kid.apelido || kid.nome} ⚙️</DialogTitle>
+          <DialogTitle className="font-display text-xl">Controles de {kid.apelido || kid.nome} </DialogTitle>
         </DialogHeader>
         <div className="space-y-5 mt-2">
           {/* Freeze account */}
@@ -232,7 +232,7 @@ const ParentalControlsDialog = ({ kid }: Props) => {
                   </div>
                   <div className="flex items-center gap-1 text-kids-green">
                     <CheckCircle size={20} />
-                    <span className="text-2xl">👔</span>
+                    <span className="text-2xl"></span>
                   </div>
                 </div>
                 <Button
@@ -255,7 +255,7 @@ const ParentalControlsDialog = ({ kid }: Props) => {
                   size="sm"
                   className="w-full rounded-xl text-destructive border-destructive/30 hover:bg-destructive/10 font-body"
                 >
-                  🗑️ Excluir Mini Gerente cadastrado
+                   Excluir Mini Gerente cadastrado
                 </Button>
               </div>
             ) : !referralName ? (
@@ -283,7 +283,7 @@ const ParentalControlsDialog = ({ kid }: Props) => {
                     <p className="font-display font-bold text-sm">{referralName}</p>
                     <p className="font-body text-xs text-muted-foreground">Código: {referralCode}</p>
                   </div>
-                  <span className="text-2xl">👔</span>
+                  <span className="text-2xl"></span>
                 </div>
                 <div className="flex gap-2">
                   <Button
@@ -300,7 +300,7 @@ const ParentalControlsDialog = ({ kid }: Props) => {
                     size="sm"
                     className="flex-1 rounded-xl bg-kids-green text-accent-foreground hover:bg-kids-green/90 font-display font-bold"
                   >
-                    {referralLoading ? "..." : "✅ Confirmar"}
+                    {referralLoading ? "..." : " Confirmar"}
                   </Button>
                 </div>
               </div>
@@ -312,7 +312,7 @@ const ParentalControlsDialog = ({ kid }: Props) => {
             disabled={updateKid.isPending}
             className="w-full font-display font-bold rounded-xl py-5 bg-primary text-primary-foreground hover:bg-primary/90"
           >
-            {updateKid.isPending ? "Salvando..." : "💾 Salvar controles"}
+            {updateKid.isPending ? "Salvando..." : " Salvar controles"}
           </Button>
         </div>
       </DialogContent>

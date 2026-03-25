@@ -283,7 +283,7 @@ const Admin = () => {
     { label: "Pendentes", value: metrics?.pending_approvals ?? "—", icon: <Clock size={20} />, color: "from-kids-orange to-kids-orange/70" },
   ];
 
-  const tipoLabel: Record<string, string> = { mesada: "💰 Mesada", transferencia: "👫 Transferência", pagamento: "🛒 Pagamento" };
+  const tipoLabel: Record<string, string> = { mesada: " Mesada", transferencia: " Transferência", pagamento: " Pagamento" };
   const statusStyle: Record<string, string> = {
     aprovado: "bg-kids-green-light text-kids-green",
     pendente: "bg-kids-yellow-light text-kids-orange",
@@ -678,7 +678,7 @@ const Admin = () => {
                         <td className="px-3 sm:px-6 py-2 sm:py-3 font-body text-muted-foreground hidden md:table-cell">{u.telefone || "—"}</td>
                         <td className="px-3 sm:px-6 py-2 sm:py-3 font-body text-muted-foreground hidden lg:table-cell">{u.cpf || "—"}</td>
                         <td className="px-3 sm:px-6 py-2 sm:py-3 text-center font-body">
-                          <span className="bg-muted rounded-full px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs">👧 {u.kids_count}</span>
+                          <span className="bg-muted rounded-full px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs"> {u.kids_count}</span>
                         </td>
                         <td className="px-3 sm:px-6 py-2 sm:py-3 text-right font-body font-semibold text-xs sm:text-sm">R$ {Number(u.total_balance).toFixed(2)}</td>
                         <td className="px-3 sm:px-6 py-2 sm:py-3 font-body text-muted-foreground text-xs hidden sm:table-cell">
@@ -729,31 +729,31 @@ const Admin = () => {
                   <h3 className="font-display text-xl font-bold">{selectedUser.nome}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
                     <div className="flex items-center gap-2 font-body text-sm">
-                      <span className="text-muted-foreground">📧 Email:</span>
+                      <span className="text-muted-foreground"> Email:</span>
                       <span className="font-semibold text-foreground">{selectedUser.email}</span>
                     </div>
                     <div className="flex items-center gap-2 font-body text-sm">
-                      <span className="text-muted-foreground">📱 Telefone:</span>
+                      <span className="text-muted-foreground"> Telefone:</span>
                       <span className="font-semibold text-foreground">{selectedUser.telefone || "Não informado"}</span>
                     </div>
                     <div className="flex items-center gap-2 font-body text-sm">
-                      <span className="text-muted-foreground">🪪 CPF:</span>
+                      <span className="text-muted-foreground"> CPF:</span>
                       <span className="font-semibold text-foreground">{selectedUser.cpf || "Não informado"}</span>
                     </div>
                     <div className="flex items-center gap-2 font-body text-sm">
-                      <span className="text-muted-foreground">🔢 Código:</span>
+                      <span className="text-muted-foreground"> Código:</span>
                       <span className="font-semibold text-foreground">{(selectedUser as any).codigo_usuario || "—"}</span>
                     </div>
                     <div className="flex items-center gap-2 font-body text-sm">
-                      <span className="text-muted-foreground">👧 Filhos:</span>
+                      <span className="text-muted-foreground"> Filhos:</span>
                       <span className="font-semibold text-foreground">{selectedUser.kids_count}</span>
                     </div>
                     <div className="flex items-center gap-2 font-body text-sm">
-                      <span className="text-muted-foreground">💰 Saldo Total:</span>
+                      <span className="text-muted-foreground"> Saldo Total:</span>
                       <span className="font-semibold text-foreground">R$ {Number(selectedUser.total_balance).toFixed(2)}</span>
                     </div>
                     <div className="flex items-center gap-2 font-body text-sm">
-                      <span className="text-muted-foreground">📅 Cadastro:</span>
+                      <span className="text-muted-foreground"> Cadastro:</span>
                       <span className="font-semibold text-foreground">{format(new Date(selectedUser.created_at), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}</span>
                     </div>
                   </div>
@@ -773,7 +773,7 @@ const Admin = () => {
                           <div>
                             <p className="font-body font-semibold text-sm">
                               {kid.apelido || kid.nome}
-                              {kid.is_frozen && " ❄️"}
+                              {kid.is_frozen && " "}
                             </p>
                             <p className="font-body text-xs text-muted-foreground">
                               {kid.idade} anos • Código: {kid.codigo_publico} • R$ {Number(kid.saldo).toFixed(2)}
@@ -799,7 +799,7 @@ const Admin = () => {
                             onClick={() => {
                               toggleFreeze.mutate(
                                 { kidId: kid.id, freeze: !kid.is_frozen },
-                                { onSuccess: () => toast.success(kid.is_frozen ? "Conta descongelada ☀️" : "Conta congelada ❄️") }
+                                { onSuccess: () => toast.success(kid.is_frozen ? "Conta descongelada " : "Conta congelada ") }
                               );
                             }}
                             disabled={toggleFreeze.isPending}

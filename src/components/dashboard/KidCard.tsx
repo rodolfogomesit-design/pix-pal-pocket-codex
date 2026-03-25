@@ -35,7 +35,7 @@ const KidCard = ({ kid }: Props) => {
       {/* Header */}
       <div className="bg-gradient-to-r from-kids-blue-light to-kids-yellow-light px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <motion.span className="text-3xl inline-block" whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.2 }} transition={{ duration: 0.5 }}>🧒</motion.span>
+          <motion.span className="text-3xl inline-block" whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.2 }} transition={{ duration: 0.5 }}></motion.span>
           <div>
             <h3 className="font-display text-lg font-bold">{kid.apelido || kid.nome}</h3>
             
@@ -70,12 +70,12 @@ const KidCard = ({ kid }: Props) => {
         <div className="flex flex-wrap gap-2 mb-5">
           {kid.aprovacao_transferencias && (
             <span className="inline-flex items-center gap-1 bg-kids-yellow-light text-secondary-foreground px-3 py-1 rounded-full text-xs font-body font-semibold">
-              ✅ Aprovação ativa
+               Aprovação ativa
             </span>
           )}
           {kid.bloqueio_envio && (
             <span className="inline-flex items-center gap-1 bg-destructive/10 text-destructive px-3 py-1 rounded-full text-xs font-body font-semibold">
-              🚫 Envio bloqueado
+               Envio bloqueado
             </span>
           )}
         </div>

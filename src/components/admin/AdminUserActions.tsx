@@ -103,7 +103,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
       if (!result?.success) throw new Error(result?.error);
     },
     onSuccess: (_, block) => {
-      toast.success(block ? "Usuário bloqueado 🚫" : "Usuário desbloqueado ✅");
+      toast.success(block ? "Usuário bloqueado " : "Usuário desbloqueado ");
       invalidateAll();
       setBlockDialog(false);
     },
@@ -118,7 +118,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
       if (!result?.success) throw new Error(result?.error);
     },
     onSuccess: (_, enable) => {
-      toast.success(enable ? "Usuário promovido a Admin 🛡️" : "Permissão de Admin removida");
+      toast.success(enable ? "Usuário promovido a Admin " : "Permissão de Admin removida");
       invalidateAll();
       setAdminDialog(false);
     },
@@ -133,7 +133,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
       if (!result?.success) throw new Error(result?.error);
     },
     onSuccess: () => {
-      toast.success("Usuário excluído permanentemente 🗑️");
+      toast.success("Usuário excluído permanentemente ");
       invalidateAll();
       setDeleteDialog(false);
       onUserDeleted();
@@ -177,7 +177,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
       if (!result?.success) throw new Error(result?.error);
     },
     onSuccess: () => {
-      toast.success("Cadastro atualizado ✅");
+      toast.success("Cadastro atualizado ");
       invalidateAll();
       setEditDialog(false);
     },
@@ -211,7 +211,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
       if (!result?.success) throw new Error(result?.error);
     },
     onSuccess: () => {
-      toast.success("Limites atualizados ✅");
+      toast.success("Limites atualizados ");
       queryClient.invalidateQueries({ queryKey: ["admin-user-kids-limits", user.user_id] });
       queryClient.invalidateQueries({ queryKey: ["admin-user-kids"] });
     },
@@ -231,7 +231,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
       if (!result?.success) throw new Error(result?.error);
     },
     onSuccess: () => {
-      toast.success("Limites do responsável atualizados ✅");
+      toast.success("Limites do responsável atualizados ");
       queryClient.invalidateQueries({ queryKey: ["admin-user-profile", user.user_id] });
     },
     onError: () => toast.error("Erro ao atualizar limites do responsável"),
@@ -269,7 +269,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
 
   const isBlocked = userProfile?.is_blocked ?? false;
 
-  const tipoLabel: Record<string, string> = { mesada: "💰 Mesada", transferencia: "👫 Transferência", pagamento: "🛒 Pagamento" };
+  const tipoLabel: Record<string, string> = { mesada: " Mesada", transferencia: " Transferência", pagamento: " Pagamento" };
   const statusStyle: Record<string, string> = {
     aprovado: "bg-kids-green-light text-kids-green",
     pendente: "bg-kids-yellow-light text-kids-orange",
@@ -382,7 +382,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
       <Dialog open={deleteDialog} onOpenChange={setDeleteDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-destructive">⚠️ Excluir Usuário</DialogTitle>
+            <DialogTitle className="text-destructive"> Excluir Usuário</DialogTitle>
             <DialogDescription>
               Esta ação é <strong>irreversível</strong>. Todos os dados de <strong>{user.nome}</strong> serão
               permanentemente apagados, incluindo filhos, transações, depósitos e saques.
@@ -548,7 +548,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
           {/* Global limits reference */}
           {globalLimits && (
             <div className="bg-muted/20 border border-dashed border-border rounded-xl p-3">
-              <p className="font-body text-xs text-muted-foreground font-semibold mb-2">📋 Limites globais (referência)</p>
+              <p className="font-body text-xs text-muted-foreground font-semibold mb-2"> Limites globais (referência)</p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-muted-foreground">
                 <span>Diário: R$ {globalLimits.limite_diario_padrao}</span>
                 <span>Transferência: R$ {globalLimits.limite_transferencia}</span>
@@ -560,7 +560,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
 
           <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 space-y-3">
             <p className="font-display font-bold text-sm flex items-center gap-2">
-              👤 Limites do Responsável
+               Limites do Responsável
             </p>
             <div className="grid grid-cols-2 gap-3">
               <div>
@@ -596,7 +596,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
 
           {/* Kids Limits */}
           <div className="border-t border-border pt-4 mt-2">
-            <p className="font-display font-bold text-sm mb-3 flex items-center gap-2">👧 Limites dos Filhos</p>
+            <p className="font-display font-bold text-sm mb-3 flex items-center gap-2"> Limites dos Filhos</p>
           </div>
           {userKidsForLimits && userKidsForLimits.length > 0 ? (
             <div className="space-y-4">

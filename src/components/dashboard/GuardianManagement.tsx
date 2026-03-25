@@ -51,13 +51,13 @@ type Guardian = {
 };
 
 const PARENTESCO_OPTIONS = [
-  { value: "pai", label: "👨 Pai" },
-  { value: "mae", label: "👩 Mãe" },
-  { value: "avo", label: "👴 Avô" },
-  { value: "avoa", label: "👵 Avó" },
-  { value: "tio", label: "👨 Tio" },
-  { value: "tia", label: "👩 Tia" },
-  { value: "outros", label: "👤 Outros" },
+  { value: "pai", label: " Pai" },
+  { value: "mae", label: " Mãe" },
+  { value: "avo", label: " Avô" },
+  { value: "avoa", label: " Avó" },
+  { value: "tio", label: " Tio" },
+  { value: "tia", label: " Tia" },
+  { value: "outros", label: " Outros" },
 ];
 
 const parentescoLabel = (val: string) =>
@@ -110,7 +110,7 @@ const GuardianManagement = () => {
       return result;
     },
     onSuccess: () => {
-      toast.success("Responsável adicionado com sucesso! 🎉");
+      toast.success("Responsável adicionado com sucesso! ");
       queryClient.invalidateQueries({ queryKey: ["guardians"] });
       setForm({ nome: "", email: "", cpf: "", telefone: "", senha: "", parentesco: "outros" });
       setOpen(false);
@@ -264,7 +264,7 @@ const GuardianManagement = () => {
                     </Button>
                   </DialogClose>
                   <Button type="submit" disabled={addGuardian.isPending} className="rounded-xl font-display font-bold">
-                    {addGuardian.isPending ? "Adicionando..." : "✅ Adicionar"}
+                    {addGuardian.isPending ? "Adicionando..." : " Adicionar"}
                   </Button>
                 </DialogFooter>
               </form>
@@ -277,7 +277,7 @@ const GuardianManagement = () => {
           <p className="text-sm text-muted-foreground text-center py-4">Carregando...</p>
         ) : guardians.length === 0 ? (
           <div className="text-center py-6">
-            <span className="text-3xl mb-2 inline-block">👨‍👩‍👧‍👦</span>
+            <span className="text-3xl mb-2 inline-block"></span>
             <p className="font-body text-sm text-muted-foreground">
               Nenhum responsável adicional cadastrado.
             </p>
@@ -318,7 +318,7 @@ const GuardianManagement = () => {
                       </span>
                       {g.tipo === "principal" && (
                         <span className="text-xs bg-kids-yellow/20 text-secondary-foreground px-2 py-0.5 rounded-full font-body font-semibold">
-                          👑 Principal
+                           Principal
                         </span>
                       )}
                     </div>

@@ -83,7 +83,7 @@ const SendAllowanceDialog = ({ kid }: Props) => {
           <>
             <DialogHeader>
               <DialogTitle className="font-display text-xl">
-                Enviar mesada para {kid.apelido || kid.nome} 💸
+                Enviar mesada para {kid.apelido || kid.nome} 
               </DialogTitle>
             </DialogHeader>
             <div className="grid grid-cols-2 gap-3 mb-2">
@@ -133,14 +133,14 @@ const SendAllowanceDialog = ({ kid }: Props) => {
                 disabled={sendAllowance.isPending}
                 className="w-full font-display font-bold rounded-xl py-5 bg-kids-green text-accent-foreground hover:bg-kids-green/90"
               >
-                {sendAllowance.isPending ? "Enviando..." : "💰 Enviar mesada"}
+                {sendAllowance.isPending ? "Enviando..." : " Enviar mesada"}
               </Button>
             </form>
           </>
         ) : (
           <div className="space-y-4 py-2">
             <div className="text-center">
-              <span className="text-5xl block mb-3">✅</span>
+              <span className="text-5xl block mb-3"></span>
               <p className="font-display text-xl font-bold">Mesada enviada!</p>
               <p className="font-display text-2xl font-extrabold text-primary mt-2">
                 R$ {successInfo.valor.toFixed(2)}
@@ -168,7 +168,7 @@ const SendAllowanceDialog = ({ kid }: Props) => {
                 onClick={() => { setOpen(false); reset(); }}
                 className="flex-1 rounded-xl font-display font-bold py-5 bg-primary text-primary-foreground"
               >
-                Fechar ✅
+                Fechar 
               </Button>
             </div>
           </div>

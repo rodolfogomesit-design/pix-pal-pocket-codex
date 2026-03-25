@@ -55,7 +55,7 @@ const AddKidDialog = () => {
         pin: parsed.data.pin,
       });
       const codigo = (result as any)?.codigo_publico || "";
-      toast.success(`${parsed.data.nome} cadastrado(a) com sucesso! Código: ${codigo} 🎉`);
+      toast.success(`${parsed.data.nome} cadastrado(a) com sucesso! Código: ${codigo} `);
       setForm({ nome: "", pin: "" });
       setOpen(false);
     } catch {
@@ -73,7 +73,7 @@ const AddKidDialog = () => {
       </DialogTrigger>
       <DialogContent className="rounded-3xl max-w-md">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl">Cadastrar filho 👧</DialogTitle>
+          <DialogTitle className="font-display text-xl">Cadastrar filho </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div>
@@ -88,7 +88,7 @@ const AddKidDialog = () => {
           </div>
           <p className="text-xs text-muted-foreground">O código do usuário será gerado automaticamente pela plataforma.</p>
           <Button type="submit" disabled={addKid.isPending} className="w-full font-display font-bold rounded-xl py-5 bg-kids-green text-accent-foreground hover:bg-kids-green/90">
-            {addKid.isPending ? "Cadastrando..." : "✅ Cadastrar"}
+            {addKid.isPending ? "Cadastrando..." : " Cadastrar"}
           </Button>
         </form>
       </DialogContent>

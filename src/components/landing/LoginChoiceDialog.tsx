@@ -34,7 +34,7 @@ const LoginChoiceDialog = ({ trigger }: LoginChoiceDialogProps) => {
             onClick={() => setOpen(false)}
           >
             <Link to="/login">
-              <span className="text-4xl">👨‍👩‍👧</span>
+              <span className="text-4xl"></span>
               <span className="font-display text-lg font-bold">Sou responsável</span>
               <span className="text-center font-body text-xs text-muted-foreground">
                 Pai, mãe ou responsável
@@ -48,7 +48,7 @@ const LoginChoiceDialog = ({ trigger }: LoginChoiceDialogProps) => {
             onClick={() => setOpen(false)}
           >
             <Link to="/crianca">
-              <span className="text-4xl">🧒</span>
+              <span className="text-4xl"></span>
               <span className="font-display text-lg font-bold">Sou criança</span>
               <span className="text-center font-body text-xs text-muted-foreground">
                 Entrar com código e PIN

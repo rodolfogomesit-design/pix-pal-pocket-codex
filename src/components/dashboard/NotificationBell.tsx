@@ -72,7 +72,7 @@ const NotificationBell = () => {
             const kid = kids.find((k) => k.id === newTx.from_kid);
             const kidName = kid?.apelido || kid?.nome || "Seu filho(a)";
 
-            toast.info(`${kidName} quer fazer uma transferência de R$ ${Number(newTx.valor).toFixed(2)}! 🔔`, {
+            toast.info(`${kidName} quer fazer uma transferência de R$ ${Number(newTx.valor).toFixed(2)}! `, {
               duration: 8000,
             });
 
