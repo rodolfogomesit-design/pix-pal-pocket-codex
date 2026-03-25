@@ -28,7 +28,7 @@ const Navbar = () => {
               Pix Kids
             </p>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              Pix infantil com controle para toda a família
+              pix infantil com controle para famílias
             </p>
           </div>
         </Link>
