@@ -409,8 +409,8 @@ const Cadastro = () => {
                     </div>
                   )}
                   {referralLookupError && (
-                    <div className="mt-2 rounded-xl border border-destructive/30 bg-destructive/10 p-3">
-                      <p className="text-sm font-body text-destructive">{referralLookupError}</p>
+                    <div className="mt-2 rounded-xl border-2 border-red-500/60 bg-red-500/15 p-3 shadow-sm">
+                      <p className="text-sm font-body font-semibold text-red-700 dark:text-red-400">{referralLookupError}</p>
                     </div>
                   )}
                   <p className="mt-1 text-xs font-body text-muted-foreground">
