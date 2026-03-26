@@ -169,7 +169,7 @@ const Dashboard = () => {
             whileHover={{ scale: 1.03, y: -2 }}
             className="bg-gradient-to-br from-kids-blue to-kids-blue/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-primary-foreground cursor-default"
           >
-            <p className="font-body text-xs sm:text-sm opacity-80">Saldo total da famiÌlia</p>
+            <p className="font-body text-xs sm:text-sm opacity-80">{guardianRole?.isSecondary ? "Seu saldo + filhos" : "Saldo total da família"}</p>
             <p className="font-display text-2xl sm:text-3xl font-extrabold mt-1">
               R$ {familyBalance.toFixed(2)}
             </p>
@@ -275,6 +275,7 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
 
 
 

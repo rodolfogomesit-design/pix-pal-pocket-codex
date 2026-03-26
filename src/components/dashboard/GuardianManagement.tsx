@@ -190,6 +190,7 @@ const GuardianManagement = () => {
   };
 
   const canRemove = (g: Guardian) => {
+    if (familyOwner?.isSecondary) return false;
     if (g.tipo === "principal") return false;
     return true;
   };
