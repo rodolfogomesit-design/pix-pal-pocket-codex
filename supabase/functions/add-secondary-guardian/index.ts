@@ -78,6 +78,13 @@ Deno.serve(async (req: Request) => {
 
     if (familyError) throw familyError;
 
+    if (familyLink?.primary_user_id) {
+      return json(403, {
+        success: false,
+        error: "Somente o responsavel principal pode adicionar outro responsavel.",
+      });
+    }
+
     const familyOwnerId = familyLink?.primary_user_id ?? user.id;
 
     const { data: existingProfile, error: existingProfileError } = await serviceClient

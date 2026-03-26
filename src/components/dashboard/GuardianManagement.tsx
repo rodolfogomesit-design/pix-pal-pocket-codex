@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useFamilyOwner } from "@/hooks/useFamilyOwner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -81,6 +82,7 @@ const useGuardians = () => {
 
 const GuardianManagement = () => {
   const { user } = useAuth();
+  const { data: familyOwner } = useFamilyOwner();
   const queryClient = useQueryClient();
   const { data: guardians = [], isLoading } = useGuardians();
   const [open, setOpen] = useState(false);
@@ -176,6 +178,10 @@ const GuardianManagement = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (familyOwner?.isSecondary) {
+      toast.error("Somente o responsável principal pode adicionar outro responsável.");
+      return;
+    }
     if (!form.nome.trim() || !form.email.trim() || !form.cpf.trim() || !form.telefone.trim()) {
       toast.error("Todos os campos obrigatórios devem ser preenchidos.");
       return;
@@ -195,90 +201,92 @@ const GuardianManagement = () => {
           <CardTitle className="font-display text-xl flex items-center gap-2">
             <Users size={20} className="text-primary" /> Responsáveis
           </CardTitle>
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button size="sm" className="rounded-xl font-display font-bold gap-1">
-                <UserPlus size={16} /> Adicionar
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="rounded-3xl max-w-md">
-              <DialogHeader>
-                <DialogTitle className="font-display text-xl">Adicionar responsável</DialogTitle>
-              </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <Label className="font-body font-semibold">Nome completo *</Label>
-                  <Input
-                    value={form.nome}
-                    onChange={(e) => setForm({ ...form, nome: formatFullName(e.target.value) })}
-                    placeholder="Nome do responsável"
-                    className="rounded-xl mt-1"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label className="font-body font-semibold">E-mail *</Label>
-                  <Input
-                    type="email"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder="email@exemplo.com"
-                    className="rounded-xl mt-1"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label className="font-body font-semibold">CPF *</Label>
-                  <Input
-                    value={form.cpf}
-                    onChange={(e) => setForm({ ...form, cpf: formatCPF(e.target.value) })}
-                    placeholder="000.000.000-00"
-                    className="rounded-xl mt-1"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label className="font-body font-semibold">Telefone *</Label>
-                  <Input
-                    value={form.telefone}
-                    onChange={(e) => setForm({ ...form, telefone: formatPhone(e.target.value) })}
-                    placeholder="(00) 00000-0000"
-                    className="rounded-xl mt-1"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label className="font-body font-semibold">Parentesco / vínculo</Label>
-                  <Select value={form.parentesco} onValueChange={(v) => setForm({ ...form, parentesco: v })}>
-                    <SelectTrigger className="rounded-xl mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {PARENTESCO_OPTIONS.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Se esse e-mail já tiver conta, o responsável será vinculado agora. Se ainda não tiver, o convite fica
-                  salvo e o vínculo acontece automaticamente quando a conta for criada com esse mesmo e-mail.
-                </p>
-                <DialogFooter>
-                  <DialogClose asChild>
-                    <Button type="button" variant="outline" className="rounded-xl">
-                      Cancelar
+          {!familyOwner?.isSecondary && (
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button size="sm" className="rounded-xl font-display font-bold gap-1">
+                  <UserPlus size={16} /> Adicionar
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="rounded-3xl max-w-md">
+                <DialogHeader>
+                  <DialogTitle className="font-display text-xl">Adicionar responsável</DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <Label className="font-body font-semibold">Nome completo *</Label>
+                    <Input
+                      value={form.nome}
+                      onChange={(e) => setForm({ ...form, nome: formatFullName(e.target.value) })}
+                      placeholder="Nome do responsável"
+                      className="rounded-xl mt-1"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label className="font-body font-semibold">E-mail *</Label>
+                    <Input
+                      type="email"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      placeholder="email@exemplo.com"
+                      className="rounded-xl mt-1"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label className="font-body font-semibold">CPF *</Label>
+                    <Input
+                      value={form.cpf}
+                      onChange={(e) => setForm({ ...form, cpf: formatCPF(e.target.value) })}
+                      placeholder="000.000.000-00"
+                      className="rounded-xl mt-1"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label className="font-body font-semibold">Telefone *</Label>
+                    <Input
+                      value={form.telefone}
+                      onChange={(e) => setForm({ ...form, telefone: formatPhone(e.target.value) })}
+                      placeholder="(00) 00000-0000"
+                      className="rounded-xl mt-1"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label className="font-body font-semibold">Parentesco / vínculo</Label>
+                    <Select value={form.parentesco} onValueChange={(v) => setForm({ ...form, parentesco: v })}>
+                      <SelectTrigger className="rounded-xl mt-1">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {PARENTESCO_OPTIONS.map((opt) => (
+                          <SelectItem key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Se esse e-mail já tiver conta, o responsável será vinculado agora. Se ainda não tiver, o convite fica
+                    salvo e o vínculo acontece automaticamente quando a conta for criada com esse mesmo e-mail.
+                  </p>
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button type="button" variant="outline" className="rounded-xl">
+                        Cancelar
+                      </Button>
+                    </DialogClose>
+                    <Button type="submit" disabled={addGuardian.isPending} className="rounded-xl font-display font-bold">
+                      {addGuardian.isPending ? "Adicionando..." : "✅ Adicionar"}
                     </Button>
-                  </DialogClose>
-                  <Button type="submit" disabled={addGuardian.isPending} className="rounded-xl font-display font-bold">
-                    {addGuardian.isPending ? "Adicionando..." : "✅ Adicionar"}
-                  </Button>
-                </DialogFooter>
-              </form>
-            </DialogContent>
-          </Dialog>
+                  </DialogFooter>
+                </form>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </CardHeader>
       <CardContent>
@@ -291,7 +299,9 @@ const GuardianManagement = () => {
               Nenhum responsável adicional cadastrado.
             </p>
             <p className="font-body text-xs text-muted-foreground mt-1">
-              Adicione outros responsáveis para compartilhar o acesso à carteira dos filhos.
+              {familyOwner?.isSecondary
+                ? "Somente o responsável principal pode adicionar outros responsáveis."
+                : "Adicione outros responsáveis para compartilhar o acesso à carteira dos filhos."}
             </p>
           </div>
         ) : (
