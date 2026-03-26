@@ -18,6 +18,9 @@ export type KidProfile = {
   limite_diario: number | null;
   aprovacao_transferencias: boolean;
   bloqueio_envio: boolean;
+  is_mini_gerente?: boolean;
+  referral_code?: string | null;
+  saldo_comissao?: number;
   created_at: string;
   updated_at: string;
 };
