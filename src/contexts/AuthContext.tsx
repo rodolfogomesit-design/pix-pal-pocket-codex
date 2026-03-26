@@ -36,18 +36,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const isUserBlocked = async (userId: string) => {
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("is_blocked")
-      .eq("user_id", userId)
-      .maybeSingle();
-
-    if (error) {
-      throw error;
-    }
-
-    return !!data?.is_blocked;
+  const isUserBlocked = async (_userId: string) => {
+    const { data, error } = await supabase.rpc("is_current_user_blocked");
+    if (error) throw error;
+    return !!data;
   };
 
   useEffect(() => {
@@ -64,7 +56,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               return;
             }
           } catch {
-            // Se falhar a leitura do perfil, mantemos o fluxo normal.
+            await supabase.auth.signOut();
+            setSession(null);
+            setUser(null);
+            setLoading(false);
+            return;
           }
         }
 
@@ -86,7 +82,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             return;
           }
         } catch {
-          // Se falhar a leitura do perfil, mantemos o fluxo normal.
+          await supabase.auth.signOut();
+          setSession(null);
+          setUser(null);
+          setLoading(false);
+          return;
         }
       }
 

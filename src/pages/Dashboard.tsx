@@ -42,6 +42,24 @@ const Dashboard = () => {
 
   useEffect(() => { processReferral(); }, [processReferral]);
   useEffect(() => { if (!loading && !user) navigate("/login"); }, [user, loading, navigate]);
+  useEffect(() => {
+    const enforceBlockedAccess = async () => {
+      if (!user) return;
+      const { data, error } = await supabase.rpc("is_current_user_blocked");
+      if (error) {
+        await signOut();
+        navigate("/login");
+        return;
+      }
+      if (data) {
+        toast.error("Sua conta esta bloqueada.");
+        await signOut();
+        navigate("/login");
+      }
+    };
+
+    void enforceBlockedAccess();
+  }, [user, signOut, navigate]);
 
   if (loading) {
     return (
