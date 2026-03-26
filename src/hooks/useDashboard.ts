@@ -141,16 +141,14 @@ export const useUpdateKid = () => {
 export const useParentBalance = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const { data: familyOwner } = useFamilyOwner();
 
   useEffect(() => {
-    const ownerId = familyOwner?.ownerId ?? user?.id;
-    if (!ownerId) return;
+    if (!user?.id) return;
     const channel = supabase
       .channel("parent-balance-realtime")
       .on(
         "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "profiles", filter: `user_id=eq.${ownerId}` },
+        { event: "UPDATE", schema: "public", table: "profiles", filter: `user_id=eq.${user.id}` },
         () => {
           queryClient.invalidateQueries({ queryKey: ["parent-balance"] });
         }
@@ -159,30 +157,38 @@ export const useParentBalance = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [user, familyOwner?.ownerId, queryClient]);
+  }, [user?.id, queryClient]);
 
   return useQuery({
-    queryKey: ["parent-balance", familyOwner?.ownerId ?? user?.id],
+    queryKey: ["parent-balance", user?.id],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("get_family_profile");
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("saldo")
+        .eq("user_id", user!.id)
+        .maybeSingle();
+
       if (error) throw error;
-      const profile = Array.isArray(data) ? data[0] : data;
-      return Number(profile?.saldo) || 0;
+      return Number(data?.saldo) || 0;
     },
-    enabled: !!user && !!familyOwner?.ownerId,
+    enabled: !!user?.id,
   });
 };
 
 export const useParentProfile = () => {
   const { user } = useAuth();
-  const { data: familyOwner } = useFamilyOwner();
 
   return useQuery({
-    queryKey: ["parent-profile", familyOwner?.ownerId ?? user?.id],
+    queryKey: ["parent-profile", user?.id],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("get_family_profile");
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("nome, codigo_usuario, user_id, email, telefone, cpf, chave_pix, saldo, limite_diario, limite_deposito")
+        .eq("user_id", user!.id)
+        .maybeSingle();
+
       if (error) throw error;
-      const profile = (Array.isArray(data) ? data[0] : data) as
+      const profile = data as
         | {
             nome: string;
             codigo_usuario: string | null;
@@ -198,7 +204,7 @@ export const useParentProfile = () => {
         | null;
       return profile;
     },
-    enabled: !!user && !!familyOwner?.ownerId,
+    enabled: !!user?.id,
   });
 };
 

@@ -14,8 +14,8 @@ import {
   Star,
 } from "lucide-react";
 import { toast } from "sonner";
+
 import { useAuth } from "@/contexts/AuthContext";
-import { useFamilyOwner } from "@/hooks/useFamilyOwner";
 import { useKids, useParentProfile, useTransactions } from "@/hooks/useDashboard";
 import { supabase } from "@/integrations/supabase/client";
 import { printReceipt } from "@/lib/printReceipt";
@@ -60,32 +60,14 @@ const TransactionHistory = () => {
   const { data: transactions, isLoading: txLoading } = useTransactions();
   const { data: kids } = useKids();
   const { data: profile } = useParentProfile();
-  const { data: familyOwner, isLoading: familyOwnerLoading } = useFamilyOwner();
   const [filter, setFilter] = useState<string>("parent");
   const [period, setPeriod] = useState<string>("tudo");
   const [customDate, setCustomDate] = useState<Date | undefined>(undefined);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
 
-  const historyOwnerUserId = familyOwner?.ownerId ?? user?.id;
-
-  const { data: ownerProfile } = useQuery({
-    queryKey: ["owner-profile", user?.id, familyOwner?.ownerId],
-    queryFn: async () => {
-      const { data, error } = await supabase.rpc("get_guardians_for_user");
-      if (error) throw error;
-
-      const principal = ((data as Array<{ tipo: string; nome: string | null; codigo_usuario?: string | null }>) || [])
-        .find((guardian) => guardian.tipo === "principal");
-
-      return {
-        nome: principal?.nome || "Responsável",
-        codigo_usuario: principal?.codigo_usuario || null,
-      };
-    },
-    enabled: !!user && !!familyOwner?.isSecondary,
-  });
-
+  const historyOwnerUserId = user?.id;
   const kidIds = kids?.map((kid) => kid.id) || [];
+
   const { data: commissions, isLoading: commLoading } = useQuery({
     queryKey: ["referral-commissions-parent", user?.id],
     queryFn: async () => {
@@ -114,7 +96,7 @@ const TransactionHistory = () => {
       if (error) throw error;
       return data;
     },
-    enabled: !!historyOwnerUserId && !familyOwnerLoading,
+    enabled: !!historyOwnerUserId,
   });
 
   const { data: withdrawals, isLoading: wdLoading } = useQuery({
@@ -130,10 +112,10 @@ const TransactionHistory = () => {
       if (error) throw error;
       return data;
     },
-    enabled: !!historyOwnerUserId && !familyOwnerLoading,
+    enabled: !!historyOwnerUserId,
   });
 
-  const isLoading = txLoading || commLoading || depLoading || wdLoading || familyOwnerLoading;
+  const isLoading = txLoading || commLoading || depLoading || wdLoading;
 
   const allEntries = useMemo(() => {
     const entries: UnifiedEntry[] = [];
@@ -205,19 +187,9 @@ const TransactionHistory = () => {
     ? `${parentCode} - ${profile?.nome?.split(" ")[0] || "Você"}`
     : profile?.nome?.split(" ")[0] || "Você";
 
-  const primaryOwnerLabel = useMemo(() => {
-    if (!familyOwner?.isSecondary || !ownerProfile) return parentLabel;
-    const code = ownerProfile.codigo_usuario || "";
-    const name = ownerProfile.nome?.split(" ")[0] || "Responsável";
-    return code ? `${code} - ${name}` : name;
-  }, [familyOwner?.isSecondary, ownerProfile, parentLabel]);
-
   const getUserLabel = (userId: string | null | undefined) => {
-    if (!userId) return parentLabel;
-    if (userId === user?.id) return parentLabel;
-    if (familyOwner?.isSecondary && userId === familyOwner.ownerId) return primaryOwnerLabel;
-    if (!familyOwner?.isSecondary && userId === user?.id) return parentLabel;
-    return primaryOwnerLabel;
+    if (!userId || userId === user?.id) return parentLabel;
+    return "Outro responsável";
   };
 
   const getDescription = (tx: UnifiedEntry) => {

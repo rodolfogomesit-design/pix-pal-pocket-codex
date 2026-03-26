@@ -51,19 +51,10 @@ Deno.serve(async (req: Request) => {
     const kidId = body?.kid_id || null;
     if (!valor || valor <= 0) return jsonError(400, "Valor inválido");
 
-    const { data: secondaryLink } = await serviceClient
-      .from("secondary_guardians")
-      .select("primary_user_id")
-      .eq("secondary_user_id", user.id)
-      .limit(1)
-      .maybeSingle();
-
-    const familyOwnerId = secondaryLink?.primary_user_id ?? user.id;
-
     const { data: profile } = await serviceClient
       .from("profiles")
       .select("id, nome, email, cpf, telefone")
-      .eq("user_id", familyOwnerId)
+      .eq("user_id", user.id)
       .single();
 
     if (!profile) return jsonError(404, "Perfil não encontrado");
@@ -95,7 +86,7 @@ Deno.serve(async (req: Request) => {
           cpfCnpj: cpfClean,
           email: profile.email,
           mobilePhone: profile.telefone?.replace(/\D/g, "") || undefined,
-          externalReference: familyOwnerId,
+          externalReference: user.id,
         }),
       });
 
@@ -109,7 +100,7 @@ Deno.serve(async (req: Request) => {
       }
     }
 
-    const externalId = `dep_${Date.now()}_${familyOwnerId.slice(0, 8)}`;
+    const externalId = `dep_${Date.now()}_${user.id.slice(0, 8)}`;
 
     const paymentRes = await fetch(`${AS_API_URL}/payments`, {
       method: "POST",
@@ -145,7 +136,7 @@ Deno.serve(async (req: Request) => {
     }
 
     const { error: insertError } = await serviceClient.from("deposits").insert({
-      user_id: familyOwnerId,
+      user_id: user.id,
       kid_id: kidId,
       valor,
       status: "pendente",

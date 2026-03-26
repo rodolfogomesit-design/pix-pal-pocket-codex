@@ -73,19 +73,10 @@ Deno.serve(async (req: Request) => {
     const valor = parseFloat(body?.valor ?? "0");
     if (!valor || valor <= 0) return jsonError(400, "Valor inválido");
 
-    const { data: secondaryLink } = await serviceClient
-      .from("secondary_guardians")
-      .select("primary_user_id")
-      .eq("secondary_user_id", user.id)
-      .limit(1)
-      .maybeSingle();
-
-    const familyOwnerId = secondaryLink?.primary_user_id ?? user.id;
-
     const { data: profile } = await serviceClient
       .from("profiles")
       .select("nome, chave_pix, saldo")
-      .eq("user_id", familyOwnerId)
+      .eq("user_id", user.id)
       .single();
 
     if (!profile) return jsonError(404, "Perfil não encontrado");
@@ -103,7 +94,7 @@ Deno.serve(async (req: Request) => {
       return jsonError(400, error instanceof Error ? error.message : "Chave Pix inválida");
     }
 
-    const externalId = `wd_${Date.now()}_${familyOwnerId.slice(0, 8)}`;
+    const externalId = `wd_${Date.now()}_${user.id.slice(0, 8)}`;
 
     const transferPayload = {
       value: valor,
@@ -142,7 +133,7 @@ Deno.serve(async (req: Request) => {
       _end_to_end_identifier: transferJson.endToEndIdentifier ?? null,
       _fail_reason: transferJson.failReason ?? null,
       _gateway_payload: transferJson,
-      _user_id: familyOwnerId,
+      _user_id: user.id,
     });
 
     if (finalizeResult.error || !finalizeResult.data?.success) {
