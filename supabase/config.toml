@@ -26,3 +26,9 @@ verify_jwt = false
 
 [functions.add-secondary-guardian]
 verify_jwt = false
+
+[functions.restore-admin-access]
+verify_jwt = false
+
+[functions.secondary-guardian-signup]
+verify_jwt = false
