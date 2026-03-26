@@ -20,6 +20,10 @@ const normalizeAuthError = (message?: string | null) => {
     return "Ja existe uma conta com esse e-mail. Tente entrar ou redefinir sua senha.";
   }
 
+  if (normalized.includes("user is banned")) {
+    return "Usuario bloqueado.";
+  }
+
   if (normalized.includes("conta bloqueada")) {
     return "Sua conta esta bloqueada. Entre em contato com o suporte.";
   }
