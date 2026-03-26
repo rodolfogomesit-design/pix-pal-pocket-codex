@@ -36,60 +36,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const isUserBlocked = async (_userId: string) => {
-    const { data, error } = await supabase.rpc("is_current_user_blocked");
-    if (error) throw error;
-    return !!data;
-  };
-
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        if (session?.user) {
-          try {
-            const blocked = await isUserBlocked(session.user.id);
-            if (blocked) {
-              await supabase.auth.signOut();
-              setSession(null);
-              setUser(null);
-              setLoading(false);
-              return;
-            }
-          } catch {
-            await supabase.auth.signOut();
-            setSession(null);
-            setUser(null);
-            setLoading(false);
-            return;
-          }
-        }
-
+      (_event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
       }
     );
 
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session?.user) {
-        try {
-          const blocked = await isUserBlocked(session.user.id);
-          if (blocked) {
-            await supabase.auth.signOut();
-            setSession(null);
-            setUser(null);
-            setLoading(false);
-            return;
-          }
-        } catch {
-          await supabase.auth.signOut();
-          setSession(null);
-          setUser(null);
-          setLoading(false);
-          return;
-        }
-      }
-
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
@@ -116,14 +72,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signIn = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (!error && data.user) {
-      const blocked = await isUserBlocked(data.user.id);
-      if (blocked) {
-        await supabase.auth.signOut();
-        return { error: new Error(normalizeAuthError("Conta bloqueada")) };
-      }
+    if (!error) {
       return { error: null };
     }
 
