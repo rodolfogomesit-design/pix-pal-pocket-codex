@@ -13,6 +13,20 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const normalizeAuthError = (message?: string | null) => {
+  const normalized = (message || "").toLowerCase();
+
+  if (normalized.includes("user already registered")) {
+    return "Ja existe uma conta com esse e-mail. Tente entrar ou redefinir sua senha.";
+  }
+
+  if (normalized.includes("email rate limit exceeded")) {
+    return "Muitas tentativas em sequencia. Aguarde um momento e tente novamente.";
+  }
+
+  return message || "Nao foi possivel concluir a operacao agora.";
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -45,12 +59,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         emailRedirectTo: window.location.origin,
       },
     });
-    return { error: error as Error | null };
+
+    if (!error) {
+      return { error: null };
+    }
+
+    return { error: new Error(normalizeAuthError(error.message)) };
   };
 
   const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
-    return { error: error as Error | null };
+
+    if (!error) {
+      return { error: null };
+    }
+
+    return { error: new Error(normalizeAuthError(error.message)) };
   };
 
   const signOut = async () => {

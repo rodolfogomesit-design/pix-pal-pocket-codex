@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import AnimatedPig from "@/components/branding/AnimatedPig";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import TermsDialog from "@/components/legal/TermsDialog";
 import { Button } from "@/components/ui/button";
@@ -68,6 +69,19 @@ const formatPhone = (value: string) => {
   if (digits.length <= 2) return digits.length ? `(${digits}` : "";
   if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
   return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+};
+
+const getSignupAvailabilityMessage = (availability?: { email_exists?: boolean; cpf_exists?: boolean } | null) => {
+  if (availability?.email_exists && availability?.cpf_exists) {
+    return "Já existe uma conta cadastrada com este e-mail e este CPF.";
+  }
+  if (availability?.email_exists) {
+    return "Já existe uma conta cadastrada com este e-mail.";
+  }
+  if (availability?.cpf_exists) {
+    return "Já existe uma conta cadastrada com este CPF.";
+  }
+  return "Não foi possível validar seus dados agora.";
 };
 
 const Cadastro = () => {
@@ -187,6 +201,33 @@ const Cadastro = () => {
       }
     }
 
+    const { data: signupAvailability, error: signupAvailabilityError } = await supabase.rpc(
+      "check_signup_availability",
+      {
+        _email: form.email,
+        _cpf: form.cpf,
+      }
+    );
+
+    if (signupAvailabilityError) {
+      toast.error("Nao foi possivel verificar e-mail e CPF agora.");
+      return;
+    }
+
+    const availability = signupAvailability as
+      | { available?: boolean; email_exists?: boolean; cpf_exists?: boolean }
+      | null;
+
+    if (!availability?.available) {
+      setErrors((current) => ({
+        ...current,
+        ...(availability?.email_exists ? { email: "Email ja cadastrado" } : {}),
+        ...(availability?.cpf_exists ? { cpf: "CPF ja cadastrado" } : {}),
+      }));
+      toast.error(getSignupAvailabilityMessage(availability));
+      return;
+    }
+
     setLoading(true);
     const { error } = await signUp(form.email, form.password, {
       nome: form.nome,
@@ -225,7 +266,7 @@ const Cadastro = () => {
         <div className="w-full">
           <div className="mb-8 text-center">
             <Link to="/" className="inline-flex items-center gap-2">
-              <span className="text-3xl">🐷</span>
+              <AnimatedPig size={34} />
               <span className="font-display text-3xl font-bold text-primary">Pix Kids</span>
             </Link>
           </div>

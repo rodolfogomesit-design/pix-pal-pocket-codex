@@ -791,6 +791,10 @@ export type Database = {
         Args: { p_external_id: string }
         Returns: undefined
       }
+      check_signup_availability: {
+        Args: { _cpf: string; _email: string }
+        Returns: Json
+      }
       delete_kid_account: { Args: { _kid_id: string }; Returns: Json }
       delete_referral: { Args: { _user_id: string }; Returns: Json }
       generate_codigo_publico: { Args: never; Returns: string }
