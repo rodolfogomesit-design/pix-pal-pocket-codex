@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -49,6 +49,10 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
   const [kidLimits, setKidLimits] = useState<Record<string, { diario: string; pix: string; transferencia: string }>>({});
   const [parentLimitDiario, setParentLimitDiario] = useState("");
   const [parentLimitDeposito, setParentLimitDeposito] = useState("");
+
+  useEffect(() => {
+    setManualBlocked(null);
+  }, [user.user_id]);
 
   // Check if user is blocked
   const { data: userProfile } = useQuery({
