@@ -54,6 +54,14 @@ import {
   Star,
 } from "lucide-react";
 
+type FamilyGuardian = {
+  user_id: string;
+  nome: string | null;
+  email: string | null;
+  codigo_usuario: string | null;
+  parentesco: string;
+};
+
 const usePlatformSettings = () => {
   return useQuery({
     queryKey: ["platform-settings"],
@@ -156,6 +164,81 @@ const Admin = () => {
   const [privacyText, setPrivacyText] = useState("");
   const [savingTerms, setSavingTerms] = useState(false);
   const [savingPrivacy, setSavingPrivacy] = useState(false);
+
+  const { data: selectedUserFamily } = useQuery({
+    queryKey: ["admin-user-family", selectedUser?.user_id],
+    queryFn: async () => {
+      if (!selectedUser?.user_id) return null;
+
+      const { data: secondaryLink, error: secondaryError } = await supabase
+        .from("secondary_guardians")
+        .select("primary_user_id")
+        .eq("secondary_user_id", selectedUser.user_id)
+        .limit(1)
+        .maybeSingle();
+
+      if (secondaryError) throw secondaryError;
+
+      const ownerId = secondaryLink?.primary_user_id ?? selectedUser.user_id;
+
+      const [{ data: ownerProfile, error: ownerError }, { data: secondaryLinks, error: linksError }] =
+        await Promise.all([
+          supabase
+            .from("profiles")
+            .select("user_id, nome, email, codigo_usuario")
+            .eq("user_id", ownerId)
+            .maybeSingle(),
+          supabase
+            .from("secondary_guardians")
+            .select("secondary_user_id, nome, email, parentesco")
+            .eq("primary_user_id", ownerId),
+        ]);
+
+      if (ownerError) throw ownerError;
+      if (linksError) throw linksError;
+
+      const secondaryIds = (secondaryLinks || [])
+        .map((link) => link.secondary_user_id)
+        .filter((value): value is string => Boolean(value));
+
+      let secondaryProfiles: Array<{
+        user_id: string;
+        nome: string | null;
+        email: string | null;
+        codigo_usuario: string | null;
+      }> = [];
+
+      if (secondaryIds.length > 0) {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("user_id, nome, email, codigo_usuario")
+          .in("user_id", secondaryIds);
+
+        if (error) throw error;
+        secondaryProfiles = data || [];
+      }
+
+      const secondaries: FamilyGuardian[] = (secondaryLinks || []).map((link) => {
+        const profile = secondaryProfiles.find((item) => item.user_id === link.secondary_user_id);
+
+        return {
+          user_id: link.secondary_user_id || `pending:${link.email}`,
+          nome: profile?.nome || link.nome || "Sem nome",
+          email: profile?.email || link.email || null,
+          codigo_usuario: profile?.codigo_usuario || null,
+          parentesco: link.parentesco || "outros",
+        };
+      });
+
+      return {
+        ownerId,
+        ownerProfile,
+        secondaries,
+        selectedUserIsOwner: ownerId === selectedUser.user_id,
+      };
+    },
+    enabled: !!selectedUser?.user_id,
+  });
 
   // Load limits, terms & privacy from platform_settings
   useEffect(() => {
@@ -756,6 +839,64 @@ const Admin = () => {
                 <div className="px-4 sm:px-6 py-4 border-b border-border">
                   <h4 className="font-display font-bold text-sm mb-3">Ações</h4>
                   <AdminUserActions user={selectedUser} onUserDeleted={() => setSelectedUser(null)} globalLimits={limitValues} />
+                </div>
+
+                <div className="px-4 sm:px-6 py-4 border-b border-border">
+                  <h4 className="font-display font-bold text-sm mb-3">Família vinculada</h4>
+                  {selectedUserFamily ? (
+                    <div className="space-y-3">
+                      <div className="rounded-2xl bg-primary/5 border border-primary/10 p-4">
+                        <p className="font-body text-xs text-muted-foreground mb-1">Responsável principal</p>
+                        <p className="font-display font-bold text-sm text-foreground">
+                          {selectedUserFamily.ownerProfile?.nome || "Não encontrado"}
+                        </p>
+                        <p className="font-body text-xs text-muted-foreground">
+                          {selectedUserFamily.ownerProfile?.email || "Sem e-mail"}
+                          {selectedUserFamily.ownerProfile?.codigo_usuario
+                            ? ` • Código: ${selectedUserFamily.ownerProfile.codigo_usuario}`
+                            : ""}
+                        </p>
+                        <p className="font-body text-xs mt-2 text-primary font-semibold">
+                          {selectedUserFamily.selectedUserIsOwner
+                            ? "Este usuário é o dono da família."
+                            : "Este usuário pertence à família acima como responsável secundário."}
+                        </p>
+                      </div>
+
+                      <div className="rounded-2xl bg-muted/50 p-4">
+                        <p className="font-body text-xs text-muted-foreground mb-2">
+                          Responsáveis secundários vinculados
+                        </p>
+                        {selectedUserFamily.secondaries.length > 0 ? (
+                          <div className="space-y-2">
+                            {selectedUserFamily.secondaries.map((guardian) => (
+                              <div
+                                key={guardian.user_id}
+                                className="rounded-xl bg-card border border-border px-3 py-2"
+                              >
+                                <p className="font-body font-semibold text-sm text-foreground">
+                                  {guardian.nome}
+                                </p>
+                                <p className="font-body text-xs text-muted-foreground">
+                                  {guardian.email || "Sem e-mail"}
+                                  {guardian.codigo_usuario ? ` • Código: ${guardian.codigo_usuario}` : ""}
+                                  {guardian.parentesco ? ` • ${guardian.parentesco}` : ""}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="font-body text-sm text-muted-foreground">
+                            Nenhum responsável secundário vinculado.
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="font-body text-sm text-muted-foreground">
+                      Carregando vínculos da família...
+                    </p>
+                  )}
                 </div>
 
                 <div className="px-4 sm:px-6 py-4">
