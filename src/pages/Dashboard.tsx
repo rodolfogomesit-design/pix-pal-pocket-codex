@@ -35,7 +35,7 @@ const Dashboard = () => {
   const { data: parentBalance = 0 } = useParentBalance();
   const { data: profile } = useParentProfile();
   const { data: currentGuardianProfile } = useCurrentGuardianProfile();
-  const currentFirstName = currentGuardianProfile?.nome?.split(" ")[0] || profile?.nome?.split(" ")[0] || "Responsável";
+  const currentFirstName = currentGuardianProfile?.nome?.split(" ")[0] || profile?.nome?.split(" ")[0] || "Responsavel";
   const currentDisplayName = currentGuardianProfile?.nome || profile?.nome || currentFirstName;
   const currentDisplayCode = currentGuardianProfile?.codigo_usuario || profile?.codigo_usuario || null;
 
@@ -103,7 +103,7 @@ const Dashboard = () => {
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
             <span className="font-body text-sm text-muted-foreground hidden sm:block">
-              Ol?, {currentFirstName} ??
+              Ola, {currentFirstName}
             </span>
             {isAdmin && (
               <Link to="/admin" className="flex items-center gap-1 font-body text-sm text-primary hover:underline">
