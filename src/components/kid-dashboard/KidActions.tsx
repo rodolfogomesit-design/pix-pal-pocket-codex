@@ -1,45 +1,18 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { KidSession } from "@/contexts/KidAuthContext";
-import { useKidReferralStats, useWithdrawCommission } from "@/hooks/useMiniGerente";
-import { Snowflake, ArrowDownToLine } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { useKidReferralStats } from "@/hooks/useMiniGerente";
+import { Snowflake } from "lucide-react";
 import { toast } from "sonner";
 
 interface Props {
   kid: KidSession;
-  onTransferSuccess: (updates?: { saldo?: number; saldo_comissao?: number }) => void;
 }
 
-const KidActions = ({ kid, onTransferSuccess }: Props) => {
+const KidActions = ({ kid }: Props) => {
   const navigate = useNavigate();
   const { data: stats } = useKidReferralStats(kid.id);
-  const withdrawCommission = useWithdrawCommission();
-  const [showWithdraw, setShowWithdraw] = useState(false);
-  const [withdrawAmount, setWithdrawAmount] = useState("");
 
   const saldoComissao = stats?.saldo_comissao || (kid as any).saldo_comissao || 0;
-
-  const handleWithdraw = async () => {
-    const valor = parseFloat(withdrawAmount);
-    if (!valor || valor <= 0) {
-      toast.error("Valor inválido");
-      return;
-    }
-    try {
-      const result = await withdrawCommission.mutateAsync({ kidId: kid.id, valor });
-      toast.success(`R$ ${valor.toFixed(2)} transferido para seu saldo! 🎉`);
-      setShowWithdraw(false);
-      setWithdrawAmount("");
-      onTransferSuccess({
-        saldo: result?.novo_saldo !== undefined ? Number(result.novo_saldo) : undefined,
-        saldo_comissao: result?.novo_comissao !== undefined ? Number(result.novo_comissao) : undefined,
-      });
-    } catch (err: any) {
-      toast.error(err.message || "Erro ao sacar comissão");
-    }
-  };
 
   if (kid.is_frozen) {
     return (
@@ -88,7 +61,7 @@ const KidActions = ({ kid, onTransferSuccess }: Props) => {
 
         {/* Sacar Comissão */}
         <button
-          onClick={() => saldoComissao > 0 ? setShowWithdraw(true) : toast.info("Sem comissão disponível")}
+          onClick={() => (saldoComissao > 0 ? navigate("/crianca/sacar-comissao") : toast.info("Sem comissão disponível"))}
           className="bg-gradient-to-br from-kids-yellow-light to-kids-orange/20 rounded-2xl p-5 text-center transition-all hover:scale-[1.03] active:scale-95"
         >
           <span className="text-3xl block mb-2">💰</span>
@@ -98,43 +71,6 @@ const KidActions = ({ kid, onTransferSuccess }: Props) => {
           </span>
         </button>
       </div>
-
-      {/* Withdraw modal inline */}
-      {showWithdraw && (
-        <div className="mt-4 bg-card rounded-2xl border border-border p-4 space-y-3">
-          <p className="font-display text-sm font-bold">💰 Sacar comissão para meu saldo</p>
-          <p className="font-body text-xs text-muted-foreground">
-            Disponível: R$ {saldoComissao.toFixed(2)}
-          </p>
-          <Input
-            type="number"
-            placeholder={`Valor (máx R$ ${saldoComissao.toFixed(2)})`}
-            value={withdrawAmount}
-            onChange={(e) => setWithdrawAmount(e.target.value)}
-            className="rounded-xl"
-            step="0.01"
-            min="0.01"
-            max={saldoComissao}
-          />
-          <div className="flex gap-2">
-            <Button
-              onClick={() => { setShowWithdraw(false); setWithdrawAmount(""); }}
-              variant="outline"
-              className="flex-1 rounded-xl"
-            >
-              Cancelar
-            </Button>
-            <Button
-              onClick={handleWithdraw}
-              disabled={withdrawCommission.isPending}
-              className="flex-1 rounded-xl bg-kids-green text-accent-foreground hover:bg-kids-green/90 font-display font-bold"
-            >
-              <ArrowDownToLine size={16} className="mr-1" />
-              {withdrawCommission.isPending ? "Sacando..." : "Confirmar"}
-            </Button>
-          </div>
-        </div>
-      )}
 
       {/* Info badges */}
       <div className="flex flex-wrap gap-2 mt-4">

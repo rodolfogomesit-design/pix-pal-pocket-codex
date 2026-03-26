@@ -81,23 +81,6 @@ const KidDashboard = () => {
     navigate("/crianca");
   };
 
-  const handleKidBalanceUpdate = useCallback(
-    (updates?: { saldo?: number; saldo_comissao?: number }) => {
-      if (!updates) return;
-
-      setKid((currentKid) => {
-        if (!currentKid) return currentKid;
-
-        return {
-          ...currentKid,
-          ...(updates.saldo !== undefined && { saldo: updates.saldo }),
-          ...(updates.saldo_comissao !== undefined && { saldo_comissao: updates.saldo_comissao }),
-        };
-      });
-    },
-    [setKid],
-  );
-
   const isMiniGerente = (kid as any).is_mini_gerente;
   const tabs = [
     { id: "home" as Tab, label: "🏠 Início", emoji: "🏠" },
@@ -135,7 +118,7 @@ const KidDashboard = () => {
           {tab === "home" && (
             <motion.div key="home" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
               <KidBalance saldo={kid.saldo} />
-              <KidActions kid={kid} onTransferSuccess={handleKidBalanceUpdate} />
+              <KidActions kid={kid} />
             </motion.div>
           )}
 
