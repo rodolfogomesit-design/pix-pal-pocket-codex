@@ -20,6 +20,10 @@ const normalizeAuthError = (message?: string | null) => {
     return "Ja existe uma conta com esse e-mail. Tente entrar ou redefinir sua senha.";
   }
 
+  if (normalized.includes("conta bloqueada")) {
+    return "Sua conta esta bloqueada. Entre em contato com o suporte.";
+  }
+
   if (normalized.includes("email rate limit exceeded")) {
     return "Muitas tentativas em sequencia. Aguarde um momento e tente novamente.";
   }
@@ -32,16 +36,60 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const isUserBlocked = async (userId: string) => {
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("is_blocked")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (error) {
+      throw error;
+    }
+
+    return !!data?.is_blocked;
+  };
+
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      async (_event, session) => {
+        if (session?.user) {
+          try {
+            const blocked = await isUserBlocked(session.user.id);
+            if (blocked) {
+              await supabase.auth.signOut();
+              setSession(null);
+              setUser(null);
+              setLoading(false);
+              return;
+            }
+          } catch {
+            // Se falhar a leitura do perfil, mantemos o fluxo normal.
+          }
+        }
+
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
       }
     );
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (session?.user) {
+        try {
+          const blocked = await isUserBlocked(session.user.id);
+          if (blocked) {
+            await supabase.auth.signOut();
+            setSession(null);
+            setUser(null);
+            setLoading(false);
+            return;
+          }
+        } catch {
+          // Se falhar a leitura do perfil, mantemos o fluxo normal.
+        }
+      }
+
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
@@ -68,9 +116,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (!error) {
+    if (!error && data.user) {
+      const blocked = await isUserBlocked(data.user.id);
+      if (blocked) {
+        await supabase.auth.signOut();
+        return { error: new Error(normalizeAuthError("Conta bloqueada")) };
+      }
       return { error: null };
     }
 
