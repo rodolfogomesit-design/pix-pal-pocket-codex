@@ -100,6 +100,23 @@ Deno.serve(async (req: Request) => {
 
     let targetUserId = existingProfile?.user_id ?? null;
 
+    if (!targetUserId) {
+      const {
+        data: { users },
+        error: listUsersError,
+      } = await serviceClient.auth.admin.listUsers({ page: 1, perPage: 1000 });
+
+      if (listUsersError) {
+        return json(400, {
+          success: false,
+          error: listUsersError.message,
+        });
+      }
+
+      const existingAuthUser = users.find((candidate) => candidate.email?.toLowerCase() === email) ?? null;
+      targetUserId = existingAuthUser?.id ?? null;
+    }
+
     if (targetUserId === familyOwnerId) {
       return json(400, {
         success: false,
