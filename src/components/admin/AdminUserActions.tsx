@@ -136,10 +136,28 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
-      const { data, error } = await supabase.rpc("admin_delete_user" as any, { _user_id: user.user_id });
-      if (error) throw error;
-      const result = data as any;
-      if (!result?.success) throw new Error(result?.error);
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session?.access_token) {
+        throw new Error("Não autenticado");
+      }
+
+      const response = await fetch("https://ylmrmidgxhcthwmoebzl.supabase.co/functions/v1/admin-delete-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+        },
+        body: JSON.stringify({ userId: user.user_id }),
+      });
+
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result?.ok === false) {
+        throw new Error(result?.error || "Erro ao excluir usuário");
+      }
     },
     onSuccess: () => {
       toast.success("Usuário excluído permanentemente 🗑️");
@@ -147,7 +165,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
       setDeleteDialog(false);
       onUserDeleted();
     },
-    onError: () => toast.error("Erro ao excluir usuário"),
+    onError: (error: Error) => toast.error(error.message || "Erro ao excluir usuário"),
   });
 
   const adjustMutation = useMutation({
