@@ -5,6 +5,7 @@ import { ArrowLeft, CheckCircle2, Eye, EyeOff, Gift, Home, XCircle } from "lucid
 import { toast } from "sonner";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import TermsDialog from "@/components/legal/TermsDialog";
 import { Button } from "@/components/ui/button";
@@ -90,6 +91,9 @@ const Cadastro = () => {
   const [showPrivacyDialog, setShowPrivacyDialog] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [referralLookupLoading, setReferralLookupLoading] = useState(false);
+  const [referralOwner, setReferralOwner] = useState<string | null>(null);
+  const [referralLookupError, setReferralLookupError] = useState("");
 
   const cpfDigits = form.cpf.replace(/\D/g, "");
   const cpfComplete = cpfDigits.length === 11;
@@ -113,6 +117,47 @@ const Cadastro = () => {
     setErrors((current) => ({ ...current, [name]: "" }));
   };
 
+  const handleLookupReferralCode = async (code = referralCode) => {
+    const trimmedCode = code.trim();
+
+    if (!trimmedCode) {
+      setReferralOwner(null);
+      setReferralLookupError("");
+      return { valid: true };
+    }
+
+    if (trimmedCode.length !== 5) {
+      setReferralOwner(null);
+      setReferralLookupError("O código de indicação deve ter 5 dígitos.");
+      return { valid: false };
+    }
+
+    setReferralLookupLoading(true);
+    setReferralLookupError("");
+
+    const { data, error } = await supabase.rpc("lookup_by_code", { _codigo: trimmedCode });
+
+    setReferralLookupLoading(false);
+
+    if (error) {
+      setReferralOwner(null);
+      setReferralLookupError("Não foi possível validar o código agora.");
+      return { valid: false };
+    }
+
+    const result = data as { success?: boolean; nome?: string; error?: string };
+
+    if (!result?.success || !result?.nome) {
+      setReferralOwner(null);
+      setReferralLookupError(result?.error || "Código de indicação não encontrado.");
+      return { valid: false };
+    }
+
+    setReferralOwner(result.nome);
+    setReferralLookupError("");
+    return { valid: true, owner: result.nome };
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setErrors({});
@@ -132,6 +177,14 @@ const Cadastro = () => {
       });
       setErrors(fieldErrors);
       return;
+    }
+
+    if (referralCode.trim()) {
+      const referralValidation = await handleLookupReferralCode();
+      if (!referralValidation.valid) {
+        toast.error("Verifique o código de indicação antes de continuar.");
+        return;
+      }
     }
 
     setLoading(true);
@@ -325,11 +378,41 @@ const Cadastro = () => {
                   </Label>
                   <Input
                     value={referralCode}
-                    onChange={(event) => setReferralCode(event.target.value.replace(/\D/g, "").slice(0, 5))}
+                    onChange={(event) => {
+                      setReferralCode(event.target.value.replace(/\D/g, "").slice(0, 5));
+                      setReferralOwner(null);
+                      setReferralLookupError("");
+                    }}
+                    onBlur={() => {
+                      if (referralCode.trim()) {
+                        void handleLookupReferralCode();
+                      }
+                    }}
                     placeholder="Ex: 12345"
                     className="mt-1 rounded-xl"
-                    maxLength={10}
+                    maxLength={5}
                   />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => void handleLookupReferralCode()}
+                    disabled={referralLookupLoading || referralCode.trim().length !== 5}
+                    className="mt-2 w-full rounded-xl"
+                  >
+                    {referralLookupLoading ? "Buscando código..." : "Buscar código"}
+                  </Button>
+                  {referralOwner && (
+                    <div className="mt-2 rounded-xl border border-green-500/30 bg-green-500/10 p-3">
+                      <p className="text-sm font-body text-green-700 dark:text-green-400">
+                        Código encontrado para <span className="font-semibold">{referralOwner}</span>.
+                      </p>
+                    </div>
+                  )}
+                  {referralLookupError && (
+                    <div className="mt-2 rounded-xl border border-destructive/30 bg-destructive/10 p-3">
+                      <p className="text-sm font-body text-destructive">{referralLookupError}</p>
+                    </div>
+                  )}
                   <p className="mt-1 text-xs font-body text-muted-foreground">
                     Se alguém te indicou, você pode informar o código aqui.
                   </p>
