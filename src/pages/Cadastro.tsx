@@ -403,9 +403,7 @@ const Cadastro = () => {
                   </Button>
                   {referralOwner && (
                     <div className="mt-2 rounded-xl border border-green-500/30 bg-green-500/10 p-3">
-                      <p className="text-sm font-body text-green-700 dark:text-green-400">
-                        Código encontrado para <span className="font-semibold">{referralOwner}</span>.
-                      </p>
+                      <p className="text-sm font-body font-semibold text-green-700 dark:text-green-400">{referralOwner}</p>
                     </div>
                   )}
                   {referralLookupError && (
