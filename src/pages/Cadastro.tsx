@@ -70,7 +70,7 @@ const formatPhone = (value: string) => {
 };
 
 const Cadastro = () => {
-  const { signIn, signUp } = useAuth();
+  const { signUp } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -135,47 +135,6 @@ const Cadastro = () => {
     }
 
     setLoading(true);
-    const inviteResponse = await fetch(
-      "https://ylmrmidgxhcthwmoebzl.supabase.co/functions/v1/secondary-guardian-signup",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nome: form.nome,
-          email: form.email,
-          telefone: form.telefone,
-          cpf: form.cpf,
-          password: form.password,
-        }),
-      },
-    );
-
-    const inviteResult = await inviteResponse.json().catch(() => ({} as { success?: boolean; error?: string }));
-
-    if (inviteResponse.ok && (inviteResult as { success?: boolean }).success) {
-      const { error: invitedLoginError } = await signIn(form.email, form.password);
-
-      if (invitedLoginError) {
-        toast.success("Conta criada e vinculada com sucesso! Faça login para continuar.");
-        navigate("/login");
-      } else {
-        toast.success("Conta criada e vinculada com sucesso!");
-        navigate("/dashboard");
-      }
-
-      setLoading(false);
-      return;
-    }
-
-    if (
-      inviteResponse.status !== 404 ||
-      (inviteResult as { error?: string }).error !== "NO_PENDING_INVITE"
-    ) {
-      toast.error((inviteResult as { error?: string }).error || "Não foi possível concluir o cadastro.");
-      setLoading(false);
-      return;
-    }
-
     const { error } = await signUp(form.email, form.password, {
       nome: form.nome,
       telefone: form.telefone,
