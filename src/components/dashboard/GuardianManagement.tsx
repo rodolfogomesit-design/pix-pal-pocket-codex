@@ -96,13 +96,15 @@ const GuardianManagement = () => {
 
   const addGuardian = useMutation({
     mutationFn: async () => {
-      const { data, error } = await supabase.rpc("add_secondary_guardian", {
-        _nome: form.nome,
-        _email: form.email,
-        _cpf: form.cpf || null,
-        _telefone: form.telefone || null,
-        _parentesco: form.parentesco,
-        _senha: form.senha || null,
+      const { data, error } = await supabase.functions.invoke("add-secondary-guardian", {
+        body: {
+          nome: form.nome,
+          email: form.email,
+          cpf: form.cpf || null,
+          telefone: form.telefone || null,
+          parentesco: form.parentesco,
+          senha: form.senha || null,
+        },
       });
       if (error) throw error;
       const result = data as any;
