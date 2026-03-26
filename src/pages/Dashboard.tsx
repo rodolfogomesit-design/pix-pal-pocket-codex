@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { useKids, useParentBalance, useParentProfile } from "@/hooks/useDashboard";
+import { useCurrentGuardianProfile, useKids, useParentBalance, useParentProfile } from "@/hooks/useDashboard";
 import { useIsAdmin } from "@/hooks/useAdmin";
 import { useGuardianRole } from "@/hooks/useGuardianRole";
 import AddKidDialog from "@/components/dashboard/AddKidDialog";
@@ -34,6 +34,10 @@ const Dashboard = () => {
 
   const { data: parentBalance = 0 } = useParentBalance();
   const { data: profile } = useParentProfile();
+  const { data: currentGuardianProfile } = useCurrentGuardianProfile();
+  const currentFirstName = currentGuardianProfile?.nome?.split(" ")[0] || profile?.nome?.split(" ")[0] || "Responsável";
+  const currentDisplayName = currentGuardianProfile?.nome || profile?.nome || currentFirstName;
+  const currentDisplayCode = currentGuardianProfile?.codigo_usuario || profile?.codigo_usuario || null;
 
   const firstName = profile?.nome?.split(" ")[0] || "Responsável";
 
@@ -99,7 +103,7 @@ const Dashboard = () => {
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
             <span className="font-body text-sm text-muted-foreground hidden sm:block">
-              Olá, {firstName} 👋
+              Ol?, {currentFirstName} ??
             </span>
             {isAdmin && (
               <Link to="/admin" className="flex items-center gap-1 font-body text-sm text-primary hover:underline">
@@ -130,17 +134,17 @@ const Dashboard = () => {
       <main className="container mx-auto px-3 sm:px-4 py-5 sm:py-8 max-w-5xl">
         <div className="mb-4 px-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <p className="font-display font-bold text-lg sm:text-xl">{profile?.nome || firstName}</p>
+            <p className="font-display font-bold text-lg sm:text-xl">{displayName}</p>
           </div>
-          {profile?.codigo_usuario && (
+          {displayCode && (
             <button
               onClick={() => {
-                navigator.clipboard.writeText(profile.codigo_usuario);
+                navigator.clipboard.writeText(displayCode);
                 toast.success("Código copiado!");
               }}
               className="font-display text-sm text-muted-foreground hover:text-primary inline-flex items-center gap-1 transition-colors"
             >
-              ID: {profile.codigo_usuario} <Copy size={12} />
+              ID: {displayCode} <Copy size={12} />
             </button>
           )}
         </div>
@@ -153,7 +157,7 @@ const Dashboard = () => {
             whileHover={{ scale: 1.03, y: -2 }}
             className="bg-gradient-to-br from-primary to-primary/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-primary-foreground cursor-default"
           >
-            <p className="font-body text-xs sm:text-sm opacity-80">Saldo de {firstName}</p>
+            <p className="font-body text-xs sm:text-sm opacity-80">Saldo de {currentFirstName}</p>
             <p className="font-display text-2xl sm:text-3xl font-extrabold mt-1">
               R$ {parentBalance.toFixed(2)}
             </p>
@@ -271,3 +275,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+

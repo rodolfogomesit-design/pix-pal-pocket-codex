@@ -202,6 +202,25 @@ export const useParentProfile = () => {
   });
 };
 
+export const useCurrentGuardianProfile = () => {
+  const { user } = useAuth();
+
+  return useQuery({
+    queryKey: ["current-guardian-profile", user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("user_id, nome, email, telefone, cpf, chave_pix, saldo, codigo_usuario, limite_diario, limite_deposito")
+        .eq("user_id", user!.id)
+        .maybeSingle();
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!user,
+  });
+};
+
 export const useSendAllowance = () => {
   const queryClient = useQueryClient();
 
