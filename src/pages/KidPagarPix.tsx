@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Camera, Check, Copy, Home, Key, Pencil, Printer, Star, Trash2, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -163,16 +163,7 @@ const KidPagarPix = () => {
   const scannerRef = useRef<any>(null);
   const scannerContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!kid) {
-      navigate("/crianca");
-      return;
-    }
-
-    void loadContacts();
-  }, [kid, navigate]);
-
-  const loadContacts = async () => {
+  const loadContacts = useCallback(async () => {
     if (!kid) return;
 
     setLoadingContacts(true);
@@ -182,7 +173,16 @@ const KidPagarPix = () => {
     if (data) {
       setContacts(data as PixContact[]);
     }
-  };
+  }, [kid]);
+
+  useEffect(() => {
+    if (!kid) {
+      navigate("/crianca");
+      return;
+    }
+
+    void loadContacts();
+  }, [kid, loadContacts, navigate]);
 
   const handleSelectContact = (contact: PixContact) => {
     setChavePix(contact.chave_pix);

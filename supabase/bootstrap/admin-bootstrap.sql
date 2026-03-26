@@ -181,7 +181,10 @@ begin
   select count(*) into _total_users from public.profiles;
   select count(*) into _total_kids from public.kids_profiles;
   select count(*) into _total_transactions from public.transactions;
-  select coalesce(sum(saldo), 0) into _total_balance from public.kids_profiles;
+  select
+    coalesce((select sum(saldo) from public.profiles), 0) +
+    coalesce((select sum(saldo) from public.kids_profiles), 0)
+  into _total_balance;
   select coalesce(sum(valor), 0) into _total_volume from public.transactions where status = 'aprovado';
   select count(*) into _pending_approvals from public.transactions where status = 'pendente';
 
@@ -235,7 +238,10 @@ begin
   left join public.kids_profiles kp on kp.id = t.from_kid or kp.id = t.to_kid
   where t.created_at >= now() - interval '30 days';
 
-  select coalesce(sum(saldo), 0) into _total_balance from public.kids_profiles;
+  select
+    coalesce((select sum(saldo) from public.profiles), 0) +
+    coalesce((select sum(saldo) from public.kids_profiles), 0)
+  into _total_balance;
 
   return jsonb_build_object(
     'success', true,
@@ -289,7 +295,8 @@ begin
           p.codigo_usuario,
           p.created_at,
           (select count(*) from public.kids_profiles k where k.user_responsavel = p.user_id) as kids_count,
-          (select coalesce(sum(k.saldo), 0) from public.kids_profiles k where k.user_responsavel = p.user_id) as total_balance
+          coalesce(p.saldo, 0) +
+          coalesce((select sum(k.saldo) from public.kids_profiles k where k.user_responsavel = p.user_id), 0) as total_balance
         from public.profiles p
         where _query = ''
           or p.nome ilike '%' || _query || '%'

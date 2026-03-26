@@ -11,7 +11,6 @@ import {
   useAdminDetailedMetrics,
   useAdminSearchUsers,
   useAdminUserKids,
-  useAdminToggleFreeze,
   useAdminRecentTransactions,
 } from "@/hooks/useAdmin";
 import type { AdminUser } from "@/hooks/useAdmin";
@@ -26,6 +25,7 @@ import ThemeToggle from "@/components/theme/ThemeToggle";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import AdminUserActions from "@/components/admin/AdminUserActions";
+import AdminKidActions from "@/components/admin/AdminKidActions";
 import {
   LogOut,
   Search,
@@ -35,8 +35,6 @@ import {
   DollarSign,
   Clock,
   Shield,
-  Snowflake,
-  Sun,
   ArrowLeft,
   Eye,
   Settings,
@@ -100,7 +98,6 @@ const Admin = () => {
   const totalPages = Math.max(1, Math.ceil(totalUsers / pageSize));
   const [selectedUser, setSelectedUser] = useState<AdminUser | null>(null);
   const { data: userKids } = useAdminUserKids(selectedUser?.user_id || null);
-  const toggleFreeze = useAdminToggleFreeze();
   const [feeValues, setFeeValues] = useState<Record<string, string>>({});
   const [savingFees, setSavingFees] = useState(false);
   const [exporting, setExporting] = useState(false);
@@ -789,21 +786,9 @@ const Admin = () => {
                               )}
                             </div>
                           </div>
-                          <Button
-                            size="sm"
-                            variant={kid.is_frozen ? "default" : "outline"}
-                            className="rounded-xl self-end sm:self-auto"
-                            onClick={() => {
-                              toggleFreeze.mutate(
-                                { kidId: kid.id, freeze: !kid.is_frozen },
-                                { onSuccess: () => toast.success(kid.is_frozen ? "Conta descongelada ☀️" : "Conta congelada ❄️") }
-                              );
-                            }}
-                            disabled={toggleFreeze.isPending}
-                          >
-                            {kid.is_frozen ? <Sun size={14} /> : <Snowflake size={14} />}
-                            <span className="ml-1 text-xs">{kid.is_frozen ? "Descongelar" : "Congelar"}</span>
-                          </Button>
+                          <div className="w-full sm:w-auto sm:min-w-[34rem]">
+                            <AdminKidActions kid={kid} />
+                          </div>
                         </div>
                       ))}
                     </div>

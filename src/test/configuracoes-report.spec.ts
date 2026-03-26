@@ -1,6 +1,6 @@
 import { expect, test } from "../../playwright-fixture";
 
-const SUPABASE_AUTH_STORAGE_KEY = "sb-yuiavjcixnjrywlwjjgx-auth-token";
+const SUPABASE_AUTH_STORAGE_KEY = "sb-ylmrmidgxhcthwmoebzl-auth-token";
 
 const parentSession = {
   access_token: "test-access-token",
@@ -44,7 +44,7 @@ test.describe("configuracoes report", () => {
       })();
     }, [SUPABASE_AUTH_STORAGE_KEY, parentSession] as const);
 
-    await page.route("https://yuiavjcixnjrywlwjjgx.supabase.co/**", async (route) => {
+    await page.route("https://*.supabase.co/**", async (route) => {
       const url = new URL(route.request().url());
       const pathname = url.pathname;
       const select = url.searchParams.get("select") || "";

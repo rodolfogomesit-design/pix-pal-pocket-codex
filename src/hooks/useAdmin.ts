@@ -30,6 +30,7 @@ export interface AdminUser {
   email: string;
   telefone: string | null;
   cpf: string | null;
+  chave_pix?: string | null;
   codigo_usuario: string | null;
   created_at: string;
   kids_count: number;

@@ -1,6 +1,6 @@
 import { expect, test } from "../../playwright-fixture";
 
-const SUPABASE_AUTH_STORAGE_KEY = "sb-yuiavjcixnjrywlwjjgx-auth-token";
+const SUPABASE_AUTH_STORAGE_KEY = "sb-ylmrmidgxhcthwmoebzl-auth-token";
 const SUPABASE_URL_PATTERN = "https://*.supabase.co/**";
 
 const parentSession = {
@@ -138,11 +138,16 @@ test.describe("adult finance flows", () => {
         return;
       }
 
-      if (pathname.endsWith("/rest/v1/rpc/request_withdrawal")) {
+      if (pathname.endsWith("/functions/v1/asaas-pixout")) {
         await route.fulfill({
           status: 200,
           contentType: "application/json",
-          body: JSON.stringify({ success: true, chave_pix: "11999999999", valor: 30 }),
+          body: JSON.stringify({
+            ok: true,
+            external_id: "wd-1",
+            transaction_id: "tr-1",
+            status: "PENDING",
+          }),
         });
         return;
       }

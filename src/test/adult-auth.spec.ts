@@ -1,5 +1,7 @@
 import { expect, test } from "../../playwright-fixture";
 
+const SUPABASE_URL_PATTERN = "https://*.supabase.co/**";
+
 const authSession = {
   access_token: "auth-access-token",
   refresh_token: "auth-refresh-token",
@@ -25,7 +27,7 @@ test.describe("adult authentication flows", () => {
   test("creates a parent account and preserves the referral code for the first login", async ({ page }) => {
     let signupPayload: Record<string, any> | null = null;
 
-    await page.route("https://yuiavjcixnjrywlwjjgx.supabase.co/**", async (route) => {
+    await page.route(SUPABASE_URL_PATTERN, async (route) => {
       const url = new URL(route.request().url());
       const pathname = url.pathname;
 
@@ -77,7 +79,7 @@ test.describe("adult authentication flows", () => {
     let loginLookupPayload: Record<string, any> | null = null;
     let passwordLoginPayload: Record<string, any> | null = null;
 
-    await page.route("https://yuiavjcixnjrywlwjjgx.supabase.co/**", async (route) => {
+    await page.route(SUPABASE_URL_PATTERN, async (route) => {
       const url = new URL(route.request().url());
       const pathname = url.pathname;
 
@@ -153,7 +155,7 @@ test.describe("adult authentication flows", () => {
     });
 
     await page.goto("/login");
-    await page.getByLabel("CPF").fill("52998224725");
+    await page.getByLabel("CPF ou e-mail").fill("52998224725");
     await page.getByLabel("Senha", { exact: true }).fill("123456");
     await page.getByRole("button", { name: "Entrar" }).click();
 

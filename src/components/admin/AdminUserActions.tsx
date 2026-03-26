@@ -41,6 +41,9 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
   const [editNome, setEditNome] = useState(user.nome);
   const [editTelefone, setEditTelefone] = useState(user.telefone || "");
   const [editEmail, setEditEmail] = useState(user.email);
+  const [editCpf, setEditCpf] = useState(user.cpf || "");
+  const [editChavePix, setEditChavePix] = useState(user.chave_pix || "");
+  const [editPassword, setEditPassword] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState("");
   const [kidLimits, setKidLimits] = useState<Record<string, { diario: string; pix: string; transferencia: string }>>({});
   const [parentLimitDiario, setParentLimitDiario] = useState("");
@@ -52,11 +55,17 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
     queryFn: async () => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("is_blocked, limite_diario, limite_deposito")
+        .select("is_blocked, limite_diario, limite_deposito, cpf, chave_pix")
         .eq("user_id", user.user_id)
         .maybeSingle();
       if (error) throw error;
-      return data as { is_blocked: boolean; limite_diario: number | null; limite_deposito: number | null } | null;
+      return data as {
+        is_blocked: boolean;
+        limite_diario: number | null;
+        limite_deposito: number | null;
+        cpf: string | null;
+        chave_pix: string | null;
+      } | null;
     },
   });
 
@@ -166,11 +175,34 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
 
   const editMutation = useMutation({
     mutationFn: async () => {
+      const trimmedPassword = editPassword.trim();
+      if (trimmedPassword && trimmedPassword.length < 6) {
+        throw new Error("A nova senha deve ter pelo menos 6 caracteres");
+      }
+
+      const shouldUpdateAuth = editEmail !== user.email || !!trimmedPassword;
+      if (shouldUpdateAuth) {
+        const { data: authData, error: authError } = await supabase.functions.invoke("admin-update-user-auth", {
+          body: {
+            userId: user.user_id,
+            email: editEmail !== user.email ? editEmail : undefined,
+            password: trimmedPassword || undefined,
+          },
+        });
+
+        if (authError) throw authError;
+        if (authData && authData.ok === false) {
+          throw new Error(authData.error || "Erro ao atualizar autenticação");
+        }
+      }
+
       const { data, error } = await supabase.rpc("admin_update_user_profile" as any, {
         _user_id: user.user_id,
         _nome: editNome,
         _telefone: editTelefone || null,
         _email: editEmail,
+        _cpf: editCpf || null,
+        _chave_pix: editChavePix || null,
       });
       if (error) throw error;
       const result = data as any;
@@ -180,8 +212,9 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
       toast.success("Cadastro atualizado ✅");
       invalidateAll();
       setEditDialog(false);
+      setEditPassword("");
     },
-    onError: () => toast.error("Erro ao atualizar cadastro"),
+    onError: (error: Error) => toast.error(error.message || "Erro ao atualizar cadastro"),
   });
 
   // Kids for limits dialog
@@ -323,7 +356,15 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
           variant="outline"
           size="sm"
           className="rounded-xl text-xs h-9 justify-start gap-2"
-          onClick={() => { setEditNome(user.nome); setEditTelefone(user.telefone || ""); setEditEmail(user.email); setEditDialog(true); }}
+          onClick={() => {
+            setEditNome(user.nome);
+            setEditTelefone(user.telefone || "");
+            setEditEmail(user.email);
+            setEditCpf(userProfile?.cpf || user.cpf || "");
+            setEditChavePix(userProfile?.chave_pix || user.chave_pix || "");
+            setEditPassword("");
+            setEditDialog(true);
+          }}
         >
           <PencilLine size={14} className="text-kids-yellow" />
           Alterar Cadastro
@@ -513,6 +554,14 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
           </DialogHeader>
           <div className="space-y-3">
             <div>
+              <label className="font-body text-sm font-semibold text-foreground">CPF cadastrado</label>
+              <Input value={editCpf} onChange={(e) => setEditCpf(e.target.value)} className="rounded-xl mt-1" placeholder="000.000.000-00" />
+            </div>
+            <div>
+              <label className="font-body text-sm font-semibold text-foreground">Chave Pix cadastrada</label>
+              <Input value={editChavePix} onChange={(e) => setEditChavePix(e.target.value)} className="rounded-xl mt-1" placeholder="CPF, e-mail, telefone ou chave aleatória" />
+            </div>
+            <div>
               <label className="font-body text-sm font-semibold text-foreground">Nome</label>
               <Input value={editNome} onChange={(e) => setEditNome(e.target.value)} className="rounded-xl mt-1" />
             </div>
@@ -524,7 +573,17 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
               <label className="font-body text-sm font-semibold text-foreground">Telefone</label>
               <Input value={editTelefone} onChange={(e) => setEditTelefone(e.target.value)} className="rounded-xl mt-1" placeholder="(00) 00000-0000" />
             </div>
-            <p className="font-body text-xs text-muted-foreground">CPF não pode ser alterado.</p>
+            <div>
+              <label className="font-body text-sm font-semibold text-foreground">Nova senha</label>
+              <Input
+                type="password"
+                value={editPassword}
+                onChange={(e) => setEditPassword(e.target.value)}
+                className="rounded-xl mt-1"
+                placeholder="Deixe em branco para não alterar"
+              />
+            </div>
+            <p className="font-body text-xs text-muted-foreground">A nova senha é opcional. Se preenchida, será atualizada junto com o cadastro.</p>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setEditDialog(false)}>Cancelar</Button>

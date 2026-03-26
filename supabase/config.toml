@@ -17,3 +17,9 @@ verify_jwt = false
 
 [functions.woovi-webhook]
 verify_jwt = false
+
+[functions.admin-update-user-auth]
+verify_jwt = false
+
+[functions.admin-kid-actions]
+verify_jwt = false

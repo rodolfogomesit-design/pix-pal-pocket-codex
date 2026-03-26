@@ -72,7 +72,7 @@ const KidDashboard = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [kid?.id, setKid]);
+  }, [kid, setKid]);
 
   if (!kid) return null;
 

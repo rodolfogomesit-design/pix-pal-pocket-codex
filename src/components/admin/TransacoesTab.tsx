@@ -48,6 +48,16 @@ const recentTypeMeta: Record<string, { label: string; icon: React.ReactNode }> =
 
 const normalizeTxType = (tipo: string | null | undefined) => (tipo || "").trim().toLowerCase();
 
+const recentCategoryByType: Record<string, string> = {
+  deposito: "deposits",
+  saque: "withdrawals",
+  transferencia: "transfers",
+  mesada: "transfers",
+  pagamento: "payments",
+  pix: "payments",
+  comissao: "commissions",
+};
+
 const Section = ({
   icon,
   title,
@@ -157,6 +167,10 @@ const TransacoesTab = ({ tipoLabel, statusStyle, recentTransactions }: Props) =>
   };
 
   const show = (key: string) => !categoryFilter || categoryFilter === key;
+  const filteredRecentTransactions = (recentTransactions || []).filter((tx) => {
+    if (!categoryFilter) return true;
+    return recentCategoryByType[normalizeTxType(tx.tipo)] === categoryFilter;
+  });
 
   return (
     <>
@@ -552,7 +566,7 @@ const TransacoesTab = ({ tipoLabel, statusStyle, recentTransactions }: Props) =>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {recentTransactions?.map((tx) => {
+                {filteredRecentTransactions.map((tx) => {
                   const normalizedType = normalizeTxType(tx.tipo);
                   const from = tx.from_user_nome || tx.from_kid_nome || "—";
                   const to =
@@ -588,7 +602,7 @@ const TransacoesTab = ({ tipoLabel, statusStyle, recentTransactions }: Props) =>
               </tbody>
             </table>
 
-            {(!recentTransactions || recentTransactions.length === 0) && (
+            {filteredRecentTransactions.length === 0 && (
               <p className="px-6 py-8 text-center font-body text-sm text-muted-foreground">
                 Nenhuma transação encontrada
               </p>

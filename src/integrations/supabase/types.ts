@@ -741,21 +741,30 @@ export type Database = {
         }
         Returns: Json
       }
-      admin_adjust_balance: {
-        Args: { _descricao?: string; _user_id: string; _valor: number }
-        Returns: Json
-      }
-      admin_block_user: {
-        Args: { _block: boolean; _user_id: string }
-        Returns: Json
-      }
-      admin_delete_user: { Args: { _user_id: string }; Returns: Json }
-      admin_get_deposit_metrics: { Args: never; Returns: Json }
-      admin_get_detailed_metrics: { Args: never; Returns: Json }
-      admin_get_financial_metrics: { Args: never; Returns: Json }
-      admin_get_kid_referrals: { Args: { _kid_id: string }; Returns: Json }
-      admin_get_metrics: { Args: never; Returns: Json }
-      admin_get_mini_gerentes: { Args: never; Returns: Json }
+        admin_adjust_balance: {
+          Args: { _descricao?: string; _user_id: string; _valor: number }
+          Returns: Json
+        }
+        admin_adjust_kid_balance: {
+          Args: { _descricao?: string; _kid_id: string; _valor: number }
+          Returns: Json
+        }
+        admin_block_user: {
+          Args: { _block: boolean; _user_id: string }
+          Returns: Json
+        }
+        admin_delete_kid: { Args: { _kid_id: string }; Returns: Json }
+        admin_delete_user: { Args: { _user_id: string }; Returns: Json }
+        admin_get_deposit_metrics: { Args: never; Returns: Json }
+        admin_get_detailed_metrics: { Args: never; Returns: Json }
+        admin_get_financial_metrics: { Args: never; Returns: Json }
+        admin_get_kid_transactions: {
+          Args: { _kid_id: string; _limit?: number }
+          Returns: Json
+        }
+        admin_get_kid_referrals: { Args: { _kid_id: string }; Returns: Json }
+        admin_get_metrics: { Args: never; Returns: Json }
+        admin_get_mini_gerentes: { Args: never; Returns: Json }
       admin_get_recent_transactions: {
         Args: { _limit?: number }
         Returns: Json
@@ -792,15 +801,24 @@ export type Database = {
         Args: { _primary_user_id: string; _secondary_user_id: string }
         Returns: Json
       }
-      admin_update_kid_limits: {
-        Args: {
-          _kid_id: string
-          _limite_diario?: number
-          _limite_pix?: number
-          _limite_transferencia?: number
+        admin_update_kid_limits: {
+          Args: {
+            _kid_id: string
+            _limite_diario?: number
+            _limite_pix?: number
+            _limite_transferencia?: number
+          }
+          Returns: Json
         }
-        Returns: Json
-      }
+        admin_update_kid_profile: {
+          Args: {
+            _apelido?: string
+            _idade?: number
+            _kid_id: string
+            _nome?: string
+          }
+          Returns: Json
+        }
       admin_update_user_limits: {
         Args: {
           _limite_deposito?: number
@@ -811,6 +829,8 @@ export type Database = {
       }
       admin_update_user_profile: {
         Args: {
+          _chave_pix?: string
+          _cpf?: string
           _email?: string
           _nome?: string
           _telefone?: string

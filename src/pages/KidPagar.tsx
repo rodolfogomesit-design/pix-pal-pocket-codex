@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Home, Printer, Star, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -35,16 +35,7 @@ const KidPagar = () => {
   const [loadingContacts, setLoadingContacts] = useState(true);
   const [successInfo, setSuccessInfo] = useState<{ toName: string; amount: number; needsApproval: boolean } | null>(null);
 
-  useEffect(() => {
-    if (!kid) {
-      navigate("/crianca");
-      return;
-    }
-
-    void loadContacts();
-  }, [kid, navigate]);
-
-  const loadContacts = async () => {
+  const loadContacts = useCallback(async () => {
     if (!kid) return;
 
     setLoadingContacts(true);
@@ -54,7 +45,16 @@ const KidPagar = () => {
     if (data) {
       setContacts(data as Contact[]);
     }
-  };
+  }, [kid]);
+
+  useEffect(() => {
+    if (!kid) {
+      navigate("/crianca");
+      return;
+    }
+
+    void loadContacts();
+  }, [kid, loadContacts, navigate]);
 
   const handleLookup = async () => {
     if (codigo.length !== 5) {

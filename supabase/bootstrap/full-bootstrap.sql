@@ -241,7 +241,10 @@ begin
   select count(*) into _total_users from public.profiles;
   select count(*) into _total_kids from public.kids_profiles;
   select count(*) into _total_transactions from public.transactions;
-  select coalesce(sum(saldo),0) into _total_balance from public.kids_profiles;
+  select
+    coalesce((select sum(saldo) from public.profiles), 0) +
+    coalesce((select sum(saldo) from public.kids_profiles), 0)
+  into _total_balance;
   select coalesce(sum(valor),0) into _total_volume from public.transactions where status = 'aprovado';
   select count(*) into _pending_approvals from public.transactions where status = 'pendente';
   return jsonb_build_object('success', true, 'total_users', _total_users, 'total_kids', _total_kids, 'total_transactions', _total_transactions, 'total_balance', _total_balance, 'total_volume', _total_volume, 'pending_approvals', _pending_approvals);
@@ -260,7 +263,10 @@ begin
   select count(*) into _criancas_mes from public.kids_profiles where created_at >= date_trunc('month', now());
   select count(distinct coalesce(t.from_user, kp.user_responsavel)) into _ativos_24h from public.transactions t left join public.kids_profiles kp on kp.id = t.from_kid or kp.id = t.to_kid where t.created_at >= now() - interval '24 hours';
   select count(distinct coalesce(t.from_user, kp.user_responsavel)) into _ativos_30d from public.transactions t left join public.kids_profiles kp on kp.id = t.from_kid or kp.id = t.to_kid where t.created_at >= now() - interval '30 days';
-  select coalesce(sum(saldo),0) into _total_balance from public.kids_profiles;
+  select
+    coalesce((select sum(saldo) from public.profiles), 0) +
+    coalesce((select sum(saldo) from public.kids_profiles), 0)
+  into _total_balance;
   return jsonb_build_object('success', true, 'total_responsaveis', _total_responsaveis, 'total_criancas', _total_criancas, 'responsaveis_hoje', _responsaveis_hoje, 'criancas_hoje', _criancas_hoje, 'responsaveis_mes', _responsaveis_mes, 'criancas_mes', _criancas_mes, 'ativos_24h', _ativos_24h, 'ativos_30d', _ativos_30d, 'total_balance', _total_balance);
 end;
 $$;
@@ -278,7 +284,8 @@ begin
       from (
         select p.id, p.user_id, p.nome, p.email, p.telefone, p.cpf, p.codigo_usuario, p.created_at,
           (select count(*) from public.kids_profiles k where k.user_responsavel = p.user_id) as kids_count,
-          (select coalesce(sum(k.saldo),0) from public.kids_profiles k where k.user_responsavel = p.user_id) as total_balance
+          coalesce(p.saldo, 0) +
+          coalesce((select sum(k.saldo) from public.kids_profiles k where k.user_responsavel = p.user_id), 0) as total_balance
         from public.profiles p
         where _query = '' or p.nome ilike '%' || _query || '%' or p.email ilike '%' || _query || '%' or p.cpf ilike '%' || _query || '%' or p.codigo_usuario ilike '%' || _query || '%'
         order by p.created_at desc

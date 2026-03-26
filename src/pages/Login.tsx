@@ -60,9 +60,13 @@ const Login = () => {
         return { ...current, [name]: value };
       }
 
+      const trimmedValue = value.trimStart();
+      const hasEmailChars = /[a-zA-Z@]/.test(trimmedValue);
+      const onlyCpfChars = /^[\d.-]*$/.test(trimmedValue);
+
       return {
         ...current,
-        identifier: isEmail(value) || value.includes("@") ? value.trim() : formatCPF(value),
+        identifier: hasEmailChars || !onlyCpfChars ? value : formatCPF(value),
       };
     });
     setErrors((current) => ({ ...current, [name]: "" }));
@@ -169,7 +173,7 @@ const Login = () => {
                   id="identifier"
                   name="identifier"
                   type="text"
-                  inputMode="email"
+                  inputMode="text"
                   value={form.identifier}
                   onChange={handleChange}
                   placeholder="000.000.000-00 ou seu@email.com"
