@@ -7,11 +7,14 @@ export interface KidSession {
   idade: number;
   codigo_publico: string;
   saldo: number;
+  saldo_comissao?: number;
   saldo_poupanca: number;
   is_frozen: boolean;
   limite_diario: number | null;
   aprovacao_transferencias: boolean;
   bloqueio_envio: boolean;
+  is_mini_gerente?: boolean;
+  referral_code?: string | null;
 }
 
 interface KidAuthContextType {

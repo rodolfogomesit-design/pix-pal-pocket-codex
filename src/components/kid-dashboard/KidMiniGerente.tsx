@@ -41,8 +41,12 @@ const KidMiniGerente = () => {
     try {
       const result = await withdrawCommission.mutateAsync({ kidId: kid.id, valor });
       toast.success(`R$ ${valor.toFixed(2)} transferido para seu saldo! 🎉`);
-      if (result?.novo_saldo !== undefined) {
-        setKid({ ...kid, saldo: result.novo_saldo });
+      if (result?.novo_saldo !== undefined || result?.novo_comissao !== undefined) {
+        setKid({
+          ...kid,
+          ...(result?.novo_saldo !== undefined && { saldo: Number(result.novo_saldo) }),
+          ...(result?.novo_comissao !== undefined && { saldo_comissao: Number(result.novo_comissao) }),
+        });
       }
       setShowWithdraw(false);
       setWithdrawAmount("");

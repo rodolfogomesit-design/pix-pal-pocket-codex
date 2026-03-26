@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 interface Props {
   kid: KidSession;
-  onTransferSuccess: () => void;
+  onTransferSuccess: (updates?: { saldo?: number; saldo_comissao?: number }) => void;
 }
 
 const KidActions = ({ kid, onTransferSuccess }: Props) => {
@@ -28,11 +28,14 @@ const KidActions = ({ kid, onTransferSuccess }: Props) => {
       return;
     }
     try {
-      await withdrawCommission.mutateAsync({ kidId: kid.id, valor });
+      const result = await withdrawCommission.mutateAsync({ kidId: kid.id, valor });
       toast.success(`R$ ${valor.toFixed(2)} transferido para seu saldo! 🎉`);
       setShowWithdraw(false);
       setWithdrawAmount("");
-      onTransferSuccess();
+      onTransferSuccess({
+        saldo: result?.novo_saldo !== undefined ? Number(result.novo_saldo) : undefined,
+        saldo_comissao: result?.novo_comissao !== undefined ? Number(result.novo_comissao) : undefined,
+      });
     } catch (err: any) {
       toast.error(err.message || "Erro ao sacar comissão");
     }
