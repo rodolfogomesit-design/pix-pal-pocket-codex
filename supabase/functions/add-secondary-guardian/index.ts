@@ -12,7 +12,6 @@ type AddGuardianBody = {
   cpf?: string | null;
   telefone?: string | null;
   parentesco?: string;
-  senha?: string | null;
 };
 
 const json = (status: number, payload: Record<string, unknown>) =>
@@ -57,19 +56,11 @@ Deno.serve(async (req: Request) => {
     const cpfDigits = normalizeCpf(body.cpf);
     const telefone = body.telefone?.trim() ?? "";
     const parentesco = body.parentesco?.trim() || "outros";
-    const senha = body.senha?.trim() ?? "";
 
-    if (!nome || !email || !cpf || !telefone || !senha) {
+    if (!nome || !email || !cpf || !telefone) {
       return json(400, {
         success: false,
-        error: "Nome, e-mail, CPF, telefone e senha sao obrigatorios.",
-      });
-    }
-
-    if (senha.length < 6) {
-      return json(400, {
-        success: false,
-        error: "A senha deve ter pelo menos 6 caracteres.",
+        error: "Nome, e-mail, CPF e telefone sao obrigatorios.",
       });
     }
 
@@ -137,32 +128,41 @@ Deno.serve(async (req: Request) => {
     }
 
     if (!targetUserId) {
-      const { data: createdUser, error: createError } = await serviceClient.auth.admin.createUser({
-        email,
-        password: senha,
-        email_confirm: true,
-        user_metadata: { nome },
-      });
+      const { data: pendingLink, error: pendingLinkError } = await serviceClient
+        .from("secondary_guardians")
+        .select("id")
+        .eq("primary_user_id", familyOwnerId)
+        .is("secondary_user_id", null)
+        .eq("email", email)
+        .limit(1)
+        .maybeSingle();
 
-      if (createError || !createdUser.user) {
+      if (pendingLinkError) throw pendingLinkError;
+
+      if (pendingLink) {
         return json(400, {
           success: false,
-          error: createError?.message || "Erro ao criar responsavel adicional.",
+          error: "Ja existe um convite pendente para este e-mail.",
         });
       }
 
-      targetUserId = createdUser.user.id;
-    } else {
-      const { error: updateAuthError } = await serviceClient.auth.admin.updateUserById(targetUserId, {
+      const { error: inviteError } = await serviceClient.from("secondary_guardians").insert({
+        primary_user_id: familyOwnerId,
+        secondary_user_id: null,
+        nome,
+        cpf,
         email,
-        password: senha,
-        email_confirm: true,
-        user_metadata: { nome },
+        telefone,
+        parentesco,
+        added_by: user.id,
       });
 
-      if (updateAuthError) {
-        return json(400, { success: false, error: updateAuthError.message });
-      }
+      if (inviteError) throw inviteError;
+
+      return json(200, {
+        success: true,
+        message: "Convite salvo. Quando esse responsavel criar a conta com este e-mail, ele sera vinculado automaticamente.",
+      });
     }
 
     const { data: linkedElsewhere, error: linkedElsewhereError } = await serviceClient

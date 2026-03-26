@@ -90,7 +90,6 @@ const GuardianManagement = () => {
     email: "",
     cpf: "",
     telefone: "",
-    senha: "",
     parentesco: "outros",
   });
 
@@ -118,7 +117,6 @@ const GuardianManagement = () => {
             cpf: form.cpf || null,
             telefone: form.telefone || null,
             parentesco: form.parentesco,
-            senha: form.senha || null,
           }),
         },
       );
@@ -133,9 +131,9 @@ const GuardianManagement = () => {
       return result;
     },
     onSuccess: () => {
-      toast.success("Responsável adicionado com sucesso! 🎉");
+      toast.success("Responsável adicional processado com sucesso!");
       queryClient.invalidateQueries({ queryKey: ["guardians"] });
-      setForm({ nome: "", email: "", cpf: "", telefone: "", senha: "", parentesco: "outros" });
+      setForm({ nome: "", email: "", cpf: "", telefone: "", parentesco: "outros" });
       setOpen(false);
     },
     onError: (err: Error) => {
@@ -178,12 +176,8 @@ const GuardianManagement = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.nome.trim() || !form.email.trim() || !form.cpf.trim() || !form.telefone.trim() || !form.senha.trim()) {
+    if (!form.nome.trim() || !form.email.trim() || !form.cpf.trim() || !form.telefone.trim()) {
       toast.error("Todos os campos obrigatórios devem ser preenchidos.");
-      return;
-    }
-    if (form.senha.length < 6) {
-      toast.error("A senha deve ter pelo menos 6 caracteres.");
       return;
     }
     addGuardian.mutate();
@@ -234,18 +228,6 @@ const GuardianManagement = () => {
                   />
                 </div>
                 <div>
-                  <Label className="font-body font-semibold">Senha *</Label>
-                  <Input
-                    type="password"
-                    value={form.senha}
-                    onChange={(e) => setForm({ ...form, senha: e.target.value })}
-                    placeholder="Mínimo 6 caracteres"
-                    className="rounded-xl mt-1"
-                    required
-                    minLength={6}
-                  />
-                </div>
-                <div>
                   <Label className="font-body font-semibold">CPF *</Label>
                   <Input
                     value={form.cpf}
@@ -280,6 +262,10 @@ const GuardianManagement = () => {
                     </SelectContent>
                   </Select>
                 </div>
+                <p className="text-xs text-muted-foreground">
+                  Se esse e-mail já tiver conta, o responsável será vinculado agora. Se ainda não tiver, o convite fica
+                  salvo e o vínculo acontece automaticamente quando a conta for criada com esse mesmo e-mail.
+                </p>
                 <DialogFooter>
                   <DialogClose asChild>
                     <Button type="button" variant="outline" className="rounded-xl">
