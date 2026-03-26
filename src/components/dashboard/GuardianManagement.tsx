@@ -96,19 +96,40 @@ const GuardianManagement = () => {
 
   const addGuardian = useMutation({
     mutationFn: async () => {
-      const { data, error } = await supabase.functions.invoke("add-secondary-guardian", {
-        body: {
-          nome: form.nome,
-          email: form.email,
-          cpf: form.cpf || null,
-          telefone: form.telefone || null,
-          parentesco: form.parentesco,
-          senha: form.senha || null,
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session?.access_token) {
+        throw new Error("Sua sessão expirou. Entre novamente para continuar.");
+      }
+
+      const response = await fetch(
+        "https://ylmrmidgxhcthwmoebzl.supabase.co/functions/v1/add-secondary-guardian",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({
+            nome: form.nome,
+            email: form.email,
+            cpf: form.cpf || null,
+            telefone: form.telefone || null,
+            parentesco: form.parentesco,
+            senha: form.senha || null,
+          }),
         },
-      });
-      if (error) throw error;
-      const result = data as any;
-      if (!result?.success) throw new Error(result?.error || "Erro ao adicionar responsável.");
+      );
+
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error((result as { error?: string }).error || "Erro ao adicionar responsável.");
+      }
+      if (!(result as { success?: boolean }).success) {
+        throw new Error((result as { error?: string }).error || "Erro ao adicionar responsável.");
+      }
       return result;
     },
     onSuccess: () => {

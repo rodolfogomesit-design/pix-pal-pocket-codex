@@ -15,6 +15,15 @@ type AddGuardianBody = {
   senha?: string | null;
 };
 
+const json = (status: number, payload: Record<string, unknown>) =>
+  new Response(JSON.stringify(payload), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+
+const normalizeEmail = (value?: string | null) => value?.trim().toLowerCase() ?? "";
+const normalizeCpf = (value?: string | null) => value?.replace(/\D/g, "") ?? "";
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -23,10 +32,7 @@ Deno.serve(async (req: Request) => {
   try {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      return new Response(JSON.stringify({ success: false, error: "Não autenticado" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json(401, { success: false, error: "Nao autenticado." });
     }
 
     const supabase = createClient(
@@ -41,31 +47,29 @@ Deno.serve(async (req: Request) => {
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return new Response(JSON.stringify({ success: false, error: "Não autenticado" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json(401, { success: false, error: "Nao autenticado." });
     }
 
     const body = (await req.json()) as AddGuardianBody;
-    const nome = body?.nome?.trim();
-    const email = body?.email?.trim().toLowerCase();
-    const cpf = body?.cpf?.trim() || null;
-    const telefone = body?.telefone?.trim() || null;
-    const parentesco = body?.parentesco?.trim() || "outros";
-    const senha = body?.senha?.trim() || null;
+    const nome = body.nome?.trim() ?? "";
+    const email = normalizeEmail(body.email);
+    const cpf = body.cpf?.trim() ?? "";
+    const cpfDigits = normalizeCpf(body.cpf);
+    const telefone = body.telefone?.trim() ?? "";
+    const parentesco = body.parentesco?.trim() || "outros";
+    const senha = body.senha?.trim() ?? "";
 
-    if (!nome || !email) {
-      return new Response(JSON.stringify({ success: false, error: "Nome e e-mail são obrigatórios." }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+    if (!nome || !email || !cpf || !telefone || !senha) {
+      return json(400, {
+        success: false,
+        error: "Nome, e-mail, CPF, telefone e senha sao obrigatorios.",
       });
     }
 
-    if (senha && senha.length < 6) {
-      return new Response(JSON.stringify({ success: false, error: "A senha deve ter pelo menos 6 caracteres." }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+    if (senha.length < 6) {
+      return json(400, {
+        success: false,
+        error: "A senha deve ter pelo menos 6 caracteres.",
       });
     }
 
@@ -85,25 +89,37 @@ Deno.serve(async (req: Request) => {
 
     const familyOwnerId = familyLink?.primary_user_id ?? user.id;
 
-    const {
-      data: { users },
-      error: listUsersError,
-    } = await serviceClient.auth.admin.listUsers({ page: 1, perPage: 1000 });
+    const { data: existingProfile, error: existingProfileError } = await serviceClient
+      .from("profiles")
+      .select("user_id, email, cpf")
+      .or(`email.eq.${email},cpf.eq.${cpf}`)
+      .limit(1)
+      .maybeSingle();
 
-    if (listUsersError) throw listUsersError;
+    if (existingProfileError) throw existingProfileError;
 
-    const existingAuthUser = users.find((candidate) => candidate.email?.toLowerCase() === email) ?? null;
+    let targetUserId = existingProfile?.user_id ?? null;
 
-    if (existingAuthUser?.id === familyOwnerId) {
-      return new Response(JSON.stringify({ success: false, error: "Você não pode adicionar o responsável principal." }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+    if (targetUserId === familyOwnerId) {
+      return json(400, {
+        success: false,
+        error: "Voce nao pode adicionar o responsavel principal como adicional.",
       });
     }
 
-    let targetUserId = existingAuthUser?.id ?? null;
+    if (!targetUserId && cpfDigits) {
+      const { data: cpfProfile, error: cpfProfileError } = await serviceClient
+        .from("profiles")
+        .select("user_id")
+        .eq("cpf", cpfDigits)
+        .limit(1)
+        .maybeSingle();
 
-    if (!targetUserId && senha) {
+      if (cpfProfileError) throw cpfProfileError;
+      targetUserId = cpfProfile?.user_id ?? null;
+    }
+
+    if (!targetUserId) {
       const { data: createdUser, error: createError } = await serviceClient.auth.admin.createUser({
         email,
         password: senha,
@@ -112,126 +128,97 @@ Deno.serve(async (req: Request) => {
       });
 
       if (createError || !createdUser.user) {
-        return new Response(JSON.stringify({ success: false, error: createError?.message || "Erro ao criar responsável." }), {
-          status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        return json(400, {
+          success: false,
+          error: createError?.message || "Erro ao criar responsavel adicional.",
         });
       }
 
       targetUserId = createdUser.user.id;
-    }
-
-    if (targetUserId) {
-      const payload: { email: string; email_confirm: true; password?: string; user_metadata: { nome: string } } = {
+    } else {
+      const { error: updateAuthError } = await serviceClient.auth.admin.updateUserById(targetUserId, {
         email,
+        password: senha,
         email_confirm: true,
         user_metadata: { nome },
-      };
+      });
 
-      if (senha) {
-        payload.password = senha;
-      }
-
-      const { error: updateAuthError } = await serviceClient.auth.admin.updateUserById(targetUserId, payload);
       if (updateAuthError) {
-        return new Response(JSON.stringify({ success: false, error: updateAuthError.message }), {
-          status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+        return json(400, { success: false, error: updateAuthError.message });
       }
+    }
 
-      const { data: existingLink, error: existingLinkError } = await serviceClient
-        .from("secondary_guardians")
-        .select("id")
-        .eq("primary_user_id", familyOwnerId)
-        .eq("secondary_user_id", targetUserId)
-        .limit(1)
-        .maybeSingle();
+    const { data: linkedElsewhere, error: linkedElsewhereError } = await serviceClient
+      .from("secondary_guardians")
+      .select("id, primary_user_id")
+      .eq("secondary_user_id", targetUserId)
+      .neq("primary_user_id", familyOwnerId)
+      .limit(1)
+      .maybeSingle();
 
-      if (existingLinkError) throw existingLinkError;
+    if (linkedElsewhereError) throw linkedElsewhereError;
 
-      if (existingLink) {
-        return new Response(JSON.stringify({ success: false, error: "Este responsável já está vinculado." }), {
-          status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
+    if (linkedElsewhere) {
+      return json(400, {
+        success: false,
+        error: "Este responsavel ja esta vinculado a outra familia.",
+      });
+    }
 
-      const { error: profileError } = await serviceClient
-        .from("profiles")
-        .upsert({
+    const { data: existingLink, error: existingLinkError } = await serviceClient
+      .from("secondary_guardians")
+      .select("id")
+      .eq("primary_user_id", familyOwnerId)
+      .eq("secondary_user_id", targetUserId)
+      .limit(1)
+      .maybeSingle();
+
+    if (existingLinkError) throw existingLinkError;
+
+    if (existingLink) {
+      return json(400, {
+        success: false,
+        error: "Este responsavel ja esta vinculado a esta familia.",
+      });
+    }
+
+    const { error: profileError } = await serviceClient
+      .from("profiles")
+      .upsert(
+        {
           user_id: targetUserId,
           nome,
           email,
           telefone,
           cpf,
-        }, { onConflict: "user_id" });
+        },
+        { onConflict: "user_id" },
+      );
 
-      if (profileError) throw profileError;
+    if (profileError) throw profileError;
 
-      const { error: insertLinkError } = await serviceClient
-        .from("secondary_guardians")
-        .insert({
-          primary_user_id: familyOwnerId,
-          secondary_user_id: targetUserId,
-          nome,
-          cpf,
-          email,
-          telefone,
-          parentesco,
-          added_by: user.id,
-        });
+    const { error: linkError } = await serviceClient.from("secondary_guardians").insert({
+      primary_user_id: familyOwnerId,
+      secondary_user_id: targetUserId,
+      nome,
+      cpf,
+      email,
+      telefone,
+      parentesco,
+      added_by: user.id,
+    });
 
-      if (insertLinkError) throw insertLinkError;
+    if (linkError) throw linkError;
 
-      return new Response(JSON.stringify({ success: true, message: "Responsável vinculado com sucesso." }), {
-        status: 200,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const { data: pendingLink, error: pendingError } = await serviceClient
-      .from("secondary_guardians")
-      .select("id")
-      .eq("primary_user_id", familyOwnerId)
-      .eq("email", email)
-      .is("secondary_user_id", null)
-      .limit(1)
-      .maybeSingle();
-
-    if (pendingError) throw pendingError;
-
-    if (pendingLink) {
-      return new Response(JSON.stringify({ success: false, error: "Já existe um convite pendente para este e-mail." }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const { error: inviteError } = await serviceClient
-      .from("secondary_guardians")
-      .insert({
-        primary_user_id: familyOwnerId,
-        secondary_user_id: null,
-        nome,
-        cpf,
-        email,
-        telefone,
-        parentesco,
-        added_by: user.id,
-      });
-
-    if (inviteError) throw inviteError;
-
-    return new Response(JSON.stringify({ success: true, message: "Responsável adicionado." }), {
-      status: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    return json(200, {
+      success: true,
+      message: "Responsavel adicional vinculado com sucesso.",
     });
   } catch (error) {
     console.error("add-secondary-guardian error:", error);
-    return new Response(JSON.stringify({ success: false, error: "Erro interno" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    return json(500, {
+      success: false,
+      error: error instanceof Error ? error.message : "Erro interno",
     });
   }
 });
