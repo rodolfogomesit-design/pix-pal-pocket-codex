@@ -1,9 +1,8 @@
 import { useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { useFamilyOwner } from "@/hooks/useFamilyOwner";
 
 export type KidProfile = {
   id: string;
@@ -41,7 +40,6 @@ export type Transaction = {
 export const useKids = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const { data: familyOwner } = useFamilyOwner();
 
   useEffect(() => {
     if (!user) return;
@@ -52,41 +50,39 @@ export const useKids = () => {
         { event: "*", schema: "public", table: "kids_profiles" },
         () => {
           queryClient.invalidateQueries({ queryKey: ["kids"] });
-        }
+        },
       )
       .subscribe();
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [user, queryClient]);
+  }, [queryClient, user]);
 
   return useQuery({
-    queryKey: ["kids", familyOwner?.ownerId],
+    queryKey: ["kids", user?.id],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("kids_profiles")
         .select("*")
-        .eq("user_responsavel", familyOwner!.ownerId)
+        .eq("user_responsavel", user!.id)
         .order("created_at", { ascending: true });
 
       if (error) throw error;
       return data as KidProfile[];
     },
-    enabled: !!user && !!familyOwner?.ownerId,
+    enabled: !!user?.id,
   });
 };
 
 export const useAddKid = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
-  const { data: familyOwner } = useFamilyOwner();
 
   return useMutation({
     mutationFn: async (kid: { nome: string; apelido?: string; idade: number; pin: string; codigo_publico?: string }) => {
-      const ownerId = familyOwner?.ownerId ?? user?.id;
-      if (!ownerId) {
-        throw new Error("Não foi possível identificar a família deste responsável.");
+      if (!user?.id) {
+        throw new Error("Não foi possível identificar este responsável.");
       }
 
       const codigoPublico = kid.codigo_publico || await (async () => {
@@ -98,7 +94,7 @@ export const useAddKid = () => {
       const { data, error } = await supabase
         .from("kids_profiles")
         .insert({
-          user_responsavel: ownerId,
+          user_responsavel: user.id,
           nome: kid.nome,
           apelido: kid.apelido || null,
           idade: kid.idade,
@@ -151,13 +147,13 @@ export const useParentBalance = () => {
         { event: "UPDATE", schema: "public", table: "profiles", filter: `user_id=eq.${user.id}` },
         () => {
           queryClient.invalidateQueries({ queryKey: ["parent-balance"] });
-        }
+        },
       )
       .subscribe();
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [user?.id, queryClient]);
+  }, [queryClient, user?.id]);
 
   return useQuery({
     queryKey: ["parent-balance", user?.id],
@@ -188,42 +184,20 @@ export const useParentProfile = () => {
         .maybeSingle();
 
       if (error) throw error;
-      const profile = data as
-        | {
-            nome: string;
-            codigo_usuario: string | null;
-            user_id: string;
-            email: string | null;
-            telefone: string | null;
-            cpf: string | null;
-            chave_pix: string | null;
-            saldo: number | null;
-            limite_diario: number | null;
-            limite_deposito: number | null;
-          }
-        | null;
-      return profile;
+      return data as {
+        nome: string;
+        codigo_usuario: string | null;
+        user_id: string;
+        email: string | null;
+        telefone: string | null;
+        cpf: string | null;
+        chave_pix: string | null;
+        saldo: number | null;
+        limite_diario: number | null;
+        limite_deposito: number | null;
+      } | null;
     },
     enabled: !!user?.id,
-  });
-};
-
-export const useCurrentGuardianProfile = () => {
-  const { user } = useAuth();
-
-  return useQuery({
-    queryKey: ["current-guardian-profile", user?.id],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("user_id, nome, email, telefone, cpf, chave_pix, saldo, codigo_usuario, limite_diario, limite_deposito")
-        .eq("user_id", user!.id)
-        .maybeSingle();
-
-      if (error) throw error;
-      return data;
-    },
-    enabled: !!user,
   });
 };
 
@@ -238,7 +212,7 @@ export const useSendAllowance = () => {
         _descricao: descricao || "Mesada",
       });
       if (error) throw error;
-      const result = data as any;
+      const result = data as { success?: boolean; error?: string } | null;
       if (!result?.success) {
         throw new Error(result?.error || "Erro ao enviar mesada");
       }

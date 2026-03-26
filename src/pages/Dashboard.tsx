@@ -3,12 +3,10 @@ import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { useCurrentGuardianProfile, useKids, useParentBalance, useParentProfile } from "@/hooks/useDashboard";
+import { useKids, useParentBalance, useParentProfile } from "@/hooks/useDashboard";
 import { useIsAdmin } from "@/hooks/useAdmin";
-import { useGuardianRole } from "@/hooks/useGuardianRole";
 import AddKidDialog from "@/components/dashboard/AddKidDialog";
 import KidCard from "@/components/dashboard/KidCard";
-import GuardianManagement from "@/components/dashboard/GuardianManagement";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import {
   LogOut,
@@ -30,16 +28,12 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { data: kids, isLoading: kidsLoading } = useKids();
   const { data: isAdmin } = useIsAdmin();
-  const { data: guardianRole } = useGuardianRole();
-
   const { data: parentBalance = 0 } = useParentBalance();
   const { data: profile } = useParentProfile();
-  const { data: currentGuardianProfile } = useCurrentGuardianProfile();
-  const currentFirstName = currentGuardianProfile?.nome?.split(" ")[0] || profile?.nome?.split(" ")[0] || "Responsavel";
-  const currentDisplayName = currentGuardianProfile?.nome || profile?.nome || currentFirstName;
-  const currentDisplayCode = currentGuardianProfile?.codigo_usuario || profile?.codigo_usuario || null;
 
-  const firstName = profile?.nome?.split(" ")[0] || "Respons√°vel";
+  const firstName = profile?.nome?.split(" ")[0] || "Respons·vel";
+  const displayName = profile?.nome || firstName;
+  const displayCode = profile?.codigo_usuario || null;
 
   const processReferral = useCallback(async () => {
     if (!user) return;
@@ -52,13 +46,13 @@ const Dashboard = () => {
         _referral_code: code,
         _referred_user_id: user.id,
       });
-      const result = data as any;
+      const result = data as { success?: boolean } | null;
 
       if (result?.success) {
-        toast.success("Indica√ß√£o registrada com sucesso! üéâ");
+        toast.success("IndicaÁ„o registrada com sucesso!");
       }
     } catch {
-      // Silently fail, referral registration is not critical to app usage.
+      // Ignora falha silenciosamente.
     } finally {
       localStorage.removeItem("pix_kids_referral_code");
     }
@@ -78,7 +72,7 @@ const Dashboard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <span className="text-4xl animate-bounce-coin">üê∑</span>
+          <span className="text-4xl animate-bounce-coin">??</span>
           <p className="font-display text-xl mt-4 text-muted-foreground">Carregando...</p>
         </div>
       </div>
@@ -98,13 +92,11 @@ const Dashboard = () => {
             <Link to="/" className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
               <ArrowLeft size={18} />
             </Link>
-            <span className="text-2xl">üê∑</span>
+            <span className="text-2xl">??</span>
             <span className="font-display text-lg sm:text-2xl font-bold text-primary">Pix Kids</span>
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
-            <span className="font-body text-sm text-muted-foreground hidden sm:block">
-              Ola, {currentFirstName}
-            </span>
+            <span className="font-body text-sm text-muted-foreground hidden sm:block">Ol·, {firstName}</span>
             {isAdmin && (
               <Link to="/admin" className="flex items-center gap-1 font-body text-sm text-primary hover:underline">
                 <Shield size={14} />
@@ -120,10 +112,7 @@ const Dashboard = () => {
               <span className="hidden sm:inline">Config</span>
             </Link>
             <ThemeToggle />
-            <button
-              onClick={signOut}
-              className="flex items-center gap-1 font-body text-sm text-destructive hover:underline"
-            >
+            <button onClick={signOut} className="flex items-center gap-1 font-body text-sm text-destructive hover:underline">
               <LogOut size={14} />
               <span className="hidden sm:inline">Sair</span>
             </button>
@@ -134,17 +123,17 @@ const Dashboard = () => {
       <main className="container mx-auto px-3 sm:px-4 py-5 sm:py-8 max-w-5xl">
         <div className="mb-4 px-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <p className="font-display font-bold text-lg sm:text-xl">{currentDisplayName}</p>
+            <p className="font-display font-bold text-lg sm:text-xl">{displayName}</p>
           </div>
-          {currentDisplayCode && (
+          {displayCode && (
             <button
               onClick={() => {
-                navigator.clipboard.writeText(currentDisplayCode);
-                toast.success("C√≥digo copiado!");
+                navigator.clipboard.writeText(displayCode);
+                toast.success("CÛdigo copiado!");
               }}
               className="font-display text-sm text-muted-foreground hover:text-primary inline-flex items-center gap-1 transition-colors"
             >
-              ID: {currentDisplayCode} <Copy size={12} />
+              ID: {displayCode} <Copy size={12} />
             </button>
           )}
         </div>
@@ -157,10 +146,8 @@ const Dashboard = () => {
             whileHover={{ scale: 1.03, y: -2 }}
             className="bg-gradient-to-br from-primary to-primary/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-primary-foreground cursor-default"
           >
-            <p className="font-body text-xs sm:text-sm opacity-80">Saldo de {currentFirstName}</p>
-            <p className="font-display text-2xl sm:text-3xl font-extrabold mt-1">
-              R$ {parentBalance.toFixed(2)}
-            </p>
+            <p className="font-body text-xs sm:text-sm opacity-80">Seu saldo</p>
+            <p className="font-display text-2xl sm:text-3xl font-extrabold mt-1">R$ {parentBalance.toFixed(2)}</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -169,10 +156,8 @@ const Dashboard = () => {
             whileHover={{ scale: 1.03, y: -2 }}
             className="bg-gradient-to-br from-kids-blue to-kids-blue/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-primary-foreground cursor-default"
           >
-            <p className="font-body text-xs sm:text-sm opacity-80">{guardianRole?.isSecondary ? "Seu saldo + filhos" : "Saldo total da famÌlia"}</p>
-            <p className="font-display text-2xl sm:text-3xl font-extrabold mt-1">
-              R$ {familyBalance.toFixed(2)}
-            </p>
+            <p className="font-body text-xs sm:text-sm opacity-80">Saldo total</p>
+            <p className="font-display text-2xl sm:text-3xl font-extrabold mt-1">R$ {familyBalance.toFixed(2)}</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -182,9 +167,7 @@ const Dashboard = () => {
             className="bg-gradient-to-br from-kids-green to-kids-green/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-primary-foreground cursor-default"
           >
             <p className="font-body text-xs sm:text-sm opacity-80">Saldo total dos filhos</p>
-            <p className="font-display text-2xl sm:text-3xl font-extrabold mt-1">
-              R$ {kidsBalance.toFixed(2)}
-            </p>
+            <p className="font-display text-2xl sm:text-3xl font-extrabold mt-1">R$ {kidsBalance.toFixed(2)}</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -194,9 +177,7 @@ const Dashboard = () => {
             className="bg-gradient-to-br from-kids-yellow to-kids-yellow/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-secondary-foreground cursor-default"
           >
             <p className="font-body text-xs sm:text-sm opacity-80">Filhos cadastrados</p>
-            <p className="font-display text-2xl sm:text-3xl font-extrabold mt-1">
-              {kids?.length || 0}
-            </p>
+            <p className="font-display text-2xl sm:text-3xl font-extrabold mt-1">{kids?.length || 0}</p>
           </motion.div>
         </div>
 
@@ -207,30 +188,21 @@ const Dashboard = () => {
           className="grid grid-cols-3 gap-3 sm:gap-4 mb-8"
         >
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-            <Button
-              onClick={() => navigate("/depositar")}
-              className="w-full h-14 sm:h-16 rounded-2xl text-sm sm:text-base font-bold bg-accent text-accent-foreground hover:bg-accent/90 shadow-md"
-            >
+            <Button onClick={() => navigate("/depositar")} className="w-full h-14 sm:h-16 rounded-2xl text-sm sm:text-base font-bold bg-accent text-accent-foreground hover:bg-accent/90 shadow-md">
               <DollarSign size={20} className="mr-2" />
               Depositar
             </Button>
           </motion.div>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-            <Button
-              onClick={() => navigate("/sacar")}
-              className="w-full h-14 sm:h-16 rounded-2xl text-sm sm:text-base font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-md"
-            >
+            <Button onClick={() => navigate("/sacar")} className="w-full h-14 sm:h-16 rounded-2xl text-sm sm:text-base font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-md">
               <Wallet size={20} className="mr-2" />
               Sacar
             </Button>
           </motion.div>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-            <Button
-              onClick={() => navigate("/historico")}
-              className="w-full h-14 sm:h-16 rounded-2xl text-sm sm:text-base font-bold bg-kids-pink text-secondary-foreground hover:bg-kids-pink/80 shadow-md"
-            >
+            <Button onClick={() => navigate("/historico")} className="w-full h-14 sm:h-16 rounded-2xl text-sm sm:text-base font-bold bg-kids-pink text-secondary-foreground hover:bg-kids-pink/80 shadow-md">
               <History size={20} className="mr-2" />
-              Hist√≥rico
+              HistÛrico
             </Button>
           </motion.div>
         </motion.div>
@@ -250,10 +222,10 @@ const Dashboard = () => {
             </div>
           ) : !kids || kids.length === 0 ? (
             <div className="bg-kids-blue-light rounded-3xl p-10 text-center border border-border">
-              <span className="text-5xl mb-4 inline-block">üëß</span>
+              <span className="text-5xl mb-4 inline-block">??</span>
               <h3 className="font-display text-xl font-bold mb-2">Nenhum filho cadastrado</h3>
               <p className="font-body text-muted-foreground mb-4">
-                Cadastre seu primeiro filho para come√ßar a enviar mesadas!
+                Cadastre seu primeiro filho para comeÁar a enviar mesadas!
               </p>
               <AddKidDialog />
             </div>
@@ -265,17 +237,9 @@ const Dashboard = () => {
             </div>
           )}
         </div>
-
-        <div className="mb-8">
-          <GuardianManagement />
-        </div>
       </main>
     </div>
   );
 };
 
 export default Dashboard;
-
-
-
-

@@ -120,13 +120,6 @@ test.describe("adult authentication flows", () => {
         return;
       }
 
-      if (pathname.endsWith("/rest/v1/secondary_guardians")) {
-        const select = url.searchParams.get("select") || "";
-        const body = select.includes("id,primary_user_id") ? "[]" : "null";
-        await route.fulfill({ status: 200, contentType: "application/json", body });
-        return;
-      }
-
       if (pathname.endsWith("/rest/v1/kids_profiles")) {
         await route.fulfill({ status: 200, contentType: "application/json", body: "[]" });
         return;

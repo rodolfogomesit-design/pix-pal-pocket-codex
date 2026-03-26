@@ -17,7 +17,6 @@ import { toast } from "sonner";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useKids, useParentProfile, useTransactions } from "@/hooks/useDashboard";
-import { useGuardianRole } from "@/hooks/useGuardianRole";
 import { supabase } from "@/integrations/supabase/client";
 import { printReceipt } from "@/lib/printReceipt";
 import { cn } from "@/lib/utils";
@@ -39,12 +38,6 @@ type UnifiedEntry = {
   referrer_kid_id?: string | null;
 };
 
-type LinkedGuardian = {
-  userId: string;
-  nome: string;
-  codigo: string | null;
-};
-
 const typeConfig: Record<string, { icon: React.ReactNode; label: string; color: string }> = {
   mesada: { icon: <ArrowDownLeft size={16} />, label: "Mesada", color: "text-kids-green bg-kids-green-light" },
   transferencia: { icon: <Repeat size={16} />, label: "Transferência", color: "text-primary bg-kids-blue-light" },
@@ -64,7 +57,6 @@ const statusConfig: Record<string, { label: string; color: string }> = {
 
 const TransactionHistory = () => {
   const { user } = useAuth();
-  const { data: guardianRole } = useGuardianRole();
   const { data: transactions, isLoading: txLoading } = useTransactions();
   const { data: kids } = useKids();
   const { data: profile } = useParentProfile();
@@ -73,70 +65,8 @@ const TransactionHistory = () => {
   const [customDate, setCustomDate] = useState<Date | undefined>(undefined);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
 
+  const historyOwnerUserId = user?.id;
   const kidIds = kids?.map((kid) => kid.id) || [];
-
-  const { data: linkedGuardians = [], isLoading: guardiansLoading } = useQuery({
-    queryKey: ["linked-guardians-history", user?.id, guardianRole?.isSecondary],
-    queryFn: async () => {
-      if (!user?.id || guardianRole?.isSecondary) return [];
-
-      const { data: links, error: linksError } = await supabase
-        .from("secondary_guardians")
-        .select("secondary_user_id, nome")
-        .eq("primary_user_id", user.id)
-        .not("secondary_user_id", "is", null);
-
-      if (linksError) throw linksError;
-
-      const guardianIds = (links || [])
-        .map((entry) => entry.secondary_user_id)
-        .filter((value): value is string => Boolean(value));
-
-      if (!guardianIds.length) return [];
-
-      const { data: profiles, error: profilesError } = await supabase
-        .from("profiles")
-        .select("user_id, nome, codigo_usuario")
-        .in("user_id", guardianIds);
-
-      if (profilesError) throw profilesError;
-
-      return guardianIds.map((guardianId) => {
-        const profileMatch = profiles?.find((entry) => entry.user_id === guardianId);
-        const linkMatch = links?.find((entry) => entry.secondary_user_id === guardianId);
-
-        return {
-          userId: guardianId,
-          nome: profileMatch?.nome || linkMatch?.nome || "Responsável adicional",
-          codigo: profileMatch?.codigo_usuario || null,
-        };
-      }) satisfies LinkedGuardian[];
-    },
-    enabled: !!user?.id,
-  });
-
-  const visibleParentUserIds = useMemo(() => {
-    if (!user?.id) return [];
-    if (guardianRole?.isSecondary) return [user.id];
-    return [user.id, ...linkedGuardians.map((guardian) => guardian.userId)];
-  }, [guardianRole?.isSecondary, linkedGuardians, user?.id]);
-
-  const guardianLabelMap = useMemo(() => {
-    const map = new Map<string, string>();
-
-    if (user?.id) {
-      const ownName = profile?.nome?.split(" ")[0] || "Você";
-      const ownCode = profile?.codigo_usuario || "";
-      map.set(user.id, ownCode ? `${ownCode} - ${ownName}` : ownName);
-    }
-
-    linkedGuardians.forEach((guardian) => {
-      const firstName = guardian.nome.split(" ")[0] || "Responsável";
-      map.set(guardian.userId, guardian.codigo ? `${guardian.codigo} - ${firstName}` : firstName);
-    });
-
-    return map;
-  }, [linkedGuardians, profile?.codigo_usuario, profile?.nome, user?.id]);
 
   const { data: commissions, isLoading: commLoading } = useQuery({
     queryKey: ["referral-commissions-parent", user?.id],
@@ -154,38 +84,38 @@ const TransactionHistory = () => {
   });
 
   const { data: deposits, isLoading: depLoading } = useQuery({
-    queryKey: ["deposits-history", visibleParentUserIds],
+    queryKey: ["deposits-history", historyOwnerUserId],
     queryFn: async () => {
-      if (!visibleParentUserIds.length) return [];
+      if (!historyOwnerUserId) return [];
       const { data, error } = await supabase
         .from("deposits")
-        .select("id, user_id, valor, status, created_at, kid_id")
-        .in("user_id", visibleParentUserIds)
+        .select("id, valor, status, created_at, kid_id")
+        .eq("user_id", historyOwnerUserId)
         .order("created_at", { ascending: false })
         .limit(50);
       if (error) throw error;
       return data;
     },
-    enabled: visibleParentUserIds.length > 0,
+    enabled: !!historyOwnerUserId,
   });
 
   const { data: withdrawals, isLoading: wdLoading } = useQuery({
-    queryKey: ["withdrawals-history", visibleParentUserIds],
+    queryKey: ["withdrawals-history", historyOwnerUserId],
     queryFn: async () => {
-      if (!visibleParentUserIds.length) return [];
+      if (!historyOwnerUserId) return [];
       const { data, error } = await supabase
         .from("withdrawals")
-        .select("id, user_id, valor, status, created_at")
-        .in("user_id", visibleParentUserIds)
+        .select("id, valor, status, created_at")
+        .eq("user_id", historyOwnerUserId)
         .order("created_at", { ascending: false })
         .limit(50);
       if (error) throw error;
       return data;
     },
-    enabled: visibleParentUserIds.length > 0,
+    enabled: !!historyOwnerUserId,
   });
 
-  const isLoading = txLoading || commLoading || depLoading || wdLoading || guardiansLoading;
+  const isLoading = txLoading || commLoading || depLoading || wdLoading;
 
   const allEntries = useMemo(() => {
     const entries: UnifiedEntry[] = [];
@@ -225,7 +155,7 @@ const TransactionHistory = () => {
         descricao: "Depósito via Pix",
         status: deposit.status,
         created_at: deposit.created_at,
-        from_user: deposit.user_id,
+        from_user: historyOwnerUserId,
       });
     });
 
@@ -237,13 +167,13 @@ const TransactionHistory = () => {
         descricao: "Saque via Pix",
         status: withdrawal.status,
         created_at: withdrawal.created_at,
-        from_user: withdrawal.user_id,
+        from_user: historyOwnerUserId,
       });
     });
 
     entries.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
     return entries;
-  }, [commissions, deposits, transactions, withdrawals]);
+  }, [commissions, deposits, historyOwnerUserId, transactions, withdrawals]);
 
   const getKidLabel = (kidId: string | null) => {
     if (!kidId || !kids) return null;
@@ -252,9 +182,14 @@ const TransactionHistory = () => {
     return `${kid.codigo_publico} - ${kid.apelido || kid.nome}`;
   };
 
+  const parentCode = profile?.codigo_usuario || "";
+  const parentLabel = parentCode
+    ? `${parentCode} - ${profile?.nome?.split(" ")[0] || "Você"}`
+    : profile?.nome?.split(" ")[0] || "Você";
+
   const getUserLabel = (userId: string | null | undefined) => {
-    if (!userId) return profile?.nome?.split(" ")[0] || "Responsável";
-    return guardianLabelMap.get(userId) || "Outro responsável";
+    if (!userId || userId === user?.id) return parentLabel;
+    return "Outro responsável";
   };
 
   const getDescription = (tx: UnifiedEntry) => {
@@ -262,7 +197,6 @@ const TransactionHistory = () => {
       const kidLabel = getKidLabel(tx.referrer_kid_id || null);
       return kidLabel ? `Mini Gerente: ${kidLabel}` : "Comissão Mini Gerente";
     }
-
     if (tx.tipo === "deposito" || tx.tipo === "saque") {
       return getUserLabel(tx.from_user);
     }
@@ -298,13 +232,11 @@ const TransactionHistory = () => {
 
     if (filter === "parent") {
       if (tx.tipo === "deposito" || tx.tipo === "saque") {
-        passesPersonFilter = !!tx.from_user && visibleParentUserIds.includes(tx.from_user);
+        passesPersonFilter = true;
       } else if (tx.tipo === "comissao") {
         passesPersonFilter = false;
       } else {
-        passesPersonFilter =
-          (!!tx.from_user && visibleParentUserIds.includes(tx.from_user) && !tx.from_kid) ||
-          (!!tx.to_user && visibleParentUserIds.includes(tx.to_user) && !tx.to_kid);
+        passesPersonFilter = (tx.from_user === user?.id && !tx.from_kid) || (tx.to_user === user?.id && !tx.to_kid);
       }
     } else {
       passesPersonFilter =
@@ -326,11 +258,7 @@ const TransactionHistory = () => {
     );
   }
 
-  const parentName = guardianRole?.isSecondary
-    ? profile?.nome?.split(" ")[0] || "Responsável"
-    : linkedGuardians.length > 0
-      ? "Responsáveis"
-      : profile?.nome?.split(" ")[0] || "Responsável";
+  const parentName = profile?.nome?.split(" ")[0] || "Responsável";
 
   const handleExportPdf = async () => {
     try {

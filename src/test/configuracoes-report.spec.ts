@@ -82,15 +82,6 @@ test.describe("configuracoes report", () => {
         return;
       }
 
-      if (pathname.endsWith("/rest/v1/secondary_guardians")) {
-        await route.fulfill({
-          status: 200,
-          contentType: "application/json",
-          body: "null",
-        });
-        return;
-      }
-
       if (pathname.endsWith("/rest/v1/kids_profiles")) {
         await route.fulfill({
           status: 200,

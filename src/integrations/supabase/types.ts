@@ -556,45 +556,6 @@ export type Database = {
           },
         ]
       }
-      secondary_guardians: {
-        Row: {
-          added_by: string | null
-          cpf: string | null
-          created_at: string
-          email: string | null
-          id: string
-          nome: string | null
-          parentesco: string | null
-          primary_user_id: string
-          secondary_user_id: string | null
-          telefone: string | null
-        }
-        Insert: {
-          added_by?: string | null
-          cpf?: string | null
-          created_at?: string
-          email?: string | null
-          id?: string
-          nome?: string | null
-          parentesco?: string | null
-          primary_user_id: string
-          secondary_user_id?: string | null
-          telefone?: string | null
-        }
-        Update: {
-          added_by?: string | null
-          cpf?: string | null
-          created_at?: string
-          email?: string | null
-          id?: string
-          nome?: string | null
-          parentesco?: string | null
-          primary_user_id?: string
-          secondary_user_id?: string | null
-          telefone?: string | null
-        }
-        Relationships: []
-      }
       transactions: {
         Row: {
           created_at: string
@@ -729,18 +690,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      accept_guardian_invite: { Args: { _token: string }; Returns: Json }
-      add_secondary_guardian: {
-        Args: {
-          _cpf?: string
-          _email: string
-          _nome: string
-          _parentesco?: string
-          _senha?: string
-          _telefone?: string
-        }
-        Returns: Json
-      }
         admin_adjust_balance: {
           Args: { _descricao?: string; _user_id: string; _valor: number }
           Returns: Json
@@ -797,10 +746,6 @@ export type Database = {
         Args: { _enable: boolean; _kid_id: string }
         Returns: Json
       }
-      admin_unlink_secondary_guardian: {
-        Args: { _primary_user_id: string; _secondary_user_id: string }
-        Returns: Json
-      }
         admin_update_kid_limits: {
           Args: {
             _kid_id: string
@@ -852,7 +797,6 @@ export type Database = {
       generate_codigo_usuario: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       get_email_by_cpf: { Args: { _cpf: string }; Returns: Json }
-      get_guardians_for_user: { Args: never; Returns: Json }
       get_kid_goals: {
         Args: { _kid_id: string }
         Returns: {
@@ -881,8 +825,6 @@ export type Database = {
           valor: number
         }[]
       }
-      get_my_pending_invites: { Args: never; Returns: Json }
-      get_my_secondary_guardians: { Args: never; Returns: Json }
       get_user_fee: {
         Args: { _fee_key: string; _user_id: string }
         Returns: number
@@ -892,11 +834,6 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
-        Returns: boolean
-      }
-      invite_guardian: { Args: { _email: string }; Returns: Json }
-      is_family_member: {
-        Args: { _primary_user_id: string; _user_id: string }
         Returns: boolean
       }
       is_guardian: {
@@ -1084,7 +1021,6 @@ export type Database = {
         Args: { _referral_code: string; _referred_user_id: string }
         Returns: Json
       }
-      remove_secondary_guardian: { Args: { _link_id: string }; Returns: Json }
       request_withdrawal: { Args: { _valor: number }; Returns: Json }
       rescue_allowance: {
         Args: { _descricao?: string; _kid_id: string; _valor: number }

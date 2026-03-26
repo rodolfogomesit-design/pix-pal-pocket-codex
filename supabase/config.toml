@@ -24,14 +24,5 @@ verify_jwt = false
 [functions.admin-kid-actions]
 verify_jwt = false
 
-[functions.add-secondary-guardian]
-verify_jwt = false
-
 [functions.restore-admin-access]
-verify_jwt = false
-
-[functions.secondary-guardian-signup]
-verify_jwt = false
-
-[functions.restore-secondary-guardian-access]
 verify_jwt = false
