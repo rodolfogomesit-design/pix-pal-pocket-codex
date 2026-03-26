@@ -847,20 +847,41 @@ const Admin = () => {
                     <div className="space-y-3">
                       <div className="rounded-2xl bg-primary/5 border border-primary/10 p-4">
                         <p className="font-body text-xs text-muted-foreground mb-1">Responsável principal</p>
-                        <p className="font-display font-bold text-sm text-foreground">
-                          {selectedUserFamily.ownerProfile?.nome || "Não encontrado"}
-                        </p>
-                        <p className="font-body text-xs text-muted-foreground">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="font-display font-bold text-sm text-foreground">
+                            {selectedUserFamily.ownerProfile?.nome || "Não encontrado"}
+                          </p>
+                          <span className="inline-flex items-center rounded-full bg-primary text-primary-foreground px-2.5 py-1 text-[11px] font-semibold">
+                            Responsável principal
+                          </span>
+                          <span className="inline-flex items-center rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 px-2.5 py-1 text-[11px] font-semibold">
+                            Carteira compartilhada
+                          </span>
+                        </div>
+                        <p className="font-body text-xs text-muted-foreground mt-1">
                           {selectedUserFamily.ownerProfile?.email || "Sem e-mail"}
                           {selectedUserFamily.ownerProfile?.codigo_usuario
                             ? ` • Código: ${selectedUserFamily.ownerProfile.codigo_usuario}`
                             : ""}
                         </p>
-                        <p className="font-body text-xs mt-2 text-primary font-semibold">
-                          {selectedUserFamily.selectedUserIsOwner
-                            ? "Este usuário é o dono da família."
-                            : "Este usuário pertence à família acima como responsável secundário."}
-                        </p>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          <span
+                            className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+                              selectedUserFamily.selectedUserIsOwner
+                                ? "bg-primary/15 text-primary"
+                                : "bg-amber-500/15 text-amber-700 dark:text-amber-300"
+                            }`}
+                          >
+                            {selectedUserFamily.selectedUserIsOwner
+                              ? "Usuário selecionado: principal"
+                              : "Usuário selecionado: secundário"}
+                          </span>
+                          {!selectedUserFamily.selectedUserIsOwner && (
+                            <span className="inline-flex items-center rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 px-2.5 py-1 text-[11px] font-semibold">
+                              Opera a mesma carteira da família
+                            </span>
+                          )}
+                        </div>
                       </div>
 
                       <div className="rounded-2xl bg-muted/50 p-4">
@@ -874,10 +895,18 @@ const Admin = () => {
                                 key={guardian.user_id}
                                 className="rounded-xl bg-card border border-border px-3 py-2"
                               >
-                                <p className="font-body font-semibold text-sm text-foreground">
-                                  {guardian.nome}
-                                </p>
-                                <p className="font-body text-xs text-muted-foreground">
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <p className="font-body font-semibold text-sm text-foreground">
+                                    {guardian.nome}
+                                  </p>
+                                  <span className="inline-flex items-center rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 px-2.5 py-1 text-[11px] font-semibold">
+                                    Responsável secundário
+                                  </span>
+                                  <span className="inline-flex items-center rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 px-2.5 py-1 text-[11px] font-semibold">
+                                    Carteira compartilhada
+                                  </span>
+                                </div>
+                                <p className="font-body text-xs text-muted-foreground mt-1">
                                   {guardian.email || "Sem e-mail"}
                                   {guardian.codigo_usuario ? ` • Código: ${guardian.codigo_usuario}` : ""}
                                   {guardian.parentesco ? ` • ${guardian.parentesco}` : ""}
