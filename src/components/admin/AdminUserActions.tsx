@@ -45,6 +45,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
   const [editChavePix, setEditChavePix] = useState(user.chave_pix || "");
   const [editPassword, setEditPassword] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState("");
+  const [manualBlocked, setManualBlocked] = useState<boolean | null>(null);
   const [kidLimits, setKidLimits] = useState<Record<string, { diario: string; pix: string; transferencia: string }>>({});
   const [parentLimitDiario, setParentLimitDiario] = useState("");
   const [parentLimitDeposito, setParentLimitDeposito] = useState("");
@@ -112,6 +113,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
       if (!result?.success) throw new Error(result?.error);
     },
     onSuccess: (_, block) => {
+      setManualBlocked(block);
       toast.success(block ? "Usuário bloqueado 🚫" : "Usuário desbloqueado ✅");
       invalidateAll();
       setBlockDialog(false);
@@ -318,7 +320,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
     if (missing) initKidLimits(userKidsForLimits);
   }
 
-  const isBlocked = userProfile?.is_blocked ?? false;
+  const isBlocked = manualBlocked ?? userProfile?.is_blocked ?? false;
 
   const tipoLabel: Record<string, string> = { mesada: "💰 Mesada", transferencia: "👫 Transferência", pagamento: "🛒 Pagamento" };
   const statusStyle: Record<string, string> = {
