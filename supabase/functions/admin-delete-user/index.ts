@@ -60,7 +60,7 @@ Deno.serve(async (req: Request) => {
       });
     }
 
-    const { data: deleteProfileResult, error: deleteProfileError } = await serviceClient.rpc("admin_delete_user", {
+    const { data: deleteProfileResult, error: deleteProfileError } = await supabase.rpc("admin_delete_user", {
       _user_id: targetUserId,
     });
 
