@@ -134,17 +134,17 @@ const Dashboard = () => {
       <main className="container mx-auto px-3 sm:px-4 py-5 sm:py-8 max-w-5xl">
         <div className="mb-4 px-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <p className="font-display font-bold text-lg sm:text-xl">{displayName}</p>
+            <p className="font-display font-bold text-lg sm:text-xl">{currentDisplayName}</p>
           </div>
-          {displayCode && (
+          {currentDisplayCode && (
             <button
               onClick={() => {
-                navigator.clipboard.writeText(displayCode);
+                navigator.clipboard.writeText(currentDisplayCode);
                 toast.success("Código copiado!");
               }}
               className="font-display text-sm text-muted-foreground hover:text-primary inline-flex items-center gap-1 transition-colors"
             >
-              ID: {displayCode} <Copy size={12} />
+              ID: {currentDisplayCode} <Copy size={12} />
             </button>
           )}
         </div>
