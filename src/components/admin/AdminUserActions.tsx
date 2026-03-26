@@ -114,6 +114,13 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
     },
     onSuccess: (_, block) => {
       setManualBlocked(block);
+      queryClient.setQueryData(["admin-user-profile", user.user_id], (current: {
+        is_blocked: boolean;
+        limite_diario: number | null;
+        limite_deposito: number | null;
+        cpf: string | null;
+        chave_pix: string | null;
+      } | null) => current ? { ...current, is_blocked: block } : current);
       toast.success(block ? "Usuário bloqueado 🚫" : "Usuário desbloqueado ✅");
       invalidateAll();
       setBlockDialog(false);
