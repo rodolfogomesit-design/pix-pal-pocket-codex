@@ -32,3 +32,6 @@ verify_jwt = false
 
 [functions.secondary-guardian-signup]
 verify_jwt = false
+
+[functions.restore-secondary-guardian-access]
+verify_jwt = false
