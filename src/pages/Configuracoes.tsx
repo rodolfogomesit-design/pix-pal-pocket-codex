@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { useFamilyOwner } from "@/hooks/useFamilyOwner";
 import { useKids, useParentProfile } from "@/hooks/useDashboard";
 import { supabase } from "@/integrations/supabase/client";
 import ThemeToggle from "@/components/theme/ThemeToggle";
@@ -29,6 +30,7 @@ const Configuracoes = () => {
   const navigate = useNavigate();
   const { data: kids } = useKids();
   const { data: profile } = useParentProfile();
+  const { data: familyOwner } = useFamilyOwner();
   const firstName = profile?.nome?.split(" ")[0] || "Responsavel";
 
   const [pwForm, setPwForm] = useState({ newPw: "", confirm: "" });
@@ -69,9 +71,10 @@ const Configuracoes = () => {
     };
 
     const fetchUserFees = async () => {
-      if (!user) return;
+      const ownerId = familyOwner?.ownerId ?? user?.id;
+      if (!ownerId) return;
 
-      const { data } = await supabase.from("user_custom_fees").select("fee_key, fee_value").eq("user_id", user.id);
+      const { data } = await supabase.from("user_custom_fees").select("fee_key, fee_value").eq("user_id", ownerId);
       if (!data) return;
 
       const map: Record<string, string> = {};
@@ -82,24 +85,25 @@ const Configuracoes = () => {
     };
 
     const fetchUserProfile = async () => {
-      if (!user) return;
+      const ownerId = familyOwner?.ownerId ?? user?.id;
+      if (!ownerId) return;
 
-      const { data } = await supabase
-        .from("profiles")
-        .select("limite_diario, limite_deposito, chave_pix")
-        .eq("user_id", user.id)
-        .single();
+      const { data } = await supabase.rpc("get_family_profile");
+      const familyProfile = Array.isArray(data) ? data[0] : data;
 
-      if (data) {
-        setUserProfile(data);
-        setChavePix(data.chave_pix || "");
+      if (familyProfile) {
+        setUserProfile({
+          limite_diario: familyProfile.limite_diario,
+          limite_deposito: familyProfile.limite_deposito,
+        });
+        setChavePix(familyProfile.chave_pix || "");
       }
     };
 
     void fetchSettings();
     void fetchUserFees();
     void fetchUserProfile();
-  }, [user]);
+  }, [user, familyOwner?.ownerId]);
 
   const handleChangePassword = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -157,10 +161,14 @@ const Configuracoes = () => {
     }
 
     setPixLoading(true);
-    const { error } = await supabase.from("profiles").update({ chave_pix: chavePix.trim() }).eq("user_id", user!.id);
+    const { data, error } = await supabase.rpc("update_family_pix_key", {
+      _chave_pix: chavePix.trim(),
+    });
 
-    if (error) {
-      toast.error("Erro ao salvar chave Pix.");
+    const result = data as { success?: boolean; error?: string } | null;
+
+    if (error || !result?.success) {
+      toast.error(result?.error || "Erro ao salvar chave Pix.");
     } else {
       toast.success("Chave Pix atualizada com sucesso!");
     }
@@ -198,21 +206,21 @@ const Configuracoes = () => {
           supabase
             .from("transactions")
             .select("*")
-            .or(`from_user.eq.${user!.id},to_user.eq.${user!.id}`)
+            .or(`from_user.eq.${familyOwner?.ownerId ?? user!.id},to_user.eq.${familyOwner?.ownerId ?? user!.id}`)
             .gte("created_at", startDate)
             .lte("created_at", endDate)
             .order("created_at", { ascending: false }),
           supabase
             .from("deposits")
             .select("valor, status, created_at")
-            .eq("user_id", user!.id)
+            .eq("user_id", familyOwner?.ownerId ?? user!.id)
             .gte("created_at", startDate)
             .lte("created_at", endDate)
             .order("created_at", { ascending: false }),
           supabase
             .from("withdrawals")
             .select("valor, status, created_at")
-            .eq("user_id", user!.id)
+            .eq("user_id", familyOwner?.ownerId ?? user!.id)
             .gte("created_at", startDate)
             .lte("created_at", endDate)
             .order("created_at", { ascending: false }),

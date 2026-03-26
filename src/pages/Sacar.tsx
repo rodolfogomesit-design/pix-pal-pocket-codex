@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { useAuth } from "@/contexts/AuthContext";
-import { useParentBalance } from "@/hooks/useDashboard";
+import { useParentBalance, useParentProfile } from "@/hooks/useDashboard";
 import { supabase } from "@/integrations/supabase/client";
 import { printReceipt } from "@/lib/printReceipt";
 import WhatsAppButton from "@/components/shared/WhatsAppButton";
@@ -32,6 +32,7 @@ export default function Sacar() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data: parentBalance = 0 } = useParentBalance();
+  const { data: familyProfile } = useParentProfile();
 
   const [step, setStep] = useState<"valor" | "confirmado">("valor");
   const [valor, setValor] = useState("");
@@ -44,19 +45,10 @@ export default function Sacar() {
   }, [user, loading, navigate]);
 
   useEffect(() => {
-    if (user) {
-      supabase
-        .from("profiles")
-        .select("chave_pix")
-        .eq("user_id", user.id)
-        .single()
-        .then(({ data }) => {
-          const pix = data?.chave_pix?.trim() || "";
-          setHasChavePix(pix.length > 0);
-          setChavePix(pix || null);
-        });
-    }
-  }, [user]);
+    const pix = familyProfile?.chave_pix?.trim() || "";
+    setHasChavePix(pix.length > 0);
+    setChavePix(pix || null);
+  }, [familyProfile?.chave_pix]);
 
   const valorNum = parseFloat(valor) || 0;
 

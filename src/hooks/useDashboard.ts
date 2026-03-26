@@ -141,14 +141,16 @@ export const useUpdateKid = () => {
 export const useParentBalance = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const { data: familyOwner } = useFamilyOwner();
 
   useEffect(() => {
-    if (!user) return;
+    const ownerId = familyOwner?.ownerId ?? user?.id;
+    if (!ownerId) return;
     const channel = supabase
       .channel("parent-balance-realtime")
       .on(
         "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "profiles", filter: `user_id=eq.${user.id}` },
+        { event: "UPDATE", schema: "public", table: "profiles", filter: `user_id=eq.${ownerId}` },
         () => {
           queryClient.invalidateQueries({ queryKey: ["parent-balance"] });
         }
@@ -157,38 +159,46 @@ export const useParentBalance = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [user, queryClient]);
+  }, [user, familyOwner?.ownerId, queryClient]);
 
   return useQuery({
-    queryKey: ["parent-balance", user?.id],
+    queryKey: ["parent-balance", familyOwner?.ownerId ?? user?.id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("saldo")
-        .eq("user_id", user!.id)
-        .single();
+      const { data, error } = await supabase.rpc("get_family_profile");
       if (error) throw error;
-      return Number(data?.saldo) || 0;
+      const profile = Array.isArray(data) ? data[0] : data;
+      return Number(profile?.saldo) || 0;
     },
-    enabled: !!user,
+    enabled: !!user && !!familyOwner?.ownerId,
   });
 };
 
 export const useParentProfile = () => {
   const { user } = useAuth();
+  const { data: familyOwner } = useFamilyOwner();
 
   return useQuery({
-    queryKey: ["parent-profile", user?.id],
+    queryKey: ["parent-profile", familyOwner?.ownerId ?? user?.id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("nome, codigo_usuario")
-        .eq("user_id", user!.id)
-        .single();
+      const { data, error } = await supabase.rpc("get_family_profile");
       if (error) throw error;
-      return data as { nome: string; codigo_usuario: string | null };
+      const profile = (Array.isArray(data) ? data[0] : data) as
+        | {
+            nome: string;
+            codigo_usuario: string | null;
+            user_id: string;
+            email: string | null;
+            telefone: string | null;
+            cpf: string | null;
+            chave_pix: string | null;
+            saldo: number | null;
+            limite_diario: number | null;
+            limite_deposito: number | null;
+          }
+        | null;
+      return profile;
     },
-    enabled: !!user,
+    enabled: !!user && !!familyOwner?.ownerId,
   });
 };
 

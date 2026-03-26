@@ -29,28 +29,14 @@ function normalizePixKey(rawKey: string) {
   const evpRegex =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-  if (emailRegex.test(value)) {
-    return { key: value.toLowerCase(), type: "EMAIL" };
-  }
-
-  if (evpRegex.test(value)) {
-    return { key: value, type: "EVP" };
-  }
-
+  if (emailRegex.test(value)) return { key: value.toLowerCase(), type: "EMAIL" };
+  if (evpRegex.test(value)) return { key: value, type: "EVP" };
   if (digits.length === 11) {
-    if (digits.startsWith("0")) {
-      return { key: digits, type: "CPF" };
-    }
+    if (digits.startsWith("0")) return { key: digits, type: "CPF" };
     return { key: digits, type: "PHONE" };
   }
-
-  if (digits.length === 13 && digits.startsWith("55")) {
-    return { key: digits.slice(2), type: "PHONE" };
-  }
-
-  if (digits.length === 14) {
-    return { key: digits, type: "CNPJ" };
-  }
+  if (digits.length === 13 && digits.startsWith("55")) return { key: digits.slice(2), type: "PHONE" };
+  if (digits.length === 14) return { key: digits, type: "CNPJ" };
 
   throw new Error("Formato da chave Pix não reconhecido");
 }
@@ -69,7 +55,11 @@ Deno.serve(async (req: Request) => {
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_ANON_KEY")!,
-      { global: { headers: { Authorization: authHeader } } }
+      { global: { headers: { Authorization: authHeader } } },
+    );
+    const serviceClient = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
     const {
@@ -83,10 +73,19 @@ Deno.serve(async (req: Request) => {
     const valor = parseFloat(body?.valor ?? "0");
     if (!valor || valor <= 0) return jsonError(400, "Valor inválido");
 
-    const { data: profile } = await supabase
+    const { data: secondaryLink } = await serviceClient
+      .from("secondary_guardians")
+      .select("primary_user_id")
+      .eq("secondary_user_id", user.id)
+      .limit(1)
+      .maybeSingle();
+
+    const familyOwnerId = secondaryLink?.primary_user_id ?? user.id;
+
+    const { data: profile } = await serviceClient
       .from("profiles")
       .select("nome, chave_pix, saldo")
-      .eq("user_id", user.id)
+      .eq("user_id", familyOwnerId)
       .single();
 
     if (!profile) return jsonError(404, "Perfil não encontrado");
@@ -104,7 +103,7 @@ Deno.serve(async (req: Request) => {
       return jsonError(400, error instanceof Error ? error.message : "Chave Pix inválida");
     }
 
-    const externalId = `wd_${Date.now()}_${user.id.slice(0, 8)}`;
+    const externalId = `wd_${Date.now()}_${familyOwnerId.slice(0, 8)}`;
 
     const transferPayload = {
       value: valor,
@@ -132,7 +131,7 @@ Deno.serve(async (req: Request) => {
       return jsonError(500, `Erro Asaas: ${firstError}`);
     }
 
-    const finalizeResult = await supabase.rpc("create_gateway_withdrawal", {
+    const finalizeResult = await serviceClient.rpc("create_gateway_withdrawal", {
       _valor: valor,
       _chave_pix: profile.chave_pix,
       _external_id: externalId,
@@ -143,13 +142,14 @@ Deno.serve(async (req: Request) => {
       _end_to_end_identifier: transferJson.endToEndIdentifier ?? null,
       _fail_reason: transferJson.failReason ?? null,
       _gateway_payload: transferJson,
+      _user_id: familyOwnerId,
     });
 
     if (finalizeResult.error || !finalizeResult.data?.success) {
       console.error("Finalize withdrawal error:", finalizeResult.error, finalizeResult.data);
       return jsonError(
         500,
-        "Transferência criada no gateway, mas houve falha ao registrar o saque. Verifique o painel admin."
+        "Transferência criada no gateway, mas houve falha ao registrar o saque. Verifique o painel admin.",
       );
     }
 

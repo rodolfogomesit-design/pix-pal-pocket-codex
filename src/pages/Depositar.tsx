@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { useParentProfile } from "@/hooks/useDashboard";
 import { supabase } from "@/integrations/supabase/client";
 import { printReceipt } from "@/lib/printReceipt";
 import WhatsAppButton from "@/components/shared/WhatsAppButton";
@@ -80,7 +81,8 @@ const usePlatformFees = (userId?: string) =>
 export default function Depositar() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const { data: fees } = usePlatformFees(user?.id);
+  const { data: familyProfile } = useParentProfile();
+  const { data: fees } = usePlatformFees(familyProfile?.user_id || user?.id);
 
   const [step, setStep] = useState<"valor" | "qrcode" | "confirmado">("valor");
   const [valor, setValor] = useState("");
@@ -91,17 +93,8 @@ export default function Depositar() {
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    if (user) {
-      supabase
-        .from("profiles")
-        .select("cpf")
-        .eq("user_id", user.id)
-        .single()
-        .then(({ data }) => {
-          setHasCpf(Boolean(data?.cpf && data.cpf.trim().length > 0));
-        });
-    }
-  }, [user]);
+    setHasCpf(Boolean(familyProfile?.cpf && familyProfile.cpf.trim().length > 0));
+  }, [familyProfile?.cpf]);
 
   useEffect(() => {
     if (!loading && !user) navigate("/login");
