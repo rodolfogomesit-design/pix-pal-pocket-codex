@@ -1,5 +1,6 @@
 import { ReactNode, useState } from "react";
 import { Link } from "react-router-dom";
+import { Baby, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -34,7 +35,7 @@ const LoginChoiceDialog = ({ trigger }: LoginChoiceDialogProps) => {
             onClick={() => setOpen(false)}
           >
             <Link to="/login">
-              <span className="text-4xl">👨‍👩‍👧</span>
+              <Users className="h-10 w-10 text-primary" />
               <span className="font-display text-lg font-bold text-black dark:text-white">Sou responsável</span>
               <span className="text-center font-body text-xs text-muted-foreground">
                 Pai, mãe ou responsável
@@ -48,7 +49,7 @@ const LoginChoiceDialog = ({ trigger }: LoginChoiceDialogProps) => {
             onClick={() => setOpen(false)}
           >
             <Link to="/crianca">
-              <span className="text-4xl">🧒</span>
+              <Baby className="h-10 w-10 text-kids-green" />
               <span className="font-display text-lg font-bold text-black dark:text-white">Sou criança</span>
               <span className="text-center font-body text-xs text-muted-foreground">
                 Entrar com código e PIN

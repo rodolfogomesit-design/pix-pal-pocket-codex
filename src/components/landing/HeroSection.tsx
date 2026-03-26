@@ -83,7 +83,6 @@ const HeroSection = () => {
 
             <LoginButton />
           </div>
-
         </motion.div>
 
         <motion.div
