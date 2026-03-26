@@ -24,6 +24,9 @@ verify_jwt = false
 [functions.admin-kid-actions]
 verify_jwt = false
 
+[functions.admin-block-user]
+verify_jwt = false
+
 [functions.admin-delete-user]
 verify_jwt = false
 

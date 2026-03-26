@@ -107,10 +107,28 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
 
   const blockMutation = useMutation({
     mutationFn: async (block: boolean) => {
-      const { data, error } = await supabase.rpc("admin_block_user" as any, { _user_id: user.user_id, _block: block });
-      if (error) throw error;
-      const result = data as any;
-      if (!result?.success) throw new Error(result?.error);
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session?.access_token) {
+        throw new Error("Não autenticado");
+      }
+
+      const response = await fetch("https://ylmrmidgxhcthwmoebzl.supabase.co/functions/v1/admin-block-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+        },
+        body: JSON.stringify({ userId: user.user_id, block }),
+      });
+
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result?.ok === false) {
+        throw new Error(result?.error || "Erro ao alterar bloqueio");
+      }
     },
     onSuccess: (_, block) => {
       setManualBlocked(block);
@@ -125,7 +143,7 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
       invalidateAll();
       setBlockDialog(false);
     },
-    onError: () => toast.error("Erro ao alterar bloqueio"),
+    onError: (error: Error) => toast.error(error.message || "Erro ao alterar bloqueio"),
   });
 
   const adminMutation = useMutation({
