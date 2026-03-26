@@ -58,19 +58,23 @@ const AdminUserActions = ({ user, onUserDeleted, globalLimits }: AdminUserAction
   const { data: userProfile } = useQuery({
     queryKey: ["admin-user-profile", user.user_id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("is_blocked, limite_diario, limite_deposito, cpf, chave_pix")
-        .eq("user_id", user.user_id)
-        .maybeSingle();
+      const { data, error } = await supabase.rpc("admin_get_user_profile_status" as any, {
+        _user_id: user.user_id,
+      });
       if (error) throw error;
-      return data as {
+      const result = data as {
+        success?: boolean;
+        error?: string;
         is_blocked: boolean;
         limite_diario: number | null;
         limite_deposito: number | null;
         cpf: string | null;
         chave_pix: string | null;
       } | null;
+      if (result?.success === false) {
+        throw new Error(result.error || "Erro ao carregar status do usuário");
+      }
+      return result;
     },
   });
 
